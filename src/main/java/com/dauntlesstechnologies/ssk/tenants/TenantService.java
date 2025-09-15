@@ -4,6 +4,7 @@ import com.dauntlesstechnologies.ssk.apartments.Apartment;
 import com.dauntlesstechnologies.ssk.apartments.ApartmentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,15 @@ public class TenantService {
     TenantService(TenantRepository tenantRepository, ApartmentRepository apartmentRepository){
         this.tenantRepository = tenantRepository;
         this.apartmentRepository = apartmentRepository;
+    }
+
+    public List<TenantDto> getAllTenants(){
+        List<TenantDto> tenantDtos = new ArrayList<>();
+        List<Tenant> tenants = tenantRepository.findAll();
+        for(int i = 0; i < tenants.size(); i++ ){
+            tenantDtos.add(convertToDto(tenants.get(i)));
+        }
+        return tenantDtos;
     }
 
     public List<TenantDto> createAndSearchTenantRecord(String name) {

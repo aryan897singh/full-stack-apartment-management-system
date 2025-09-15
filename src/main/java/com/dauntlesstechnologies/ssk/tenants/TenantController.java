@@ -24,6 +24,12 @@ public class TenantController {
         return tenantService.findById(id);
     }
 
+    @GetMapping("/getAllTenants")
+    public List<TenantDto> getAllTenants(){
+        return tenantService.getAllTenants();
+
+    }
+
     @PutMapping("/update/{id}")
     //SECOND STEP IN UPDATING DATA IS TAKING MODIFIED DATA AND UPDATING IT
     public void update(@PathVariable Long id, @RequestBody UpdateTenantDto updateTenantDto){
