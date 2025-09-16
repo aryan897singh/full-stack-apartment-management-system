@@ -22,7 +22,10 @@ public class TenantService {
 
     public List<TenantDto> getAllTenants(){
         List<TenantDto> tenantDtos = new ArrayList<>();
-        List<Tenant> tenants = tenantRepository.findAll();
+        List<Tenant> tenants = tenantRepository.findEverything();
+
+        System.out.println("Number of tenants found: " + tenants.size());
+
         for(int i = 0; i < tenants.size(); i++ ){
             tenantDtos.add(convertToDto(tenants.get(i)));
         }
@@ -97,7 +100,7 @@ public class TenantService {
 
     }
 
-    public void createTenant(UpdateTenantDto tenantDto){
+    public Tenant createTenant(UpdateTenantDto tenantDto){
         Tenant tenant = new Tenant();
         tenant.setName(tenantDto.name());
         tenant.setEmail(tenantDto.email());
@@ -106,6 +109,8 @@ public class TenantService {
         tenant.setFatherName(tenantDto.fatherName());
         tenant.setAadharCardNumber(tenantDto.aadharCardNumber());
         tenant.setFlatNumber(tenantDto.flatNumber());
+        tenant.setCriminalHistory(tenantDto.criminalHistory());
+        tenant.setAgreementSigned(tenantDto.agreementSigned());
 
         Optional<Apartment> apartmentOptional = apartmentRepository.findByFlatNumber(tenantDto.flatNumber());
 
@@ -115,8 +120,8 @@ public class TenantService {
         else {
             throw new RuntimeException("NO SUCH APARTMENT FOUND WITH GIVEN APT NUMBER");
         }
-
         tenantRepository.save(tenant);
+        return tenant;
     }
 
     public void deleteTenant(Long id){

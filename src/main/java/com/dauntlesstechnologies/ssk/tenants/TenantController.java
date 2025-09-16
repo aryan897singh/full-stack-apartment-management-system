@@ -1,5 +1,8 @@
 package com.dauntlesstechnologies.ssk.tenants;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -37,8 +40,9 @@ public class TenantController {
     }
 
     @PostMapping("/create")
-    public void create(@RequestBody UpdateTenantDto updateTenantDto){
-        tenantService.createTenant(updateTenantDto);
+    public ResponseEntity<Tenant> create(@RequestBody UpdateTenantDto updateTenantDto){
+        Tenant newTenant = tenantService.createTenant(updateTenantDto);
+        return new ResponseEntity<>(newTenant, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{id}")

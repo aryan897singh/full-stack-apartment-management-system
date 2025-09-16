@@ -156,7 +156,7 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0">Tenant Management</h2>
-            <a href="#" class="btn btn-primary">Add New Tenant</a>
+            <a href="http://localhost:8080/OWNER_PAGES/AddNewTenantForm.html" class="btn btn-primary">Add New Tenant</a>
         </div>
 
         <div class="card p-4">
@@ -179,11 +179,10 @@
 </div>
 
 <script>
-
     fetch('http://localhost:8080/tenants/getAllTenants')
         .then(function(response) {
 
-            if (response.ok == false) {
+            if (response.ok === false) {
                 throw new Error('Something went wrong with the request');
             }
             return response.json();
@@ -200,7 +199,7 @@
 
                 var agreementText = '';
                 var cssClass = '';
-                if (tenant.agreementSigned == true) {
+                if (tenant.agreementSigned === true) {
                     agreementText = 'YES';
                     cssClass = 'status-yes';
                 } else {
@@ -210,19 +209,19 @@
 
                 // Build the table row
                 var row = '<tr>';
-                row = row + '<td>' + tenant.name + '</td>';
-                row = row + '<td>' + tenant.flatNumber + '</td>';
-                row = row + '<td><span class="status-badge ' + cssClass + '">' + agreementText + '</span></td>';
-                row = row + '<td class="text-end"><button class="btn btn-sm btn-outline-info">View All Details</button></td>';
-                row = row + '</tr>';
+                row += '<td>' + tenant.name + '</td>';
+                row += '<td>' + tenant.flatNumber + '</td>';
+                row += '<td><span class="status-badge ' + cssClass + '">' + agreementText + '</span></td>';
+                row += '<td class="text-end"><button class="btn btn-sm btn-outline-info">View All Details</button></td>';
+                row += '</tr>';
 
-                htmlString = htmlString + row;
+                htmlString += row;
             }
 
             tableBody.innerHTML = htmlString;
         })
         .catch(function(error) {
-            console.log('Error happened:', error);
+            console.log(error);
         });
 </script>
 <footer>
@@ -230,6 +229,6 @@
     <small class="small-text">purelydauntless</small>
 </footer>
 
-<script src="js/bootstrap.bundle.min.js"></script>
+<script src="../js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
