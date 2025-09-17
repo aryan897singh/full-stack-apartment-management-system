@@ -17,16 +17,25 @@ public class ApartmentService {
         this.tenantRepository = tenantRepository;
     }
 
-    public Apartment findApartmentById(Long id){
+    public ApartmentDto findApartmentById(Long id){
         Optional<Apartment> apartmentOptional = apartmentRepository.findById(id);
 
         if(apartmentOptional.isPresent()){
-            return apartmentOptional.get();
+             return convertEntitytoDTO(apartmentOptional.get());
         }
         else {
             throw new RuntimeException("NO SUCH APARTMENT FOUND WITH THIS ID");
         }
 
+    }
+
+    public ApartmentDto convertEntitytoDTO(Apartment apartment){
+        return new ApartmentDto(
+                apartment.getId(),
+                apartment.getFlatNumber(),
+                apartment.getRentAmount(),
+                apartment.getRentOutstanding()
+        );
     }
 
     public void updateApartmentById(Long id, UpdateApartmentDto updateApartmentDto){

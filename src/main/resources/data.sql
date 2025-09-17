@@ -1,4 +1,4 @@
--- Insert apartment data first
+
 INSERT INTO apartment_tbl (flat_number, rent_amount, rent_outstanding) VALUES
 ('101', 15000.00, FALSE),
 ('102', 16000.00, FALSE),
@@ -11,7 +11,7 @@ INSERT INTO apartment_tbl (flat_number, rent_amount, rent_outstanding) VALUES
 ('204', 18500.00, FALSE),
 ('205', 20000.00, FALSE);
 
--- Insert tenant data with subqueries to match apartment IDs
+
 INSERT INTO tenants_tbl (name, email, phone_number, address, father_name, flat_number, apartment_id, aadhar_card_number, criminal_history, agreement_signed) VALUES
 ('Aryan Singh', 'arjun.sharma@email.com', '9876543210', '123 MG Road, Mumbai', 'Rajesh Sharma', '101',
     (SELECT id FROM apartment_tbl WHERE flat_number = '101'), '123456789012', FALSE, TRUE),

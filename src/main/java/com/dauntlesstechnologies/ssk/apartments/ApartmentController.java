@@ -15,7 +15,7 @@ public class ApartmentController {
     }
 
     @GetMapping("/{id}")
-    public Apartment getApartment(@PathVariable("id") Long id){
+    public ApartmentDto getApartment(@PathVariable("id") Long id){
         return apartmentService.findApartmentById(id);
     }
 
