@@ -64,7 +64,7 @@ public class TenantService {
                 tenant.getPhoneNumber(),
                 tenant.getAddress(),
                 tenant.getFatherName(),
-                tenant.getApartment(),
+                tenant.getApartment().getId(),
                 tenant.getFlatNumber(),
                 tenant.getAadharCardNumber(),
                 tenant.isCriminalHistory(),

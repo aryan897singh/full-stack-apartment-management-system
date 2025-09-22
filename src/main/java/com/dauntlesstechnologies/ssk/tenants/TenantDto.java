@@ -9,7 +9,7 @@ public record TenantDto(
         String phoneNumber,
         String address,
         String fatherName,
-        Apartment apartment,
+        Long apartmentId,
         String flatNumber,
         String aadharCardNumber,
         boolean criminalHistory,
