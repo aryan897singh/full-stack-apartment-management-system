@@ -19,7 +19,6 @@ public class TenantController {
     public List<TenantDto> getTenantByName(@RequestParam("name") String name){
         return tenantService.createAndSearchTenantRecord(name);
     }
-
     @GetMapping("/{id}")
     //FIRST STEP IN UPDATING DATA IS TO DISPLAY THE DATA
     public TenantDto getTenantById(@PathVariable("id") Long id){

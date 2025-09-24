@@ -9,7 +9,7 @@ import java.util.Date;
 public record MaintenanceRequestDto(
         Long id,
         Long tenantId,
-        //Long managerId,
+        Long managerId,
         MaintenanceType maintenanceType,
         String title,
         String description,

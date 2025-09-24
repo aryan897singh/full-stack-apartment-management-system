@@ -1,5 +1,6 @@
 package com.dauntlesstechnologies.ssk.maintenance_requests;
 
+import com.dauntlesstechnologies.ssk.manager.Manager;
 import com.dauntlesstechnologies.ssk.tenants.Tenant;
 import jakarta.persistence.*;
 
@@ -32,6 +33,18 @@ public class MaintenanceRequest {
 
     @Column(name = "date_submitted")
     private Date dateSubmitted;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "manager_id", referencedColumnName = "id", nullable = false)
+    private Manager manager;
+
+    public Manager getManager() {
+        return manager;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
 
     public MaintenanceType getMaintenanceType() {
         return maintenanceType;

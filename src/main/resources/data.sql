@@ -43,7 +43,35 @@ INSERT INTO tenants_tbl (name, email, phone_number, address, father_name, flat_n
                                                                                                                                                                   (SELECT id FROM apartment_tbl WHERE flat_number = '205'), '012345678901', FALSE, TRUE);
 
 
-INSERT INTO maintenance_requests_tbl (tenant_id, maintenance_type, title, description, status, date_submitted) VALUES
-                                                                                                                   (1, 'PLUMBING', 'Leaky Faucet', 'The kitchen faucet is constantly dripping.', 'PENDING', NOW()),
-                                                                                                                   (3, 'ELECTRICAL', 'Broken Light Fixture', 'The light fixture in the living room is not working.', 'IN_PROGRESS', NOW()),
-                                                                                                                   (5, 'ELECTRICAL', 'Ants in the Kitchen', 'There are a lot of ants in the kitchen and pantry.', 'COMPLETED', NOW());
+
+INSERT INTO managers_tbl (name, number) VALUES
+                                            ('Kuldeep', 9876543210),
+                                            ('Tiwari', 9876543211),
+                                            ('Raju', 9876543212),
+                                            ('Mukesh', 9876543213),
+                                            ('Kamla', 9876543214),
+                                            ('Keshav', 9876543215);
+
+
+INSERT INTO manager_maintenance_types (manager_id, maintenance_type) VALUES
+-- Kuldeep (id: 1)
+(1, 'PLUMBING'),
+-- Tiwari (id: 2)
+(2, 'FLOORING'),
+(2, 'APPLIANCE_REPAIR'),
+(2, 'BUILDING_INTERIOR'),
+(2, 'BUILDING_EXTERIOR'),
+(2, 'MISCELLANEOUS'),
+-- Raju (id: 3)
+(3, 'ELECTRICAL'),
+-- Mukesh (id: 4)
+(4, 'PAINTING'),
+-- Kamla (id: 5)
+(5, 'CLEANING'),
+-- Keshav (id: 6)
+(6, 'WOODWORK');
+
+INSERT INTO maintenance_requests_tbl (tenant_id, maintenance_type, title, description, status, date_submitted, manager_id) VALUES
+                                                                                                                               (1, 'PLUMBING', 'Leaky Faucet', 'The kitchen faucet is constantly dripping.', 'PENDING', NOW(), 1), -- PLUMBING handled by Kuldeep (id 1)
+                                                                                                                               (3, 'ELECTRICAL', 'Broken Light Fixture', 'The light fixture in the living room is not working.', 'IN_PROGRESS', NOW(), 3), -- ELECTRICAL handled by Raju (id 3)
+                                                                                                                               (5, 'CLEANING', 'Ants in the Kitchen', 'There are a lot of ants in the kitchen and pantry.', 'COMPLETED', NOW(), 5); -- CLEANING handled by Kamla (id 5)

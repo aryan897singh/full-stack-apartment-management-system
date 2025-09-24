@@ -1,6 +1,8 @@
 DROP TABLE IF EXISTS maintenance_requests_tbl;
 DROP TABLE IF EXISTS tenants_tbl;
 DROP TABLE IF EXISTS apartment_tbl;
+DROP TABLE IF EXISTS manager_maintenance_types;
+DROP TABLE IF EXISTS managers_tbl;
 
 CREATE TABLE apartment_tbl (
                                id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -27,6 +29,12 @@ CREATE TABLE tenants_tbl (
                                      REFERENCES apartment_tbl(id)
 );
 
+CREATE TABLE managers_tbl (
+                              id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                              name VARCHAR(255) UNIQUE NOT NULL,
+                              number BIGINT NOT NULL
+);
+
 CREATE TABLE maintenance_requests_tbl (
                                           id BIGINT AUTO_INCREMENT PRIMARY KEY,
                                           tenant_id BIGINT NOT NULL,
@@ -35,8 +43,17 @@ CREATE TABLE maintenance_requests_tbl (
                                           description TEXT,
                                           status VARCHAR(255),
                                           date_submitted DATETIME,
+                                          manager_id BIGINT NOT NULL,
 
                                           CONSTRAINT fk_maintenance_request_tenant
                                               FOREIGN KEY (tenant_id)
                                                   REFERENCES tenants_tbl(id)
 );
+
+CREATE TABLE manager_maintenance_types (
+                                           manager_id BIGINT NOT NULL,
+                                           maintenance_type VARCHAR(255) NOT NULL,
+                                           PRIMARY KEY (manager_id, maintenance_type),
+                                           FOREIGN KEY (manager_id) REFERENCES managers_tbl(id)
+);
+

@@ -1,6 +1,12 @@
 package com.dauntlesstechnologies.ssk.manager;
 
-public record ManagerDto(
+import com.dauntlesstechnologies.ssk.maintenance_requests.MaintenanceType;
+import java.util.Set;
 
+public record ManagerDto(
+        Long id,
+        String name,
+        Long number,
+        Set<MaintenanceType> maintenanceTypes
 ) {
 }
