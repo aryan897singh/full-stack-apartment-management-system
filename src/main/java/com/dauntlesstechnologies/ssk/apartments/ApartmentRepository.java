@@ -8,4 +8,6 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
 
     public Optional<Apartment> findByFlatNumber(String flatNumber);
 
+
+
 }
