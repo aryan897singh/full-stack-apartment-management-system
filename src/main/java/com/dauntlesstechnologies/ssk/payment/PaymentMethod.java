@@ -2,7 +2,7 @@ package com.dauntlesstechnologies.ssk.payment;
 
 public enum PaymentMethod {
     UPI,
-    CREDIT,
+    CARD,
     CASH,
     BANK_TRANSFER
 }

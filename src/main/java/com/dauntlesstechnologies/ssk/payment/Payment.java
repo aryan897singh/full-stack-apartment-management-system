@@ -15,12 +15,14 @@ public class Payment {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "apartment_id", nullable = false)
     private Apartment apartment;
 
     @Column
     private BigDecimal amount;
 
-    @Column
+    @Column(name = "payment_method")
+    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
     @Column

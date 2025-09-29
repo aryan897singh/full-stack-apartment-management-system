@@ -36,16 +36,11 @@ public class PaymentService {
         List<Payment> payments = paymentRepository.findAll();
         List<PaymentDto> paymentDtos = new ArrayList<>();
 
-        if (payments.isEmpty()){
-            throw new RuntimeException("Payment Not Found");
-        }
-        else{
             for(Payment payment : payments){
                 paymentDtos.add(entityToDto(payment));
             }
             return paymentDtos;
         }
-    }
 
     public void createPayment(UpdatePaymentDto updatePaymentDto){
         Payment payment = new Payment();

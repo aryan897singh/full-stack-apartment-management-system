@@ -1,9 +1,6 @@
 package com.dauntlesstechnologies.ssk.manager;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +22,21 @@ public class ManagerController {
     @GetMapping(path = "/getAll")
     public List<ManagerDto> getAll(){
         return managerService.findAllManagers();
+    }
+
+    @PostMapping(path = "/create")
+    public void createManager(@RequestBody UpdateManagerDto updateManagerDto){
+        managerService.createManager(updateManagerDto);
+    }
+
+    @PutMapping(path = "/update/{id}")
+    public void updateManager(@PathVariable("id") Long id, @RequestBody UpdateManagerDto updateManagerDto){
+        managerService.updateManager(id, updateManagerDto);
+    }
+
+    @DeleteMapping(path = "/delete/{id}")
+    public void deleteManager(@PathVariable("id") Long id){
+        managerService.deleteManager(id);
     }
 
     /*

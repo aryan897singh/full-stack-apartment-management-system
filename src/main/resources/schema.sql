@@ -1,8 +1,11 @@
+DROP TABLE IF EXISTS furniture;
+DROP TABLE IF EXISTS payments_tbl;
 DROP TABLE IF EXISTS maintenance_requests_tbl;
 DROP TABLE IF EXISTS tenants_tbl;
 DROP TABLE IF EXISTS apartment_tbl;
 DROP TABLE IF EXISTS manager_maintenance_types;
 DROP TABLE IF EXISTS managers_tbl;
+
 
 CREATE TABLE apartment_tbl (
                                id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -55,5 +58,25 @@ CREATE TABLE manager_maintenance_types (
                                            maintenance_type VARCHAR(255) NOT NULL,
                                            PRIMARY KEY (manager_id, maintenance_type),
                                            FOREIGN KEY (manager_id) REFERENCES managers_tbl(id)
+);
+
+CREATE TABLE payments_tbl (
+                              id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                              apartment_id BIGINT NOT NULL,
+                              amount DECIMAL(10,2) NOT NULL,
+                              payment_method VARCHAR(255),
+                              payment_date DATETIME NOT NULL,
+
+                              CONSTRAINT fk_payment_apartment
+                                  FOREIGN KEY (apartment_id)
+                                      REFERENCES apartment_tbl(id)
+);
+
+CREATE TABLE furniture (
+                           id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                           apartment_id BIGINT NOT NULL,
+                           furniture_type VARCHAR(255) NOT NULL,
+                           quantity INTEGER NOT NULL,
+                           FOREIGN KEY (apartment_id) REFERENCES apartment_tbl(id)
 );
 

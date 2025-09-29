@@ -36,6 +36,41 @@ public class ManagerService {
         return managerDtos;
     }
 
+    public void createManager(UpdateManagerDto updateManagerDto){
+        Manager manager = new Manager();
+
+        manager.setName(updateManagerDto.name());
+        manager.setNumber(updateManagerDto.number());
+        manager.setMaintenanceTypes(updateManagerDto.maintenanceTypes());
+
+        managerRepository.save(manager);
+    }
+
+    public void updateManager(Long id, UpdateManagerDto updateManagerDto){
+
+        Optional<Manager> managerOptional = managerRepository.findById(id);
+
+        if(managerOptional.isPresent()){
+            Manager manager = managerOptional.get();
+            manager.setName(updateManagerDto.name());
+            manager.setNumber(updateManagerDto.number());
+            manager.setMaintenanceTypes(updateManagerDto.maintenanceTypes());
+            managerRepository.save(manager);
+        }else{
+            throw new RuntimeException("No such manager found with the id provided");
+        }
+    }
+
+    public void deleteManager(Long id){
+        Optional<Manager> managerOptional = managerRepository.findById(id);
+
+        if(managerOptional.isPresent()){
+            managerRepository.delete(managerOptional.get());
+        }else{
+            throw new RuntimeException("No such manager found with the id provided");
+        }
+    }
+
     public ManagerDto entityToDto(Manager manager){
 
         return new ManagerDto(

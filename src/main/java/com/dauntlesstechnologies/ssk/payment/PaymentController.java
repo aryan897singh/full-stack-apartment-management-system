@@ -25,18 +25,28 @@ public class PaymentController {
 
     //IMP NOTE: I want the admin to enter the Apartment Number AND NOT THE Apt ID since
     //the admin DOES NOT KNOW THE apt id, so I AM SUPPOSED TO TAKE THE Number and fetch the ID!!!
-    @PostMapping
-    public PaymentDto createPayment(@RequestBody UpdatePaymentDto updatePaymentDto){
+    @PostMapping(path = "/createPayment")
+    public void createPayment(@RequestBody UpdatePaymentDto updatePaymentDto){
+         paymentService.createPayment(updatePaymentDto);
+    }
 
+    @PutMapping(path = "/updatePayment/{id}")
+    public void updatePayment(@PathVariable("id") Long id,@RequestBody UpdatePaymentDto updatePaymentDto){
+        paymentService.updatePayment(id, updatePaymentDto);
+    }
+
+    @DeleteMapping(path = "/deletePayment/{id}")
+    public void deletePayment(@PathVariable("id") Long id){
+        paymentService.deletePayment(id);
     }
 
 
 
     /*
-    C -
-    R - single -     All -
-    U -
-    D -
+    C - DONE
+    R - single - DONE    All - DONE
+    U - DONE
+    D - DONE
      */
 
 }
