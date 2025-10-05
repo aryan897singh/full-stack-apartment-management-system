@@ -2,6 +2,8 @@ package com.dauntlesstechnologies.ssk.apartments;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -17,6 +19,17 @@ public class ApartmentController {
     @GetMapping("/{id}")
     public ApartmentDto getApartment(@PathVariable("id") Long id){
         return apartmentService.findApartmentById(id);
+    }
+
+    //Note: we are using map so that it can be converted to JSON format and sent, ex. "count" : 5
+    @GetMapping("/occupied")
+    public Map<String, Integer> getOccupied(){
+        return Collections.singletonMap("occupied", apartmentService.occupiedCount());
+    }
+
+    @GetMapping("/vacant")
+    public Map<String, Integer> getVacant(){
+        return Collections.singletonMap("vacant", apartmentService.vacantCount());
     }
 
     @PutMapping("/update/{id}")
@@ -42,7 +55,7 @@ public class ApartmentController {
     C - DONE
     R - DONE
     U - DONE
-    D
+    D - DONE
      */
 
 }

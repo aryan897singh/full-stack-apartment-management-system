@@ -6,6 +6,7 @@ import java.util.List;
 
 @RestController()
 @RequestMapping(path = "/payments")
+@CrossOrigin
 public class PaymentController {
 
     private final PaymentService paymentService;

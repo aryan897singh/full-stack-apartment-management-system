@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Payments Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .content-wrapper {
+            flex-grow: 1;
+        }
+        .navbar {
+            background-color: #1e1e1e !important;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        .navbar-brand {
+            font-weight: 600;
+            color: #f8f9fa !important;
+        }
+        .nav-link {
+            color: #adb5bd !important;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #ffffff !important;
+            border-bottom: 2px solid #007bff;
+        }
+        .profile-circle {
+            width: 40px;
+            height: 40px;
+            background-color: #007bff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .card {
+            background-color: #1e1e1e;
+            border: 1px solid #343a40;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .card-title {
+            color: #f8f9fa;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .card-text {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .overview-card.bg-primary {
+            background-color: #004d99 !important;
+            border-color: #003366;
+        }
+        .overview-card.bg-success {
+            background-color: #155724 !important;
+            border-color: #0d3617;
+        }
+        .overview-card.bg-warning {
+            background-color: #7b6d16 !important;
+            border-color: #5d5311;
+        }
+        .revenue-card {
+            background-color: #1e1e1e;
+            border: 1px solid #343a40;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .revenue-card .card-title {
+            color: #adb5bd;
+            font-weight: 400;
+            font-size: 1rem;
+        }
+        .revenue-card .card-text {
+            color: #28a745;
+            font-size: 2.5rem;
+        }
+        .table-dark-custom {
+            background-color: #1e1e1e !important;
+            color: #e0e0e0 !important;
+        }
+        .table-dark-custom thead th {
+            border-bottom: 1px solid #343a40 !important;
+            color: #adb5bd !important;
+        }
+        .table-dark-custom tbody td {
+            border-bottom: 1px solid #2d2d2d !important;
+        }
+        .table-dark-custom.table-hover tbody tr:hover {
+            background-color: #2a2a2a !important;
+        }
+        h2 {
+            font-weight: 300;
+            color: #f8f9fa;
+        }
+        footer {
+            background-color: #1e1e1e;
+            padding: 1rem 0;
+            text-align: center;
+            border-top: 1px solid #343a40;
+            margin-top: auto;
+        }
+        footer p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        footer .small-text {
+            display: block;
+            margin-top: 0.25rem;
+            font-size: 0.7rem;
+            color: #495057;
+        }
+        .maintenance-item {
+            background-color: #1e1e1e;
+            border: 1px solid #343a40;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .maintenance-item h6 {
+            margin: 0;
+            color: #f8f9fa;
+            font-weight: 500;
+        }
+        .maintenance-details {
+            font-size: 0.9rem;
+            color: #adb5bd;
+        }
+        .maintenance-details strong {
+            color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+            Shri Shyam Kaleshwar Residency Dashboard
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Tenants.html">Tenants</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="http://localhost:8080/OWNER_PAGES/payments.html">Payments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/maintenance.html">Maintenance</a>
+                </li>
+            </ul>
+            <a href="#" class="profile-circle me-2" title="Profile Details">AS</a>
+        </div>
+    </div>
+</nav>
+
+<div class="content-wrapper">
+    <div class="container mt-4">
+
+        <div class="revenue-card">
+            <h5 class="card-title">Total Revenue Generated - 2025</h5>
+            <p class="card-text">FEATURE IN PROGRESS</p>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="card overview-card bg-success p-3 h-100 text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Payments</h5>
+                        <p class="card-text" id = "totalPayments">55,000</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card overview-card bg-warning p-3 h-100 text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Outstanding Rent</h5>
+                        <p class="card-text">FEATURE IN PROGRESS</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-4 mb-4">
+            <h5 class="card-title mb-3">Payment History</h5>
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0">
+                    <thead>
+                    <tr>
+                        <th scope="col">Apartment</th>
+                        <th scope="col">Amount Paid</th>
+                        <th scope="col">Date Paid</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- THIS IS WHERE MY POPULATED DATA GOES -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h2 class="mb-4">Building Maintenance (Feature in progress...)</h2>
+
+        <div class="card p-4 mb-4">
+            <h5 class="card-title mb-3">Service Payments</h5>
+
+            <div class="maintenance-item">
+                <div>
+                    <h6>Garbage Cleaning:</h6>
+                    <div class="maintenance-details">
+                        <span>Payment Due: <strong>$500</strong></span> |
+                        <span>Due Date: <strong>2025-11-01</strong></span>
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-outline-primary">View All Details</button>
+            </div>
+
+            <div class="maintenance-item">
+                <div>
+                    <h6>Building Cleaning:</h6>
+                    <div class="maintenance-details">
+                        <span>Payment Due: <strong>$800</strong></span> |
+                        <span>Due Date: <strong>2025-11-05</strong></span>
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-outline-primary">View All Details</button>
+            </div>
+
+            <div class="maintenance-item">
+                <div>
+                    <h6>Security Manager:</h6>
+                    <div class="maintenance-details">
+                        <span>Payment Due: <strong>$1,500</strong></span> |
+                        <span>Due Date: <strong>2025-11-10</strong></span>
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-outline-primary">View All Details</button>
+            </div>
+
+            <div class="maintenance-item">
+                <div>
+                    <h6>Plumber:</h6>
+                    <div class="maintenance-details">
+                        <span>Payment Due: <strong>$150</strong></span> |
+                        <span>Due Date: <strong>2025-10-30</strong></span>
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-outline-primary">View All Details</button>
+            </div>
+
+            <div class="maintenance-item">
+                <div>
+                    <h6>Electrician:</h6>
+                    <div class="maintenance-details">
+                        <span>Payment Due: <strong>$200</strong></span> |
+                        <span>Due Date: <strong>2025-10-28</strong></span>
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-outline-primary">View All Details</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <p>Made by Aryan Singh :)</p>
+    <small class="small-text">purelydauntless</small>
+</footer>
+
+<script>
+
+    fetch('http://localhost:8080/payments/getAllPayments')
+        .then(function(response){
+            if(!response.ok){
+                throw new Error('Something went wrong with the request')
+            }
+
+            return response.json();
+        })
+        .then(function(data){
+
+            var tableBody = document.querySelector('tbody');
+            var htmlString = '';
+
+            var loopIndex;
+
+
+            let totalPayment = 0;
+            //FOR FUTURE NOTE WHEN NUMBER OF PAYMENTS EXCEEDS 10, ADD A SCROLLING MECHANISM AND ADD A FILTER BASED ON DATE AND FLAT NO.
+            for (var i = data.length - 1; i >= 0  ; i--){
+                var payment = data[i];
+
+                totalPayment += payment.amount;
+
+                var formattedAmount  = new Intl.NumberFormat('en-IN').format(payment.amount);
+
+                var paymentDate = new Date(payment.paymentDate);
+
+
+                var year = paymentDate.getFullYear();
+                var month = paymentDate.getMonth() + 1; // getMonth() is 0-indexed
+                var day = paymentDate.getDate();
+
+
+                var formattedMonth = (month < 10) ? '0' + month : month;
+                var formattedDay = (day < 10) ? '0' + day : day;
+                var formattedDate = formattedDay + '-' + formattedMonth +  '-' + year ;
+
+                var row = '<tr>';
+                row += '<td>' + payment.flatNumber + '</td>';
+                row += '<td>₹' + formattedAmount + '</td>';
+                row += '<td>' + formattedDate + '</td>';
+                row += '</tr>';
+
+                htmlString += row;
+
+            }
+
+            var totalPaymentsElement = document.getElementById('totalPayments');
+            var formattedTotalAmount  = new Intl.NumberFormat('en-IN').format(totalPayment);
+
+            totalPaymentsElement.textContent = formattedTotalAmount;
+
+            tableBody.innerHTML = htmlString;
+
+
+
+        })
+        .catch(function(error){
+            console.log(error)
+            alert('Something went wrong, please try again later :(')
+        })
+
+
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

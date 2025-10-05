@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Owner's Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .content-wrapper {
+            flex-grow: 1;
+        }
+        .navbar {
+            background-color: #1e1e1e !important;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        .navbar-brand {
+            font-weight: 600;
+            color: #f8f9fa !important;
+        }
+        .nav-link {
+            color: #adb5bd !important;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #ffffff !important;
+            border-bottom: 2px solid #007bff;
+        }
+        .card {
+            background-color: #1e1e1e;
+            border: 1px solid #343a40;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .card-title {
+            color: #f8f9fa;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .card-text {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .overview-card.bg-primary {
+            background-color: #004d99 !important;
+            border-color: #003366;
+        }
+        .overview-card.bg-success {
+            background-color: #155724 !important;
+            border-color: #0d3617;
+        }
+        .overview-card.bg-warning {
+            background-color: #7b6d16 !important;
+            border-color: #5d5311;
+        }
+        .table-dark-custom {
+            background-color: #1e1e1e !important;
+            color: #e0e0e0 !important;
+        }
+        .table-dark-custom thead th {
+            border-bottom: 1px solid #343a40 !important;
+            color: #adb5bd !important;
+        }
+        .table-dark-custom tbody td {
+            border-bottom: 1px solid #2d2d2d !important;
+        }
+        .table-dark-custom.table-hover tbody tr:hover {
+            background-color: #2a2a2a !important;
+        }
+        h2 {
+            font-weight: 300;
+            color: #f8f9fa;
+        }
+        footer {
+            background-color: #1e1e1e;
+            padding: 1rem 0;
+            text-align: center;
+            border-top: 1px solid #343a40;
+            margin-top: auto;
+        }
+        footer p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        footer .small-text {
+            display: block;
+            margin-top: 0.25rem;
+            font-size: 0.7rem;
+            color: #495057;
+        }
+        .profile-circle {
+            width: 40px;
+            height: 40px;
+            background-color: #007bff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        /* New flexbox rules to handle nav bar alignment */
+        .navbar-collapse {
+            display: flex;
+            flex-grow: 1;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+            Shri Shyam Kaleshwar Residency Dashboard
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Tenants.html">Tenants</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/payments.html">Payments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/maintenance.html">Maintenance</a>
+                </li>
+            </ul>
+            <a href="#" class="profile-circle ms-3" title="Profile Details">AS</a>
+        </div>
+    </div>
+</nav>
+
+<div class="content-wrapper">
+    <div class="container mt-4">
+        <h2 class="mb-4">Dashboard Overview</h2>
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="card overview-card bg-primary p-3 h-100 text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Occupied Apartments</h5>
+                        <p class="card-text" id = "occupiedValue">50</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card overview-card bg-success p-3 h-100 text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Vacant Apartments</h5>
+                        <p class="card-text" id = "vacantValue">5</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card overview-card bg-warning p-3 h-100 text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Outstanding Rent</h5>
+                        <p class="card-text">FEATURE IN PROGRESS</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card p-4">
+            <h5 class="card-title mb-3">Last 10 Payments</h5>
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0">
+                    <thead>
+                    <tr>
+                        <th scope="col">Flat Number</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Date (DD-MM-YYY)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <!-- POPULATION OF 10 PAYMENT RECORDS HERE -->
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    <p>Made by Aryan Singh</p>
+    <small class="small-text">purelydauntless</small>
+</footer>
+<script src="js/bootstrap.bundle.min.js"></script>
+
+<script>
+ <!-- WHERE MY CODE STARTS -->
+    fetch('http://localhost:8080/apartments/occupied')
+        .then(function(response){
+
+            if(!response.ok){
+                throw new Error('Something went wrong with the request')
+            }
+            return response.json();
+        })
+        .then(function(data){
+
+            var occupiedValueJSON = data;
+
+            var occupiedValueElement = document.getElementById('occupiedValue')
+
+            occupiedValueElement.textContent = occupiedValueJSON.occupied;
+
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+
+    fetch('http://localhost:8080/apartments/vacant')
+        .then(function(response){
+            if(!response.ok){
+                throw new Error('Something went wrong with the response :(')
+            }
+
+            return response.json();
+        })
+        .then(function(data){
+            var vacantCountElement = document.getElementById('vacantValue');
+
+            var vacantJSON = data;
+
+            vacantCountElement.textContent = data.vacant;
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+
+        fetch('http://localhost:8080/payments/getAllPayments')
+            .then(function(response){
+                if(!response.ok){
+                    throw new Error('Something went wrong with the request')
+                }
+                return response.json();
+            })
+            .then(function(data){
+
+                var tableBody = document.querySelector('tbody');
+                var htmlString = '';
+
+                var loopIndex;
+
+                //IN CASE LESS THAN 10 PAYMENT RECORDS AVAILABLE TO SHOW:
+                if(data.length >= 10){
+                    loopIndex = 9;
+                }else{
+                    loopIndex = data.length - 1;
+                }
+
+                for (var i = data.length - 1; i >= data.length - 1 - loopIndex  ; i--){
+                    var payment = data[i];
+
+                    var formattedAmount  = new Intl.NumberFormat('en-IN').format(payment.amount);
+
+                    var paymentDate = new Date(payment.paymentDate);
+
+
+                    var year = paymentDate.getFullYear();
+                    var month = paymentDate.getMonth() + 1; // getMonth() is 0-indexed
+                    var day = paymentDate.getDate();
+
+
+                    var formattedMonth = (month < 10) ? '0' + month : month;
+                    var formattedDay = (day < 10) ? '0' + day : day;
+                    var formattedDate = formattedDay + '-' + formattedMonth +  '-' + year ;
+
+                    var row = '<tr>';
+                    row += '<td>' + payment.flatNumber + '</td>';
+                    row += '<td>₹' + formattedAmount + '</td>';
+                    row += '<td>' + formattedDate + '</td>';
+                    row += '</tr>';
+
+                    htmlString += row;
+
+                }
+
+                tableBody.innerHTML = htmlString;
+
+            })
+            .catch(function(error){
+                console.log(error);
+                alert('Failed to load payment records, please try again later')
+            });
+
+</script>
+
+
+
+</body>
+</html>

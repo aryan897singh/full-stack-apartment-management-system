@@ -135,16 +135,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="Owner_DashboardV9.html">Dashboard</a>
+                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="OwnerView_TenantPage.html">Tenants</a>
+                    <a class="nav-link active" aria-current="page" href="http://localhost:8080/OWNER_PAGES/Tenants.html">Tenants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="OwnerView_Payments.html">Payments</a>
+                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/payments.html">Payments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="OwnerView_Maintenance.html">Maintenance</a>
+                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/maintenance.html">Maintenance</a>
                 </li>
             </ul>
             <a href="#" class="profile-circle me-2" title="Profile Details">AS</a>
@@ -171,6 +171,7 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <!-- This is empty, we fill it using our JS code -->
                     </tbody>
                 </table>
             </div>
@@ -184,6 +185,7 @@
 
             if (response.ok === false) {
                 throw new Error('Something went wrong with the request');
+                //Checks if HTTP status code is between (200-299) (success) if not, then throws error
             }
             return response.json();
         })

@@ -21,6 +21,17 @@ public class Apartment {
     @Column(name = "rent_outstanding")
     private Boolean rentOutstanding;
 
+    @Column
+    private Boolean occupied;
+
+    public Boolean getOccupied() {
+        return occupied;
+    }
+
+    public void setOccupied(Boolean occupied) {
+        this.occupied = occupied;
+    }
+
     public Long getId() {
         return id;
     }

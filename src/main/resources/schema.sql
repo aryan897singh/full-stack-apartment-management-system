@@ -11,7 +11,8 @@ CREATE TABLE apartment_tbl (
                                id BIGINT AUTO_INCREMENT PRIMARY KEY,
                                flat_number VARCHAR(255) NOT NULL UNIQUE,
                                rent_amount DECIMAL(10,2),
-                               rent_outstanding BOOLEAN
+                               rent_outstanding BOOLEAN,
+                               occupied BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE tenants_tbl (
@@ -40,7 +41,7 @@ CREATE TABLE managers_tbl (
 
 CREATE TABLE maintenance_requests_tbl (
                                           id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                                          tenant_id BIGINT NOT NULL,
+                                          apartment_id BIGINT NOT NULL,
                                           maintenance_type VARCHAR(255),
                                           title VARCHAR(255),
                                           description TEXT,
@@ -48,9 +49,12 @@ CREATE TABLE maintenance_requests_tbl (
                                           date_submitted DATETIME,
                                           manager_id BIGINT NOT NULL,
 
-                                          CONSTRAINT fk_maintenance_request_tenant
-                                              FOREIGN KEY (tenant_id)
-                                                  REFERENCES tenants_tbl(id)
+                                          CONSTRAINT fk_maintenance_request_apartment
+                                              FOREIGN KEY (apartment_id)
+                                                  REFERENCES apartment_tbl(id),
+                                          CONSTRAINT fk_maintenance_request_manager
+                                              FOREIGN KEY (manager_id)
+                                                  REFERENCES managers_tbl(id)
 );
 
 CREATE TABLE manager_maintenance_types (
@@ -79,4 +83,3 @@ CREATE TABLE furniture (
                            quantity INTEGER NOT NULL,
                            FOREIGN KEY (apartment_id) REFERENCES apartment_tbl(id)
 );
-

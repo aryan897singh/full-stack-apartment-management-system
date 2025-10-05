@@ -1,5 +1,6 @@
 package com.dauntlesstechnologies.ssk.maintenance_requests;
 
+import com.dauntlesstechnologies.ssk.apartments.Apartment;
 import com.dauntlesstechnologies.ssk.manager.Manager;
 import com.dauntlesstechnologies.ssk.tenants.Tenant;
 import jakarta.persistence.*;
@@ -14,8 +15,8 @@ public class MaintenanceRequest {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "tenant_id", referencedColumnName = "id",  nullable = false)
-    private Tenant tenant;
+    @JoinColumn(name = "apartment_id", referencedColumnName = "id",  nullable = false)
+    private Apartment apartment;
 
     @Column(name = "maintenance_type")
     @Enumerated(EnumType.STRING)
@@ -37,6 +38,14 @@ public class MaintenanceRequest {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "manager_id", referencedColumnName = "id", nullable = false)
     private Manager manager;
+
+    public Apartment getApartment() {
+        return apartment;
+    }
+
+    public void setApartment(Apartment apartment) {
+        this.apartment = apartment;
+    }
 
     public Manager getManager() {
         return manager;
@@ -95,12 +104,7 @@ public class MaintenanceRequest {
     }
 
 
-    public Tenant getTenant() {
-        return tenant;
-    }
 
-    public void setTenant(Tenant tenant) {
-        this.tenant = tenant;
-    }
+
 
 }

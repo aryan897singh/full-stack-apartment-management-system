@@ -8,7 +8,7 @@ import java.util.Date;
 public record PaymentDto(
 
         Long id,
-        Long apartmentId,
+        String flatNumber,
         BigDecimal amount,
         PaymentMethod paymentMethod,
         Date paymentDate

@@ -1,5 +1,7 @@
 package com.dauntlesstechnologies.ssk.maintenance_requests;
 
+import com.dauntlesstechnologies.ssk.apartments.Apartment;
+import com.dauntlesstechnologies.ssk.apartments.ApartmentRepository;
 import com.dauntlesstechnologies.ssk.manager.Manager;
 import com.dauntlesstechnologies.ssk.manager.ManagerRepository;
 import com.dauntlesstechnologies.ssk.tenants.Tenant;
@@ -14,15 +16,15 @@ import java.util.Date;
 public class MaintenanceRequestService {
 
     private final MaintenanceRequestRepository maintenanceRequestRepository;
-    private final TenantRepository tenantRepository;
+    private final ApartmentRepository apartmentRepository;
     private final ManagerRepository managerRepository;
+    private final TenantRepository tenantRepository;
 
     //injecting the repo in cause service talks to repo
-    public MaintenanceRequestService(MaintenanceRequestRepository maintenanceRequestRepository, TenantRepository tenantRepository, ManagerRepository managerRepository) {
+    public MaintenanceRequestService(MaintenanceRequestRepository maintenanceRequestRepository, ApartmentRepository apartmentRepository , ManagerRepository managerRepository, TenantRepository tenantRepository) {
+        this.tenantRepository = tenantRepository;
         this.maintenanceRequestRepository = maintenanceRequestRepository;
-        this.tenantRepository = tenantRepository; //INTERVIEW PROBLEM SOLUTION: Reason for injecting tenant repo is that our entity stores a full tenant object
-                                                //but our updateDto will take in the id only, and so we need to first map the id to
-                                                //the tenant itself and then set it according to what we find, if we find it
+        this.apartmentRepository = apartmentRepository;
 
         this.managerRepository = managerRepository; //INTERVIEW PROBLEM SOLUTION - We need to obtain the manager by the MaintenanceType
                                                     //because obv the user doesnt know the manager, but the manager should be set so that
@@ -43,7 +45,7 @@ public class MaintenanceRequestService {
     public MaintenanceRequestDto entityToDto(MaintenanceRequest maintenanceRequest){
         return new MaintenanceRequestDto(
                 maintenanceRequest.getId(),
-                maintenanceRequest.getTenant().getId(),
+                maintenanceRequest.getApartment().getFlatNumber(),
                 maintenanceRequest.getManager().getId(),
                 maintenanceRequest.getMaintenanceType(),
                 maintenanceRequest.getTitle(),
@@ -90,7 +92,6 @@ public class MaintenanceRequestService {
 
             maintenanceRequest.setTitle(tenantUpdateMaintenanceRequestDto.title());
             maintenanceRequest.setDescription(tenantUpdateMaintenanceRequestDto.description());
-            maintenanceRequest.setDateSubmitted(new Date());
 
             maintenanceRequestRepository.save(maintenanceRequest);
 
@@ -98,17 +99,29 @@ public class MaintenanceRequestService {
 
     }
 
-    public MaintenanceRequest createNewMaintenanceRequest(TenantUpdateMaintenanceRequestDto tenantUpdateMaintenanceRequestDto){
+    public MaintenanceRequest createNewMaintenanceRequest(Long tenantId, TenantUpdateMaintenanceRequestDto tenantUpdateMaintenanceRequestDto){
         MaintenanceRequest maintenanceRequest = new MaintenanceRequest();
 
-        Optional<Tenant> tenantOptional = tenantRepository.findById(tenantUpdateMaintenanceRequestDto.tenantId());
+//        Optional<Apartment> apartmentOptional = apartmentRepository.findById(tenantUpdateMaintenanceRequestDto.tenantId());
 
-        if(tenantOptional.isPresent()){
-            Tenant tenant = tenantOptional.get();
-            maintenanceRequest.setTenant(tenant);
+        Optional<Tenant>  optionalTenant = tenantRepository.findById(tenantId);
+        if(optionalTenant.isEmpty()){
+            throw new RuntimeException("Tenant with id " + tenantId + " not found");
+        }else{
+            Tenant tenant =  optionalTenant.get();
+            Apartment apartment = tenant.getApartment();
+
+            maintenanceRequest.setApartment(apartment);
         }
-        else{
-            throw new RuntimeException("Tenant not found");
+
+
+        Set<Manager> managerSet = managerRepository.findByMaintenanceTypesContaining(tenantUpdateMaintenanceRequestDto.maintenanceType());
+
+        if(!managerSet.isEmpty()){
+            Manager manager = managerSet.iterator().next();
+            maintenanceRequest.setManager(manager);
+        }else{
+            throw new RuntimeException("Manager not found with given maintenance request type");
         }
 
         maintenanceRequest.setMaintenanceType(tenantUpdateMaintenanceRequestDto.maintenanceType());
@@ -130,6 +143,30 @@ public class MaintenanceRequestService {
             throw new RuntimeException("MaintenanceRequest with id " + id + " not found");
         }
 
+    }
+
+    public int countOpenRequests(){
+        return maintenanceRequestRepository.countByStatus(Status.IN_PROGRESS);
+    }
+
+    public int countCompletedRequests(){
+        return maintenanceRequestRepository.countByStatus(Status.COMPLETED);
+    }
+
+    public int countPendingRequests(){
+        return maintenanceRequestRepository.countByStatus(Status.PENDING);
+    }
+
+    public List<MaintenanceRequestDto> getAllPendingRequests(){
+        List<MaintenanceRequest> maintenanceRequests = maintenanceRequestRepository.findAllByStatus(Status.PENDING);
+
+        List<MaintenanceRequestDto>  maintenanceRequestDtos = new ArrayList<>();
+
+        for(MaintenanceRequest maintenanceRequest : maintenanceRequests){
+            maintenanceRequestDtos.add(entityToDto(maintenanceRequest));
+        }
+
+        return  maintenanceRequestDtos;
     }
 
 

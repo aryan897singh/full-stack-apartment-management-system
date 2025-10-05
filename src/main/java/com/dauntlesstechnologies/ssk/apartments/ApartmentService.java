@@ -34,7 +34,8 @@ public class ApartmentService {
                 apartment.getId(),
                 apartment.getFlatNumber(),
                 apartment.getRentAmount(),
-                apartment.getRentOutstanding()
+                apartment.getRentOutstanding(),
+                apartment.getOccupied()
         );
     }
 
@@ -87,6 +88,14 @@ public class ApartmentService {
             throw new RuntimeException("NO SUCH APARTMENT FOUND WITH GIVEN ID TO DELETE");
         }
 
+    }
+
+    public Integer occupiedCount(){
+        return apartmentRepository.countByOccupiedIsTrue();
+    }
+
+    public Integer vacantCount(){
+        return apartmentRepository.countByOccupiedIsFalse();
     }
 
 

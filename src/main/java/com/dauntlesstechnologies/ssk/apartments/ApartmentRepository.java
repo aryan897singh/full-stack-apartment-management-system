@@ -8,6 +8,10 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
 
     public Optional<Apartment> findByFlatNumber(String flatNumber);
 
+    //This method is to fetch the number of vacant flats
+    public int countByOccupiedIsFalse();
 
-
+    //This method is to fetch the number of occupied flats
+    public int countByOccupiedIsTrue();
 }
+

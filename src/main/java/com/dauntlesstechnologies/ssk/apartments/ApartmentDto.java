@@ -6,5 +6,6 @@ public record ApartmentDto(
         Long id,
         String flatNumber,
         BigDecimal rentAmount,
-        Boolean rentOutstanding
+        Boolean rentOutstanding,
+        Boolean occupied
 ) {}

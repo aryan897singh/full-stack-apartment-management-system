@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Maintenance Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .content-wrapper {
+            flex-grow: 1;
+        }
+        .navbar {
+            background-color: #1e1e1e !important;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        .navbar-brand {
+            font-weight: 600;
+            color: #f8f9fa !important;
+        }
+        .nav-link {
+            color: #adb5bd !important;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #ffffff !important;
+            border-bottom: 2px solid #007bff;
+        }
+        .card {
+            background-color: #1e1e1e;
+            border: 1px solid #343a40;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .card-title {
+            color: #f8f9fa;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .card-text {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .overview-card.bg-success {
+            background-color: #155724 !important;
+            border-color: #0d3617;
+        }
+        .overview-card.bg-warning {
+            background-color: #7b6d16 !important;
+            border-color: #5d5311;
+        }
+        /* Ensure table text is light */
+        .table-dark {
+            color: #e0e0e0;
+        }
+        h2 {
+            font-weight: 300;
+            color: #f8f9fa;
+        }
+        footer {
+            background-color: #1e1e1e;
+            padding: 1rem 0;
+            text-align: center;
+            border-top: 1px solid #343a40;
+            margin-top: auto;
+        }
+        footer p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        footer .small-text {
+            display: block;
+            margin-top: 0.25rem;
+            font-size: 0.7rem;
+            color: #495057;
+        }
+        .btn-sm {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+        }
+        .profile-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #007bff;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        .profile-circle:hover {
+            opacity: 0.8;
+        }
+        .overview-card.bg-dark-blue {
+            background-color: #003366 !important;
+            border-color: #002244;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+            Shri Shyam Kaleshwar Residency Dashboard
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Tenants.html">Tenants</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/payments.html">Payments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="http://localhost:8080/OWNER_PAGES/maintenance.html">Maintenance</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="profile-circle" href="#">AS</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="content-wrapper">
+    <div class="container mt-4">
+        <h2 class="mb-4">Maintenance Dashboard</h2>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="card overview-card bg-primary p-3 h-100 text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Open Requests</h5>
+                        <p class="card-text" id="openRequestsCountElement">7</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card overview-card bg-warning p-3 h-100 text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Pending Requests</h5>
+                        <p class="card-text" id="pendingRequestsCountElement">18</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-3 mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 text-light" style="font-weight: 400;">Add New Request</h5>
+                <button class="btn btn-primary">Add</button>
+            </div>
+        </div>
+
+        <div class="card p-4 mb-4">
+            <h5 class="card-title mb-3">Requests to be Reviewed (Feature In Progress...)</h5>
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0">
+                    <thead>
+                    <tr>
+                        <th scope="col">Request Name</th>
+                        <th scope="col">Flat Number</th>
+                        <th scope="col">Date Submitted</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id = "pending-requests-table">
+                    <!-- POPULATING THE DATA HERE -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card p-4">
+            <h5 class="card-title mb-3">Request History</h5>
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0">
+                    <thead>
+                    <tr>
+                        <th scope="col">Request ID</th>
+                        <th scope="col">Request Title</th>
+                        <th scope="col">Flat Number</th>
+                        <th scope="col">Date Submitted</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody id = "all-requests-table">
+                    <!-- POPULATING DATA HERE -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <p>Made by Aryan Singh :)</p>
+    <small class="small-text">purelydauntless</small>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    //NOTE: IMPLEMENTING THE Promise.all() TO HANDLE MULTIPLE API CALLS IN A CLEAN MANNER
+    //WHEN ALL PAGES ARE READY, GO BACK AND IMPLEMENT Promise.all() IN DASHBOARD.HTML AS WELL
+
+    const fetchOpenCount = fetch('http://localhost:8080/maintenanceRequests/countOpenRequests').then(function(response){
+        if(!response.ok){
+            throw new Error('Something went wrong with the response')
+        }
+        return response.json();
+    })
+
+    const fetchCompletedCount = fetch('http://localhost:8080/maintenanceRequests/countCompletedRequests').then(function(response){
+        if(!response.ok){
+            throw new Error('Something went wrong with the response')
+        }
+        return response.json();
+    })
+
+    const fetchPendingCount = fetch('http://localhost:8080/maintenanceRequests/countPendingRequests').then(function(response){
+        if(!response.ok){
+            throw new Error('Something went wrong with the response')
+        }
+        return response.json();
+    })
+
+    const fetchPendingRequests = fetch('http://localhost:8080/maintenanceRequests/getAllPendingRequests').then(function(response){
+        if(!response.ok){
+            throw new Error('Something went wrong with the response')
+        }
+        return response.json();
+    })
+
+    const fetchAllRequests = fetch('http://localhost:8080/maintenanceRequests/getAllMaintenanceRequests').then(function(response){
+        if(!response.ok){
+            throw new Error('Something went wrong with the response')
+        }
+        return response.json();
+    })
+
+    Promise.all([fetchOpenCount, fetchCompletedCount, fetchPendingCount, fetchPendingRequests, fetchAllRequests  ])
+        .then(function(results){
+            const openCount = results[0];
+            const pendingCount = results[2];
+            const pendingRequests = results[3];
+            const allRequests = results[4];
+            //NOW I CAN WORK WITH MY DATA
+
+            //Step 1. Filling in data in count cards
+
+            var openRequestsCountElement = document.getElementById('openRequestsCountElement');
+            var pendingRequestsCountElement = document.getElementById('pendingRequestsCountElement');
+
+            openRequestsCountElement.textContent = openCount.count;
+            pendingRequestsCountElement.textContent = pendingCount.count;
+
+
+            //Step 3. Populating the pending requests table
+
+            var pendingTableBody = document.getElementById('pending-requests-table')
+            var htmlString = '';
+
+            for(var i = pendingRequests.length - 1; i >= 0; i--){
+                var request = pendingRequests[i];
+
+                var year = paymentDate.getFullYear();
+                var month = paymentDate.getMonth() + 1; // getMonth() is 0-indexed
+                var day = paymentDate.getDate();
+
+                var formattedMonth = (month < 10) ? '0' + month : month;
+                var formattedDay = (day < 10) ? '0' + day : day;
+                var formattedDate = formattedDay + '-' + formattedMonth +  '-' + year ;
+
+                var row = '<tr>';
+                row += '<td>' + request.title + '</td>'
+                row += '<td>' + request.flatNumber + '</td>'
+                row += '<td>' + formattedDate + '</td>'
+                row += '<td>' +
+                    '<button class="btn btn-sm btn-success me-1" data-request-id="' + request.id + '">Accept</button>' +
+                    '<button class="btn btn-sm btn-danger" data-request-id="' + request.id + '">Decline</button>' +
+                    '</td>';
+                row += '</tr>';
+
+                htmlString += row;
+
+            }
+
+            pendingTableBody.innerHTML = htmlString;
+
+
+            //Step 4. Populating request history table
+
+            var requestTableBody = document.getElementById('all-requests-table')
+            var htmlString2 = '';
+
+            for(var j = allRequests.length - 1; j >= 0 ; j--){
+                var request2 = allRequests[j];
+
+                var statusBadgeHtml = '';
+                if (request2.status === 'IN_PROGRESS') {
+                    statusBadgeHtml = '<span class="badge bg-info">In Progress</span>';
+                } else if (request2.status === 'COMPLETED') {
+                    statusBadgeHtml = '<span class="badge bg-success">Completed</span>';
+                } else if (request2.status === 'CANCELLED') {
+                    statusBadgeHtml = '<span class="badge bg-danger">Cancelled</span>';
+                }
+
+                var year = paymentDate.getFullYear();
+                var month = paymentDate.getMonth() + 1; // getMonth() is 0-indexed
+                var day = paymentDate.getDate();
+
+
+                var formattedMonth = (month < 10) ? '0' + month : month;
+                var formattedDay = (day < 10) ? '0' + day : day;
+                var formattedDate = formattedDay + '-' + formattedMonth +  '-' + year ;
+
+                var row = '<tr>';
+                row += '<td>' + request2.id + '</td>'
+                row += '<td>' + request2.title + '</td>'
+                row += '<td>' + request2.flatNumber + '</td>'
+                row += '<td>' + formattedDate + '</td>'
+                row += '<td>' + statusBadgeHtml + '</td>'
+                row += '</tr>'
+
+                htmlString2 += row;
+
+            }
+
+            requestTableBody.innerHTML = htmlString2;
+
+
+        }).catch(function(error){
+            console.log(error)
+            alert('Something went wrong, please try again later :(')
+    })
+
+
+</script>
+
+</body>
+</html>

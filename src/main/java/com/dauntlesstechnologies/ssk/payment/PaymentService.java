@@ -109,7 +109,7 @@ public class PaymentService {
     public PaymentDto entityToDto(Payment payment){
         return new PaymentDto(
                 payment.getId(),
-                payment.getApartment().getId(),
+                payment.getApartment().getFlatNumber(),
                 payment.getAmount(),
                 payment.getPaymentMethod(),
                 payment.getPaymentDate()
