@@ -12,7 +12,8 @@ CREATE TABLE apartment_tbl (
                                flat_number VARCHAR(255) NOT NULL UNIQUE,
                                rent_amount DECIMAL(10,2),
                                rent_outstanding BOOLEAN,
-                               occupied BOOLEAN DEFAULT FALSE
+                               occupied BOOLEAN DEFAULT FALSE,
+                               last_occupied DATETIME
 );
 
 CREATE TABLE tenants_tbl (
@@ -27,6 +28,8 @@ CREATE TABLE tenants_tbl (
                              aadhar_card_number VARCHAR(255) UNIQUE,
                              criminal_history BOOLEAN DEFAULT FALSE,
                              agreement_signed BOOLEAN DEFAULT FALSE,
+                             join_date DATETIME,
+                             leave_date DATETIME,
 
                              CONSTRAINT fk_tenant_apartment
                                  FOREIGN KEY (apartment_id)

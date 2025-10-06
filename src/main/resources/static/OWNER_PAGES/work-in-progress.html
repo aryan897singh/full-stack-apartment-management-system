@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Work in Progress</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            padding: 20px;
+            border: 2px solid #555;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 2s;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #00ff99;
+            text-shadow: 0 0 5px #00ff99;
+        }
+
+        .builder-graphic {
+            font-size: 2em;
+            line-height: 1;
+            white-space: pre;
+            margin: 20px auto;
+            animation: build 4s infinite ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes build {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🚧 Under Construction 🚧</h1>
+    <pre class="builder-graphic">
+  _
+ / \
+/ _ \
+| ( ) |
+ \_ _/
+  | |
+  | |
+  | |
+ /___\
+|     |
+|     |
+|_____|
+    </pre>
+    <p>This page is being built. We'll be back online soon.</p>
+</div>
+
+</body>
+</html>

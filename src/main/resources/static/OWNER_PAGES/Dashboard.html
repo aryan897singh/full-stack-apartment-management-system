@@ -115,13 +115,33 @@
             justify-content: space-between;
             align-items: center;
         }
+        .card-link {
+            text-decoration: none; /* Removes the underline from the link */
+            color: inherit; /* Inherits the color from the parent, in this case, the card */
+        }
+
+        .card-link:hover .card {
+            background-color: #2e2e2e; /* Darkens the card on hover */
+            transition: background-color 0.3s ease; /* Adds a smooth transition effect */
+        }
+        .card-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* This targets the overview card specifically */
+        .card-link:hover .overview-card {
+            background-color: #2a2a2a !important; /* A slightly darker color for hover effect */
+            border-color: #495057 !important; /* A lighter border color on hover */
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
     </style>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">
             <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
             Shri Shyam Kaleshwar Residency Dashboard
         </a>
@@ -153,20 +173,24 @@
         <h2 class="mb-4">Dashboard Overview</h2>
         <div class="row g-4 mb-4">
             <div class="col-md-4">
-                <div class="card overview-card bg-primary p-3 h-100 text-white">
-                    <div class="card-body">
-                        <h5 class="card-title">Occupied Apartments</h5>
-                        <p class="card-text" id = "occupiedValue">50</p>
+                <a href="http://localhost:8080/OWNER_PAGES/occupied-flats.html" id="occupied-link" class="card-link">
+                    <div class="card overview-card bg-primary p-3 h-100 text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Occupied Apartments</h5>
+                            <p class="card-text" id = "occupiedValue">50</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-md-4">
-                <div class="card overview-card bg-success p-3 h-100 text-white">
-                    <div class="card-body">
-                        <h5 class="card-title">Vacant Apartments</h5>
-                        <p class="card-text" id = "vacantValue">5</p>
+                <a href="http://localhost:8080/OWNER_PAGES/vacant-flats.html" id="vacant-link" class="card-link">
+                    <div class="card overview-card bg-success p-3 h-100 text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Vacant Apartments</h5>
+                            <p class="card-text" id = "vacantValue">5</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-md-4">
                 <div class="card overview-card bg-warning p-3 h-100 text-white">

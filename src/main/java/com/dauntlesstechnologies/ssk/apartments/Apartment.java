@@ -3,6 +3,7 @@ package com.dauntlesstechnologies.ssk.apartments;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Table(name = "apartment_tbl")
@@ -23,6 +24,9 @@ public class Apartment {
 
     @Column
     private Boolean occupied;
+
+    @Column(name = "last_occupied")
+    private Date lastOccupied;
 
     public Boolean getOccupied() {
         return occupied;
@@ -62,5 +66,13 @@ public class Apartment {
 
     public void setRentAmount(BigDecimal rentAmount) {
         this.rentAmount = rentAmount;
+    }
+
+    public Date getLastOccupied() {
+        return lastOccupied;
+    }
+
+    public void setLastOccupied(Date lastOccupied) {
+        this.lastOccupied = lastOccupied;
     }
 }

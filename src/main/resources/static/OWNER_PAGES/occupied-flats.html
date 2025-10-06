@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tenant Management</title>
+    <title>Occupied Flats</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -138,7 +138,7 @@
                     <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="http://localhost:8080/OWNER_PAGES/Tenants.html">Tenants</a>
+                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Tenants.html">Tenants</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/payments.html">Payments</a>
@@ -155,8 +155,8 @@
 <div class="content-wrapper">
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="mb-0">Tenant Management</h2>
-            <a href="http://localhost:8080/OWNER_PAGES/AddNewTenantForm.html" class="btn btn-primary">Add New Tenant</a>
+            <h2 class="mb-0">Occupied Flats</h2>
+            <a href="http://localhost:8080/OWNER_PAGES/Dashboard.html" class="btn btn-primary">Go Back</a>
         </div>
 
         <div class="card p-4">
@@ -165,22 +165,25 @@
                     <thead>
                     <tr>
                         <th scope="col">Flat No.</th>
-                        <th scope="col">Flat Owner</th>
-                        <th scope="col">Total Occupants</th>
-                        <th scope="col">Agreement Signed</th>
+                        <th scope="col">Flat Owner</th>  <th scope="col">Total Occupants</th>  <th scope="col">Agreement Signed</th>
                         <th scope="col">Police Verification</th>
-
                         <th scope="col" class="text-end">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- This is empty, we fill it using our JS code -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+<footer>
+    <p>Made by Aryan Singh :)</p>
+    <small class="small-text">purelydauntless</small>
+</footer>
+
+<script src="../js/bootstrap.bundle.min.js"></script>
 
 <script>
     fetch('http://localhost:8080/tenants/getAllTenants')
@@ -224,7 +227,7 @@
                 var row = '<tr>';
                 row += '<td>' + tenant.flatNumber + '</td>';
                 row += '<td>' + tenant.name + '</td>';
-                row += '<td>0' + '</td>';
+                row += '<td>0</td>'; // <-- This should be the Total Occupants cell, fix it later.
                 row += '<td><span class="status-badge ' + agreementCssClass + '">' + agreementText + '</span></td>';
                 row += '<td><span class="status-badge ' + verificationCssClass + '">' + verificationText + '</span></td>';
                 row += '<td class="text-end"><button class="btn btn-sm btn-outline-info">View All Details</button></td>';
@@ -238,12 +241,8 @@
         .catch(function(error) {
             console.log(error);
         });
-</script>
-<footer>
-    <p>Made by Aryan Singh :)</p>
-    <small class="small-text">purelydauntless</small>
-</footer>
 
-<script src="../js/bootstrap.bundle.min.js"></script>
+</script>
+
 </body>
 </html>

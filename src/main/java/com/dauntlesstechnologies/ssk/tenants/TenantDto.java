@@ -2,6 +2,8 @@ package com.dauntlesstechnologies.ssk.tenants;
 
 import com.dauntlesstechnologies.ssk.apartments.Apartment;
 
+import java.util.Date;
+
 public record TenantDto(
         Long id,
         String name,
@@ -13,6 +15,8 @@ public record TenantDto(
         String flatNumber,
         String aadharCardNumber,
         boolean criminalHistory,
-        boolean agreementSigned
+        boolean agreementSigned,
+        Date joinDate,
+        Date leaveDate
 ) {
 }

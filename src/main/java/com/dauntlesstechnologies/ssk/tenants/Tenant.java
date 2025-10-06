@@ -4,6 +4,8 @@ import com.dauntlesstechnologies.ssk.apartments.Apartment;
 import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "tenants_tbl")
 public class Tenant {
@@ -43,6 +45,12 @@ public class Tenant {
 
     @Column(name = "agreement_signed")
     private boolean agreementSigned;
+
+    @Column(name = "join_date")
+    private Date joinDate;
+
+    @Column(name = "leave-date")
+    private Date leaveDate;
 
     public Long getId() {
         return id;
@@ -130,6 +138,22 @@ public class Tenant {
 
     public void setFlatNumber(String flatNumber) {
         this.flatNumber = flatNumber;
+    }
+
+    public Date getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(Date joinDate) {
+        this.joinDate = joinDate;
+    }
+
+    public Date getLeaveDate() {
+        return leaveDate;
+    }
+
+    public void setLeaveDate(Date leaveDate) {
+        this.leaveDate = leaveDate;
     }
 
 }

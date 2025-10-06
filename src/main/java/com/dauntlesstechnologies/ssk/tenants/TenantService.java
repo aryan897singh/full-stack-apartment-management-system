@@ -2,9 +2,11 @@ package com.dauntlesstechnologies.ssk.tenants;
 
 import com.dauntlesstechnologies.ssk.apartments.Apartment;
 import com.dauntlesstechnologies.ssk.apartments.ApartmentRepository;
+import com.dauntlesstechnologies.ssk.apartments.ApartmentService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +15,7 @@ public class TenantService {
 
     private final TenantRepository tenantRepository;
     private final ApartmentRepository apartmentRepository;
+
 
     //injected the repo to service layer
     TenantService(TenantRepository tenantRepository, ApartmentRepository apartmentRepository){
@@ -68,7 +71,11 @@ public class TenantService {
                 tenant.getFlatNumber(),
                 tenant.getAadharCardNumber(),
                 tenant.isCriminalHistory(),
-                tenant.isAgreementSigned() );
+                tenant.isAgreementSigned(),
+                tenant.getJoinDate(),
+                tenant.getLeaveDate()
+        );
+
     }
 
     //Remember Post It analogy
@@ -77,18 +84,19 @@ public class TenantService {
     //id provided by the URL, and modified its info with the updated info
     //===================================================================================
     //We find the entity with the correct id, and replace the info with the info provided by user
-    public void updateTenant(UpdateTenantDto tenantDto, Long id){
+    public void updateTenant(UpdateTenantDto updateTenantDto, Long id){
         Optional<Tenant> tenantOptional = tenantRepository.findById(id);
 
         if (tenantOptional.isPresent()){
             Tenant tenant = tenantOptional.get();
 
-            tenant.setName(tenantDto.name());
-            tenant.setEmail(tenantDto.email());
-            tenant.setPhoneNumber(tenantDto.phoneNumber());
-            tenant.setAddress(tenantDto.address());
-            tenant.setFatherName(tenantDto.fatherName());
-            tenant.setAadharCardNumber(tenantDto.aadharCardNumber());
+            tenant.setName(updateTenantDto.name());
+            tenant.setEmail(updateTenantDto.email());
+            tenant.setPhoneNumber(updateTenantDto.phoneNumber());
+            tenant.setAddress(updateTenantDto.address());
+            tenant.setFatherName(updateTenantDto.fatherName());
+            tenant.setAadharCardNumber(updateTenantDto.aadharCardNumber());
+            tenant.setJoinDate(updateTenantDto.joinDate());
 
             //Note: this basically does an INSERT statement if id doesnt exist and UPDATE if it does
             tenantRepository.save(tenant);
@@ -111,6 +119,7 @@ public class TenantService {
         tenant.setFlatNumber(tenantDto.flatNumber());
         tenant.setCriminalHistory(tenantDto.criminalHistory());
         tenant.setAgreementSigned(tenantDto.agreementSigned());
+        tenant.setJoinDate(new Date());
 
         Optional<Apartment> apartmentOptional = apartmentRepository.findByFlatNumber(tenantDto.flatNumber());
 
@@ -129,6 +138,11 @@ public class TenantService {
         Optional<Tenant> tenantOptional = tenantRepository.findById(id);
 
         if (tenantOptional.isPresent()){
+            Tenant tenant = tenantOptional.get();
+            tenant.setLeaveDate(new Date());
+            //interview discussion - problem was that the leave date was not being set, forgot to save it to the repo
+            tenantRepository.save(tenant);
+            //NOW HAVE TO ADD DELETED TENANT'S DETAILS INTO TENANT HISTORY ENTITY, CREATE LATER - CLIENT REQUIREMENT
             tenantRepository.deleteById(id);
         }
         else {

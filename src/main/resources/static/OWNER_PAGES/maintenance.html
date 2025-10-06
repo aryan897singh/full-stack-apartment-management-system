@@ -111,7 +111,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">
             <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
             Shri Shyam Kaleshwar Residency Dashboard
         </a>
@@ -173,7 +173,7 @@
         </div>
 
         <div class="card p-4 mb-4">
-            <h5 class="card-title mb-3">Requests to be Reviewed (Feature In Progress...)</h5>
+            <h5 class="card-title mb-3">Requests to be Reviewed </h5>
             <div class="table-responsive">
                 <table class="table table-dark table-hover mb-0">
                     <thead>
@@ -285,13 +285,15 @@
             for(var i = pendingRequests.length - 1; i >= 0; i--){
                 var request = pendingRequests[i];
 
-                var year = paymentDate.getFullYear();
-                var month = paymentDate.getMonth() + 1; // getMonth() is 0-indexed
-                var day = paymentDate.getDate();
+                var submissionDate = new Date(request.dateSubmitted);
+
+                var year = submissionDate.getFullYear();
+                var month = submissionDate.getMonth() + 1; // getMonth() is 0-indexed
+                var day = submissionDate.getDate();
 
                 var formattedMonth = (month < 10) ? '0' + month : month;
                 var formattedDay = (day < 10) ? '0' + day : day;
-                var formattedDate = formattedDay + '-' + formattedMonth +  '-' + year ;
+                var formattedDate = formattedDay + '-' + formattedMonth +  '-' + year ;;
 
                 var row = '<tr>';
                 row += '<td>' + request.title + '</td>'
@@ -325,12 +327,15 @@
                     statusBadgeHtml = '<span class="badge bg-success">Completed</span>';
                 } else if (request2.status === 'CANCELLED') {
                     statusBadgeHtml = '<span class="badge bg-danger">Cancelled</span>';
+                } else if (request2.status === 'PENDING') { // This was missing
+                    statusBadgeHtml = '<span class="badge bg-warning">Pending</span>';
                 }
 
-                var year = paymentDate.getFullYear();
-                var month = paymentDate.getMonth() + 1; // getMonth() is 0-indexed
-                var day = paymentDate.getDate();
+                var submissionDate2 = new Date(request2.dateSubmitted);
 
+                var year = submissionDate2.getFullYear();
+                var month = submissionDate2.getMonth() + 1; // getMonth() is 0-indexed
+                var day = submissionDate2.getDate();
 
                 var formattedMonth = (month < 10) ? '0' + month : month;
                 var formattedDay = (day < 10) ? '0' + day : day;

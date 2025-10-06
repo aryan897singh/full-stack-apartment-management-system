@@ -1,22 +1,22 @@
-INSERT INTO apartment_tbl (flat_number, rent_amount, rent_outstanding, occupied) VALUES
-                                                                                     ('101', 15000.00, FALSE, TRUE),
-                                                                                     ('102', 16000.00, FALSE, TRUE),
-                                                                                     ('103', 14500.00, TRUE, TRUE),
-                                                                                     ('104', 15500.00, FALSE, TRUE),
-                                                                                     ('105', 17000.00, FALSE, TRUE),
-                                                                                     ('201', 18000.00, FALSE, TRUE),
-                                                                                     ('202', 19000.00, TRUE, FALSE),
-                                                                                     ('203', 17500.00, FALSE, FALSE),
-                                                                                     ('204', 18500.00, FALSE, FALSE),
-                                                                                     ('205', 20000.00, FALSE, FALSE);
+INSERT INTO apartment_tbl (flat_number, rent_amount, rent_outstanding, occupied, last_occupied) VALUES
+                                                                                                    ('101', 15000.00, FALSE, TRUE, NOW()),
+                                                                                                    ('102', 16000.00, FALSE, TRUE, NOW()),
+                                                                                                    ('103', 14500.00, TRUE, TRUE, NOW()),
+                                                                                                    ('104', 15500.00, FALSE, TRUE, NOW()),
+                                                                                                    ('105', 17000.00, FALSE, TRUE, NOW()),
+                                                                                                    ('201', 18000.00, FALSE, TRUE, NOW()),
+                                                                                                    ('202', 19000.00, TRUE, FALSE, NOW() - INTERVAL 10 DAY),
+                                                                                                    ('203', 17500.00, FALSE, FALSE, NOW() - INTERVAL 20 DAY),
+                                                                                                    ('204', 18500.00, FALSE, FALSE, NOW() - INTERVAL 5 DAY),
+                                                                                                    ('205', 20000.00, FALSE, FALSE, NOW() - INTERVAL 30 DAY);
 
-INSERT INTO tenants_tbl (name, email, phone_number, address, father_name, flat_number, apartment_id, aadhar_card_number, criminal_history, agreement_signed) VALUES
-                                                                                                                                                                 ('Aryan Singh', 'arjun.sharma@email.com', '9876543210', '123 MG Road, Mumbai', 'Rajesh Sharma', '101', (SELECT id FROM apartment_tbl WHERE flat_number = '101'), '123456789012', FALSE, TRUE),
-                                                                                                                                                                 ('Yashpal Singh', 'priya.patel@email.com', '9876543211', '456 Park Street, Delhi', 'Suresh Patel', '102', (SELECT id FROM apartment_tbl WHERE flat_number = '102'), '234567890123', FALSE, TRUE),
-                                                                                                                                                                 ('Aradhya Singh', 'rohit.kumar@email.com', '9876543212', '789 Brigade Road, Bangalore', 'Mahesh Kumar', '103', (SELECT id FROM apartment_tbl WHERE flat_number = '103'), '345678901234', FALSE, FALSE),
-                                                                                                                                                                 ('Anamika Singh', 'sneha.gupta@email.com', '9876543213', '321 Commercial Street, Chennai', 'Ramesh Gupta', '104', (SELECT id FROM apartment_tbl WHERE flat_number = '104'), '456789012345', FALSE, TRUE),
-                                                                                                                                                                 ('Manvendra Singh', 'vikram.singh@email.com', '9876543214', '654 Connaught Place, Delhi', 'Harpreet Singh', '105', (SELECT id FROM apartment_tbl WHERE flat_number = '105'), '567890123456', FALSE, TRUE),
-                                                                                                                                                                 ('Anita Reddy', 'anita.reddy@email.com', '9876543215', '987 Jubilee Hills, Hyderabad', 'Venkat Reddy', '201', (SELECT id FROM apartment_tbl WHERE flat_number = '201'), '678901234567', FALSE, TRUE);
+INSERT INTO tenants_tbl (name, email, phone_number, address, father_name, flat_number, apartment_id, aadhar_card_number, criminal_history, agreement_signed, join_date) VALUES
+                                                                                                                                                                            ('Aryan Singh', 'arjun.sharma@email.com', '9876543210', '123 MG Road, Mumbai', 'Rajesh Sharma', '101', (SELECT id FROM apartment_tbl WHERE flat_number = '101'), '123456789012', FALSE, TRUE, NOW()),
+                                                                                                                                                                            ('Yashpal Singh', 'priya.patel@email.com', '9876543211', '456 Park Street, Delhi', 'Suresh Patel', '102', (SELECT id FROM apartment_tbl WHERE flat_number = '102'), '234567890123', FALSE, TRUE, NOW()),
+                                                                                                                                                                            ('Aradhya Singh', 'rohit.kumar@email.com', '9876543212', '789 Brigade Road, Bangalore', 'Mahesh Kumar', '103', (SELECT id FROM apartment_tbl WHERE flat_number = '103'), '345678901234', FALSE, FALSE, NOW()),
+                                                                                                                                                                            ('Anamika Singh', 'sneha.gupta@email.com', '9876543213', '321 Commercial Street, Chennai', 'Ramesh Gupta', '104', (SELECT id FROM apartment_tbl WHERE flat_number = '104'), '456789012345', FALSE, TRUE, NOW()),
+                                                                                                                                                                            ('Manvendra Singh', 'vikram.singh@email.com', '9876543214', '654 Connaught Place, Delhi', 'Harpreet Singh', '105', (SELECT id FROM apartment_tbl WHERE flat_number = '105'), '567890123456', FALSE, TRUE, NOW()),
+                                                                                                                                                                            ('Anita Reddy', 'anita.reddy@email.com', '9876543215', '987 Jubilee Hills, Hyderabad', 'Venkat Reddy', '201', (SELECT id FROM apartment_tbl WHERE flat_number = '201'), '678901234567', FALSE, TRUE, NOW());
 
 INSERT INTO managers_tbl (name, number) VALUES
                                             ('Kuldeep', 9876543210),
@@ -59,5 +59,3 @@ INSERT INTO furniture (apartment_id, furniture_type, quantity) VALUES
                                                                    ((SELECT id FROM apartment_tbl WHERE flat_number = '101'), 'CURTAINS', 4),
                                                                    ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 'FANS', 2),
                                                                    ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 'TUBELIGHTS', 2);
-
-DELETE FROM maintenance_requests_tbl WHERE apartment_id = 0;

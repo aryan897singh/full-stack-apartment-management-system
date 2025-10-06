@@ -4,6 +4,9 @@ package com.dauntlesstechnologies.ssk.apartments;
 import com.dauntlesstechnologies.ssk.tenants.TenantRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,7 +38,8 @@ public class ApartmentService {
                 apartment.getFlatNumber(),
                 apartment.getRentAmount(),
                 apartment.getRentOutstanding(),
-                apartment.getOccupied()
+                apartment.getOccupied(),
+                apartment.getLastOccupied()
         );
     }
 
@@ -54,6 +58,8 @@ public class ApartmentService {
         apartment.setFlatNumber(updateApartmentDto.flatNumber());
         apartment.setRentOutstanding(updateApartmentDto.rentOutstanding());
         apartment.setRentAmount(updateApartmentDto.rentAmount());
+
+
 
         apartmentRepository.save(apartment);
 
@@ -90,12 +96,48 @@ public class ApartmentService {
 
     }
 
-    public Integer occupiedCount(){
-        return apartmentRepository.countByOccupiedIsTrue();
+    //NOTE FOR INTERVIEW - USED SINGLE METHOD HERE FOR DATA INTEGRITY!!! NO MISMATCH OF DATA
+    public List<Integer> occupiedOrVacantCount(){
+        //Will do a run down of how many apts are occupied
+
+        int occupiedCount = 0;
+        int totalCount = 0;
+
+        List<Apartment> apartments = apartmentRepository.findAll();
+
+        for(Apartment apartment : apartments){
+            if(tenantRepository.existsByApartmentId(apartment.getId())){
+                apartment.setOccupied(true);
+                //if tenant exists, keep updating last day, if not, dont modify the date
+                apartment.setLastOccupied(new Date());
+                apartmentRepository.save(apartment);
+                occupiedCount++;
+
+            }else{
+                apartment.setOccupied(false);
+                apartmentRepository.save(apartment);
+
+            }
+            totalCount++;
+        }
+
+        List<Integer> countList = new ArrayList<>();
+        countList.add(occupiedCount);
+        countList.add(totalCount-occupiedCount);
+        return countList;
+
     }
 
-    public Integer vacantCount(){
-        return apartmentRepository.countByOccupiedIsFalse();
+    public List<ApartmentDto> getAllVacantApartments(){
+        List<Apartment> apartments = apartmentRepository.findByOccupiedIsFalse();
+
+        List<ApartmentDto> apartmentDtos = new ArrayList<>();
+
+        for(Apartment apartment: apartments){
+            apartmentDtos.add(convertEntitytoDTO(apartment));
+        }
+
+        return apartmentDtos;
     }
 
 
