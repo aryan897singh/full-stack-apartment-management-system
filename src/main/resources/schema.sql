@@ -2,18 +2,24 @@ DROP TABLE IF EXISTS furniture;
 DROP TABLE IF EXISTS payments_tbl;
 DROP TABLE IF EXISTS maintenance_requests_tbl;
 DROP TABLE IF EXISTS tenants_tbl;
-DROP TABLE IF EXISTS apartment_tbl;
+DROP TABLE IF EXISTS deposits_tbl;
 DROP TABLE IF EXISTS manager_maintenance_types;
 DROP TABLE IF EXISTS managers_tbl;
+DROP TABLE IF EXISTS apartment_tbl;
 
 
 CREATE TABLE apartment_tbl (
                                id BIGINT AUTO_INCREMENT PRIMARY KEY,
                                flat_number VARCHAR(255) NOT NULL UNIQUE,
+                               expected_rent DECIMAL(10,2),
                                rent_amount DECIMAL(10,2),
+                               maintenance_amount DECIMAL(10,2),
+                               paid_maintenance DECIMAL(10,2),
+                               paid_rent DECIMAL(10,2),
                                rent_outstanding BOOLEAN,
                                occupied BOOLEAN DEFAULT FALSE,
-                               last_occupied DATETIME
+                               last_occupied DATETIME,
+                               deposit_collected BOOLEAN
 );
 
 CREATE TABLE tenants_tbl (
@@ -23,13 +29,14 @@ CREATE TABLE tenants_tbl (
                              phone_number VARCHAR(255),
                              address VARCHAR(500),
                              father_name VARCHAR(255),
-                             apartment_id BIGINT NOT NULL,
+                             apartment_id BIGINT, -- REMOVED NOT NULL
                              flat_number VARCHAR(255),
                              aadhar_card_number VARCHAR(255) UNIQUE,
                              criminal_history BOOLEAN DEFAULT FALSE,
                              agreement_signed BOOLEAN DEFAULT FALSE,
                              join_date DATETIME,
                              leave_date DATETIME,
+                             exists_flag BOOLEAN DEFAULT TRUE,
 
                              CONSTRAINT fk_tenant_apartment
                                  FOREIGN KEY (apartment_id)
@@ -85,4 +92,16 @@ CREATE TABLE furniture (
                            furniture_type VARCHAR(255) NOT NULL,
                            quantity INTEGER NOT NULL,
                            FOREIGN KEY (apartment_id) REFERENCES apartment_tbl(id)
+);
+
+CREATE TABLE deposits_tbl (
+                              id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                              apartment_id BIGINT NOT NULL,
+                              expected DECIMAL(10,2),
+                              negotiated DECIMAL(10,2),
+                              paid DECIMAL(10,2),
+
+                              CONSTRAINT fk_deposit_apartment
+                                  FOREIGN KEY (apartment_id)
+                                      REFERENCES apartment_tbl(id)
 );

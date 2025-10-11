@@ -2,8 +2,10 @@ package com.dauntlesstechnologies.ssk.apartments;
 
 
 import com.dauntlesstechnologies.ssk.tenants.TenantRepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,10 +38,15 @@ public class ApartmentService {
         return new ApartmentDto(
                 apartment.getId(),
                 apartment.getFlatNumber(),
+                apartment.getExpectedRent(),
                 apartment.getRentAmount(),
+                apartment.getMaintenanceAmount(),
+                apartment.getPaidMaintenance(),
+                apartment.getPaidRent(),
                 apartment.getRentOutstanding(),
                 apartment.getOccupied(),
-                apartment.getLastOccupied()
+                apartment.getLastOccupied(),
+                apartment.getDepositCollected()
         );
     }
 
@@ -50,18 +57,17 @@ public class ApartmentService {
 
         if(apartmentOptional.isPresent()){
              apartment = apartmentOptional.get();
+            apartment.setFlatNumber(updateApartmentDto.flatNumber());
+            apartment.setExpectedRent(updateApartmentDto.expectedRent());
+            apartment.setRentAmount(updateApartmentDto.rentAmount());
+            apartment.setMaintenanceAmount(updateApartmentDto.maintenanceAmount());
+            apartment.setPaidMaintenance(updateApartmentDto.paidMaintenance());
+            apartment.setPaidRent(updateApartmentDto.paidRent());
+            apartmentRepository.save(apartment);
         }
         else {
             throw new RuntimeException("NO SUCH APT FOUND WITH GIVEN ID");
         }
-
-        apartment.setFlatNumber(updateApartmentDto.flatNumber());
-        apartment.setRentOutstanding(updateApartmentDto.rentOutstanding());
-        apartment.setRentAmount(updateApartmentDto.rentAmount());
-
-
-
-        apartmentRepository.save(apartment);
 
     }
 
@@ -69,9 +75,11 @@ public class ApartmentService {
         Apartment apartment = new Apartment();
 
         apartment.setFlatNumber(updateApartmentDto.flatNumber());
+        apartment.setExpectedRent(updateApartmentDto.expectedRent());
         apartment.setRentAmount(updateApartmentDto.rentAmount());
-        apartment.setRentOutstanding(updateApartmentDto.rentOutstanding());
-
+        apartment.setMaintenanceAmount(updateApartmentDto.maintenanceAmount());
+        apartment.setPaidMaintenance(updateApartmentDto.paidMaintenance());
+        apartment.setPaidRent(updateApartmentDto.paidRent());
         apartmentRepository.save(apartment);
     }
 
@@ -138,6 +146,24 @@ public class ApartmentService {
         }
 
         return apartmentDtos;
+    }
+
+    //THIS METHOD IS USED TO RESET THE PAYMENT AMOUNT EVERY MONTH FOR ADMIN TO ADD NEW MONTH PAYMENT
+    @Scheduled(cron = "0 0 0 1 * ?")
+    public void resetMonthlyPayments(){
+        System.out.println("BEGINNING MONTHLY PAYMENT RESET ...");
+
+        List<Apartment> apartments = apartmentRepository.findAll();
+
+        for(Apartment apartment : apartments){
+            apartment.setPaidMaintenance(BigDecimal.ZERO);
+            apartment.setPaidRent(BigDecimal.ZERO);
+
+            apartmentRepository.save(apartment);
+        }
+
+        System.out.println("MONTHLY PAYMENT RESET COMPLETE :)");
+
     }
 
 

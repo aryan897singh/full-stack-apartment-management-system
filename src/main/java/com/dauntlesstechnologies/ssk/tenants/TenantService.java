@@ -2,7 +2,9 @@ package com.dauntlesstechnologies.ssk.tenants;
 
 import com.dauntlesstechnologies.ssk.apartments.Apartment;
 import com.dauntlesstechnologies.ssk.apartments.ApartmentRepository;
-import com.dauntlesstechnologies.ssk.apartments.ApartmentService;
+import com.dauntlesstechnologies.ssk.deposits.Deposit;
+import com.dauntlesstechnologies.ssk.deposits.DepositRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,22 +12,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 public class TenantService {
 
     private final TenantRepository tenantRepository;
     private final ApartmentRepository apartmentRepository;
+    private final DepositRepository depositRepository;
 
 
     //injected the repo to service layer
-    TenantService(TenantRepository tenantRepository, ApartmentRepository apartmentRepository){
+    TenantService(TenantRepository tenantRepository, ApartmentRepository apartmentRepository,  DepositRepository depositRepository) {
         this.tenantRepository = tenantRepository;
         this.apartmentRepository = apartmentRepository;
+        this.depositRepository = depositRepository;
     }
 
     public List<TenantDto> getAllTenants(){
         List<TenantDto> tenantDtos = new ArrayList<>();
-        List<Tenant> tenants = tenantRepository.findEverything();
+        List<Tenant> tenants = tenantRepository.findAll();
 
         System.out.println("Number of tenants found: " + tenants.size());
 
@@ -73,7 +78,8 @@ public class TenantService {
                 tenant.isCriminalHistory(),
                 tenant.isAgreementSigned(),
                 tenant.getJoinDate(),
-                tenant.getLeaveDate()
+                tenant.getLeaveDate(),
+                tenant.getExists()
         );
 
     }
@@ -97,6 +103,7 @@ public class TenantService {
             tenant.setFatherName(updateTenantDto.fatherName());
             tenant.setAadharCardNumber(updateTenantDto.aadharCardNumber());
             tenant.setJoinDate(updateTenantDto.joinDate());
+
 
             //Note: this basically does an INSERT statement if id doesnt exist and UPDATE if it does
             tenantRepository.save(tenant);
@@ -134,19 +141,51 @@ public class TenantService {
     }
 
     public void deleteTenant(Long id){
-
         Optional<Tenant> tenantOptional = tenantRepository.findById(id);
 
         if (tenantOptional.isPresent()){
             Tenant tenant = tenantOptional.get();
+
+            Apartment apartment = tenant.getApartment();
+            Long aptId =  apartment.getId();
+
+
             tenant.setLeaveDate(new Date());
+
+            //Soft deleting the tenant:
+            tenant.setExists(false);
+            tenant.setApartment(null);
+            tenant.setFlatNumber(null);
             //interview discussion - problem was that the leave date was not being set, forgot to save it to the repo
             tenantRepository.save(tenant);
-            //NOW HAVE TO ADD DELETED TENANT'S DETAILS INTO TENANT HISTORY ENTITY, CREATE LATER - CLIENT REQUIREMENT
-            tenantRepository.deleteById(id);
+
+            //Note that we are not actually deleting, its a soft delete to maintain data history (client requirement)
+
+            //Modifying the deposit layer
+            //Noticed one problem, we could have the case where some people leave, others stay
+            //the deposit will not be set to null, so we need to check if the apt is empty or not
+
+            //NOTE: The occupied field gets set ONLY WHEN WE RUN THE countOccupiedOrVacant
+            //method in the apartment repository, and therefore might not be valid right now
+            //we NOW need to check if any tenants associated with the aptId we have
+
+            if(!tenantRepository.existsByApartmentId(aptId)){
+                Optional<Deposit> depositOptional = depositRepository.findByApartmentId(aptId);
+                if(depositOptional.isPresent()){
+                    Deposit deposit = depositOptional.get();
+                    deposit.setNegotiated(null);
+                    deposit.setPaid(null);
+                    depositRepository.save(deposit);
+                }else{
+                    throw new RuntimeException("NO SUCH DEPOSIT FOUND ASSOCIATED WITH APARTMENT ID + " + aptId);
+                }
+
+            }
+
+
         }
         else {
-            throw new RuntimeException("NO SUCH TENANT FOUND TO DELETE");
+            throw new EntityNotFoundException("TENANT NOT FOUND");
         }
 
 

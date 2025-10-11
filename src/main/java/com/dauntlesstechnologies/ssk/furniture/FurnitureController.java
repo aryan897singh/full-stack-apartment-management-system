@@ -6,6 +6,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/furniture")
+@CrossOrigin
 public class FurnitureController {
 
     private FurnitureService furnitureService;

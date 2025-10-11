@@ -2,12 +2,17 @@ package com.dauntlesstechnologies.ssk.tenants;
 
 import com.dauntlesstechnologies.ssk.apartments.Apartment;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Where;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "tenants_tbl")
+//ALL BASIC JPA REPO METHODS WILL ONLY WORK WITH THE WHERE CLAUSE, SO IT DOESNT WORK WITH SOFT
+//DELETED TENANTS
+@Where(clause = "exists_flag = true")
+//NOTE - EXISTS IS A KEYWORD IN SQL SO HAD TO RENAME THE COLUMN TO EXISTS_FLAG
 public class Tenant {
 
     @Id
@@ -30,9 +35,8 @@ public class Tenant {
     private String fatherName;
 
     @ManyToOne
-    @JoinColumn(name = "apartment_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "apartment_id", referencedColumnName = "id") //nullable = false, because we want to soft delete)
     private Apartment apartment;
-
 
     @Column(name = "flat_number")
     private String flatNumber;
@@ -49,8 +53,11 @@ public class Tenant {
     @Column(name = "join_date")
     private Date joinDate;
 
-    @Column(name = "leave-date")
+    @Column(name = "leave_date")
     private Date leaveDate;
+
+    @Column(name = "exists_flag")
+    private boolean exists;
 
     public Long getId() {
         return id;
@@ -156,4 +163,11 @@ public class Tenant {
         this.leaveDate = leaveDate;
     }
 
+    public boolean getExists() {
+        return exists;
+    }
+
+    public void setExists(boolean exists) {
+        this.exists = exists;
+    }
 }

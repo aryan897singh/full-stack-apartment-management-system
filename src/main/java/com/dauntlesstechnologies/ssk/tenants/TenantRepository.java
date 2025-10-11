@@ -10,9 +10,6 @@ public interface TenantRepository extends JpaRepository<Tenant, Long>{
 
     public boolean existsByApartmentId(Long id);
 
-    //For some reason the findAll() method is not working correctly for me
-    @Query(value = "SELECT * FROM tenants_tbl LIMIT 1000", nativeQuery = true)
-    List<Tenant> findEverything();
     }
 
 

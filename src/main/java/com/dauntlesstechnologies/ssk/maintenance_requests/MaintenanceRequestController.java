@@ -10,6 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/maintenanceRequests")
+@CrossOrigin
 public class MaintenanceRequestController {
 
     private final MaintenanceRequestService maintenanceRequestService;

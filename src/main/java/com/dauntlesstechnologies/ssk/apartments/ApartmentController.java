@@ -8,6 +8,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/apartments")
+@CrossOrigin
 public class ApartmentController {
 
     private final ApartmentService apartmentService;

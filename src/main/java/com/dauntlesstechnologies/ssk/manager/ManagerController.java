@@ -6,6 +6,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/managers")
+@CrossOrigin
 public class ManagerController {
 
     private final ManagerService managerService;

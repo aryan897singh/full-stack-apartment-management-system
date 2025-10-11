@@ -17,6 +17,7 @@ public record TenantDto(
         boolean criminalHistory,
         boolean agreementSigned,
         Date joinDate,
-        Date leaveDate
+        Date leaveDate,
+        boolean exists
 ) {
 }

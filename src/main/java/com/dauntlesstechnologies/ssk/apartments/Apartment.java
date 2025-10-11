@@ -13,12 +13,27 @@ public class Apartment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "flat_number", unique = true, nullable = false)
+    @Column(name = "flat_number")
     private String flatNumber;
 
-    @Column
+    //TO BE SET BY OWNER ONLY, AND IS FIXED
+    @Column(name = "expected_rent")
+    private BigDecimal expectedRent;
+
+    //This is the actual rent amount aka negotiated rent = negotiated deposit that needs to paid
+    @Column(name = "rent_amount")
     private BigDecimal rentAmount;
 
+    @Column(name = "maintenance_amount")
+    private BigDecimal maintenanceAmount;
+
+    @Column(name = "paid_maintenance")
+    private BigDecimal  paidMaintenance;
+
+    @Column(name = "paid_rent")
+    private BigDecimal paidRent;
+
+    //For simplicity this will include both maintenance and rent, and will be checked on both
     @Column(name = "rent_outstanding")
     private Boolean rentOutstanding;
 
@@ -27,6 +42,9 @@ public class Apartment {
 
     @Column(name = "last_occupied")
     private Date lastOccupied;
+
+    @Column
+    private Boolean depositCollected;
 
     public Boolean getOccupied() {
         return occupied;
@@ -42,14 +60,6 @@ public class Apartment {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getFlatNumber() {
-        return flatNumber;
-    }
-
-    public void setFlatNumber(String flatNumber) {
-        this.flatNumber = flatNumber;
     }
 
     public Boolean getRentOutstanding() {
@@ -74,5 +84,53 @@ public class Apartment {
 
     public void setLastOccupied(Date lastOccupied) {
         this.lastOccupied = lastOccupied;
+    }
+
+    public Boolean getDepositCollected() {
+        return depositCollected;
+    }
+
+    public void setDepositCollected(Boolean depositCollected) {
+        this.depositCollected = depositCollected;
+    }
+
+    public BigDecimal getExpectedRent() {
+        return expectedRent;
+    }
+
+    public void setExpectedRent(BigDecimal expectedRent) {
+        this.expectedRent = expectedRent;
+    }
+
+    public BigDecimal getMaintenanceAmount() {
+        return maintenanceAmount;
+    }
+
+    public void setMaintenanceAmount(BigDecimal maintenanceAmount) {
+        this.maintenanceAmount = maintenanceAmount;
+    }
+
+    public BigDecimal getPaidRent() {
+        return paidRent;
+    }
+
+    public void setPaidRent(BigDecimal paidRent) {
+        this.paidRent = paidRent;
+    }
+
+    public BigDecimal getPaidMaintenance() {
+        return paidMaintenance;
+    }
+
+    public void setPaidMaintenance(BigDecimal paidMaintenance) {
+        this.paidMaintenance = paidMaintenance;
+    }
+
+    public String getFlatNumber() {
+        return flatNumber;
+    }
+
+    public void setFlatNumber(String flatNumber) {
+        this.flatNumber = flatNumber;
     }
 }

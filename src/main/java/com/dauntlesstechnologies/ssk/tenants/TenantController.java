@@ -1,5 +1,6 @@
 package com.dauntlesstechnologies.ssk.tenants;
 
+import org.hibernate.annotations.Where;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/tenants")
+@CrossOrigin
 public class TenantController {
 
     private final TenantService tenantService;

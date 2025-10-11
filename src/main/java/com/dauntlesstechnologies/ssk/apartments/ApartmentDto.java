@@ -6,7 +6,13 @@ import java.util.Date;
 public record ApartmentDto(
         Long id,
         String flatNumber,
+        BigDecimal expectedRent,
         BigDecimal rentAmount,
+        BigDecimal maintenanceAmount,
+        BigDecimal paidMaintenance,
+        BigDecimal paidRent,
         Boolean rentOutstanding,
         Boolean occupied,
-        Date lastOccupied) {}
+        Date lastOccupied,
+        Boolean depositCollected
+        ) {}
