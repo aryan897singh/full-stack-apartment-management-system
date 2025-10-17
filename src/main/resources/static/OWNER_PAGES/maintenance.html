@@ -280,6 +280,7 @@
             //Step 3. Populating the pending requests table
 
             var pendingTableBody = document.getElementById('pending-requests-table')
+
             var htmlString = '';
 
             for(var i = pendingRequests.length - 1; i >= 0; i--){
@@ -360,6 +361,50 @@
             console.log(error)
             alert('Something went wrong, please try again later :(')
     })
+
+
+
+    const pendingTableBody = document.getElementById('pending-requests-table')
+
+    pendingTableBody.addEventListener('click', function(event){
+        const target = event.target;
+        const requestId = target.dataset.requestId;
+
+        if(!requestId){
+            return;
+        }
+
+        let newStatus = '';
+        if(target.classList.contains('btn-success')){
+            newStatus = 'IN_PROGRESS'
+        }else if(target.classList.contains('btn-danger')){
+            newStatus = 'CANCELLED'
+        }else{
+            return; //if something else is clicked
+        }
+
+        //NEED TO MAKE PATCH (NOT PUT, SINCE WE NEED TO SEND ALL DATA AGAIN) API CALL TO UPDATE THE DATA
+        fetch(`http://localhost:8080/maintenanceRequests/updateStatus/${requestId}`, {
+            method: 'PATCH', // PATCH is common for partial updates like changing a status
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ status: newStatus }) // Send the new status in the request body
+        })
+            .then(function(response) {
+                if (!response.ok) {
+                    // If the server responds with an error, throw an error to trigger the catch block
+                    throw new Error('Failed to update status on the server.');
+                }
+                // If the update was successful, remove the row
+                target.closest('tr').remove();
+            })
+            .catch(function(error) {
+                console.error('Error updating status:', error);
+                alert('Failed to update request status. Please try again.');
+            });
+    });
+
 
 
 </script>

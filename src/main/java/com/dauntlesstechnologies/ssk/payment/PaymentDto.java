@@ -9,7 +9,9 @@ public record PaymentDto(
 
         Long id,
         String flatNumber,
-        BigDecimal amount,
+        BigDecimal rentAmount,
+        BigDecimal maintenanceAmount,
+        BigDecimal electricityAmount,
         PaymentMethod paymentMethod,
         Date paymentDate
 ) {

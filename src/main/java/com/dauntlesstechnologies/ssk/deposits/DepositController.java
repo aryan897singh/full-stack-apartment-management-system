@@ -15,7 +15,7 @@ public class DepositController {
         this.depositService = depositService;
     }
 
-    @GetMapping
+    @GetMapping("/getAllDeposits")
     public List<DepositDto> findAll() {
         return depositService.findAllDeposits();
     }

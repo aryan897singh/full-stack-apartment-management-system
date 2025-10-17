@@ -19,7 +19,13 @@ public class Payment {
     private Apartment apartment;
 
     @Column
-    private BigDecimal amount;
+    private BigDecimal rentAmount;
+
+    @Column
+    private BigDecimal maintenanceAmount;
+
+    @Column
+    private BigDecimal electricityAmount;
 
     @Column(name = "payment_method")
     @Enumerated(EnumType.STRING)
@@ -44,14 +50,6 @@ public class Payment {
         this.apartment = apartment;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
     public PaymentMethod getPaymentMethod() {
         return paymentMethod;
     }
@@ -66,5 +64,29 @@ public class Payment {
 
     public void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
+    }
+
+    public BigDecimal getRentAmount() {
+        return rentAmount;
+    }
+
+    public void setRentAmount(BigDecimal rentAmount) {
+        this.rentAmount = rentAmount;
+    }
+
+    public BigDecimal getMaintenanceAmount() {
+        return maintenanceAmount;
+    }
+
+    public void setMaintenanceAmount(BigDecimal maintenanceAmount) {
+        this.maintenanceAmount = maintenanceAmount;
+    }
+
+    public BigDecimal getElectricityAmount() {
+        return electricityAmount;
+    }
+
+    public void setElectricityAmount(BigDecimal electricityAmount) {
+        this.electricityAmount = electricityAmount;
     }
 }

@@ -29,7 +29,7 @@ CREATE TABLE tenants_tbl (
                              phone_number VARCHAR(255),
                              address VARCHAR(500),
                              father_name VARCHAR(255),
-                             apartment_id BIGINT, -- REMOVED NOT NULL
+                             apartment_id BIGINT,
                              flat_number VARCHAR(255),
                              aadhar_card_number VARCHAR(255) UNIQUE,
                              criminal_history BOOLEAN DEFAULT FALSE,
@@ -77,7 +77,9 @@ CREATE TABLE manager_maintenance_types (
 CREATE TABLE payments_tbl (
                               id BIGINT AUTO_INCREMENT PRIMARY KEY,
                               apartment_id BIGINT NOT NULL,
-                              amount DECIMAL(10,2) NOT NULL,
+                              rent_amount DECIMAL(10,2),
+                              maintenance_amount DECIMAL(10,2),
+                              electricity_amount DECIMAL(10,2),
                               payment_method VARCHAR(255),
                               payment_date DATETIME NOT NULL,
 

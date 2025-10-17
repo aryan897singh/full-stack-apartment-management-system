@@ -21,11 +21,13 @@ public class DepositService {
     }
 
     public List<DepositDto> findAllDeposits(){
-
         List<Deposit> deposits = depositRepository.findAll();
         List<DepositDto> depositDtos = new ArrayList<>();
         for(Deposit deposit: deposits){
-            depositDtos.add(entityToDto(deposit));
+            if(depositRepository.checkIfAptOccupied(deposit.getId())){
+                depositDtos.add(entityToDto(deposit));
+            }
+
         }
         return depositDtos;
     }

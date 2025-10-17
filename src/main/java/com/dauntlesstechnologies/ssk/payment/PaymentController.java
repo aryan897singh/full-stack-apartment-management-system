@@ -28,7 +28,7 @@ public class PaymentController {
     //the admin DOES NOT KNOW THE apt id, so I AM SUPPOSED TO TAKE THE Number and fetch the ID!!!
     @PostMapping(path = "/createPayment")
     public void createPayment(@RequestBody UpdatePaymentDto updatePaymentDto){
-         paymentService.createPayment(updatePaymentDto);
+         paymentService.createPaymentAndUpdateApartmentRecord(updatePaymentDto);
     }
 
     @PutMapping(path = "/updatePayment/{id}")

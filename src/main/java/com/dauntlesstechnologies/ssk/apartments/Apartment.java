@@ -33,9 +33,6 @@ public class Apartment {
     @Column(name = "paid_rent")
     private BigDecimal paidRent;
 
-    //For simplicity this will include both maintenance and rent, and will be checked on both
-    @Column(name = "rent_outstanding")
-    private Boolean rentOutstanding;
 
     @Column
     private Boolean occupied;
@@ -60,14 +57,6 @@ public class Apartment {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Boolean getRentOutstanding() {
-        return rentOutstanding;
-    }
-
-    public void setRentOutstanding(Boolean rentOutstanding) {
-        this.rentOutstanding = rentOutstanding;
     }
 
     public BigDecimal getRentAmount() {
@@ -133,4 +122,6 @@ public class Apartment {
     public void setFlatNumber(String flatNumber) {
         this.flatNumber = flatNumber;
     }
+
+
 }

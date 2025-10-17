@@ -169,5 +169,20 @@ public class MaintenanceRequestService {
         return  maintenanceRequestDtos;
     }
 
+    public void updateMaintenanceRequestStatus(Long id, UpdateStatusDto updateStatusDto){
+
+        Optional<MaintenanceRequest>  maintenanceRequestOptional = maintenanceRequestRepository.findById(id);
+
+        if(maintenanceRequestOptional.isPresent()){
+            MaintenanceRequest maintenanceRequest = maintenanceRequestOptional.get();
+            maintenanceRequest.setStatus(updateStatusDto.status());
+            maintenanceRequestRepository.save(maintenanceRequest);
+
+        }else{
+            throw new EntityNotFoundException("MaintenanceRequest with id " + id + " not found");
+        }
+
+    }
+
 
 }

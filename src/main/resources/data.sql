@@ -58,13 +58,16 @@ INSERT INTO maintenance_requests_tbl (apartment_id, maintenance_type, title, des
                                                                                                                                   ((SELECT id FROM apartment_tbl WHERE flat_number = '201'), 'PAINTING', 'Scratched Wall', 'There are a few scratches on the living room wall.', 'IN_PROGRESS', NOW(), 4),
                                                                                                                                   ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 'CLEANING', 'Ants in the Kitchen', 'There are a lot of ants in the kitchen and pantry.', 'COMPLETED', NOW(), 5),
                                                                                                                                   ((SELECT id FROM apartment_tbl WHERE flat_number = '104'), 'WOODWORK', 'Squeaky Floorboards', 'The floorboards in the bedroom are very squeaky.', 'COMPLETED', NOW(), 6),
-                                                                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 'CLEANING', 'Ants in the Kitchen', 'There are a lot of ants in the kitchen and pantry.', 'CANCELLED', NOW(), 5);
+                                                                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 'CLEANING', 'Ants in the Kitchen', 'There are a lot of ants in the kitchen and pantry.', 'CANCELLED', NOW(), 5),
+                                                                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 'PLUMBING', 'Clogged Sink', 'The bathroom sink is not draining.', 'PENDING', NOW() - INTERVAL 1 DAY, 1),
+                                                                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '104'), 'PAINTING', 'Repaint Bedroom', 'Requesting a repaint of the master bedroom walls.', 'PENDING', NOW() - INTERVAL 2 DAY, 4),
+                                                                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '201'), 'WOODWORK', 'Broken Chair Leg', 'A dining chair leg has snapped.', 'PENDING', NOW(), 6);
 
 
-INSERT INTO payments_tbl (apartment_id, amount, payment_method, payment_date) VALUES
-                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '101'), 15000.00, 'CASH', NOW() - INTERVAL 1 MONTH),
-                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '101'), 15000.00, 'BANK_TRANSFER', NOW()),
-                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 16000.00, 'CARD', NOW());
+INSERT INTO payments_tbl (apartment_id, rent_amount, maintenance_amount, electricity_amount, payment_method, payment_date) VALUES
+                                                                                                                               ((SELECT id FROM apartment_tbl WHERE flat_number = '101'), 15000.00, 1000.00, 800.00, 'CASH', NOW() - INTERVAL 1 MONTH),
+                                                                                                                               ((SELECT id FROM apartment_tbl WHERE flat_number = '101'), 15000.00, 1000.00, 950.00, 'BANK_TRANSFER', NOW()),
+                                                                                                                               ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 16000.00, 1000.00, 1100.00, 'CARD', NOW());
 
 INSERT INTO furniture (apartment_id, furniture_type, quantity) VALUES
                                                                    ((SELECT id FROM apartment_tbl WHERE flat_number = '101'), 'LIGHT_BULBS', 5),

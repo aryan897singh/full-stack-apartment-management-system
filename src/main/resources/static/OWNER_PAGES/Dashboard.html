@@ -108,7 +108,6 @@
             cursor: pointer;
             text-decoration: none;
         }
-        /* New flexbox rules to handle nav bar alignment */
         .navbar-collapse {
             display: flex;
             flex-grow: 1;
@@ -116,23 +115,16 @@
             align-items: center;
         }
         .card-link {
-            text-decoration: none; /* Removes the underline from the link */
-            color: inherit; /* Inherits the color from the parent, in this case, the card */
-        }
-
-        .card-link:hover .card {
-            background-color: #2e2e2e; /* Darkens the card on hover */
-            transition: background-color 0.3s ease; /* Adds a smooth transition effect */
-        }
-        .card-link {
             text-decoration: none;
             color: inherit;
         }
-
-        /* This targets the overview card specifically */
+        .card-link:hover .card {
+            background-color: #2e2e2e;
+            transition: background-color 0.3s ease;
+        }
         .card-link:hover .overview-card {
-            background-color: #2a2a2a !important; /* A slightly darker color for hover effect */
-            border-color: #495057 !important; /* A lighter border color on hover */
+            background-color: #2a2a2a !important;
+            border-color: #495057 !important;
             transition: background-color 0.3s ease, border-color 0.3s ease;
         }
     </style>
@@ -193,12 +185,14 @@
                 </a>
             </div>
             <div class="col-md-4">
+                <a href="http://localhost:8080/OWNER_PAGES/outstanding-rent.html" id="outstanding-rent-link" class="card-link">
                 <div class="card overview-card bg-warning p-3 h-100 text-white">
                     <div class="card-body">
                         <h5 class="card-title">Outstanding Rent</h5>
-                        <p class="card-text">FEATURE IN PROGRESS</p>
+                        <p class="card-text" id = "outstandingRentAmount"> </p>
                     </div>
                 </div>
+                </a>
             </div>
         </div>
         <div class="card p-4">
@@ -208,14 +202,11 @@
                     <thead>
                     <tr>
                         <th scope="col">Flat Number</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Date (DD-MM-YYY)</th>
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Date</th>
                     </tr>
                     </thead>
                     <tbody>
-
-                    <!-- POPULATION OF 10 PAYMENT RECORDS HERE -->
-
                     </tbody>
                 </table>
             </div>
@@ -228,103 +219,91 @@
 </footer>
 <script src="js/bootstrap.bundle.min.js"></script>
 
+
 <script>
  <!-- WHERE MY CODE STARTS -->
-    fetch('http://localhost:8080/apartments/occupied')
-        .then(function(response){
+    const fetchOccupied = fetch('http://localhost:8080/apartments/occupied')
+     .then(function(response) {
+         if (!response.ok) {
+             throw new Error('Something went wrong with the occupied request');
+         }
+         return response.json();
+     });
 
-            if(!response.ok){
-                throw new Error('Something went wrong with the request')
-            }
-            return response.json();
-        })
-        .then(function(data){
+ const fetchVacant = fetch('http://localhost:8080/apartments/vacant')
+     .then(function(response) {
+         if (!response.ok) {
+             throw new Error('Something went wrong with the vacant request');
+         }
+         return response.json();
+     });
 
-            var occupiedValueJSON = data;
+ const fetchPayments = fetch('http://localhost:8080/payments/getAllPayments')
+     .then(function(response) {
+         if (!response.ok) {
+             throw new Error('Something went wrong with the payments request');
+         }
+         return response.json();
+     });
 
-            var occupiedValueElement = document.getElementById('occupiedValue')
-
-            occupiedValueElement.textContent = occupiedValueJSON.occupied;
-
-        })
-        .catch(function(error){
-            console.log(error);
-        });
-
-    fetch('http://localhost:8080/apartments/vacant')
-        .then(function(response){
-            if(!response.ok){
-                throw new Error('Something went wrong with the response :(')
-            }
-
-            return response.json();
-        })
-        .then(function(data){
-            var vacantCountElement = document.getElementById('vacantValue');
-
-            var vacantJSON = data;
-
-            vacantCountElement.textContent = data.vacant;
-        })
-        .catch(function(error){
-            console.log(error);
-        });
-
-        fetch('http://localhost:8080/payments/getAllPayments')
-            .then(function(response){
-                if(!response.ok){
-                    throw new Error('Something went wrong with the request')
-                }
-                return response.json();
-            })
-            .then(function(data){
-
-                var tableBody = document.querySelector('tbody');
-                var htmlString = '';
-
-                var loopIndex;
-
-                //IN CASE LESS THAN 10 PAYMENT RECORDS AVAILABLE TO SHOW:
-                if(data.length >= 10){
-                    loopIndex = 9;
-                }else{
-                    loopIndex = data.length - 1;
-                }
-
-                for (var i = data.length - 1; i >= data.length - 1 - loopIndex  ; i--){
-                    var payment = data[i];
-
-                    var formattedAmount  = new Intl.NumberFormat('en-IN').format(payment.amount);
-
-                    var paymentDate = new Date(payment.paymentDate);
+ const fetchOutstandingRent = fetch('http://localhost:8080/apartments/getOutstandingRentAmount')
+     .then(function(response) {
+         if (!response.ok) {
+             throw new Error('Something went wrong with the outstanding rent request');
+         }
+         return response.json();
+     });
 
 
-                    var year = paymentDate.getFullYear();
-                    var month = paymentDate.getMonth() + 1; // getMonth() is 0-indexed
-                    var day = paymentDate.getDate();
+ Promise.all([fetchOccupied, fetchVacant, fetchPayments, fetchOutstandingRent])
+     .then(function(data) {
 
+         var occupiedData = data[0];
+         var occupiedValueElement = document.getElementById('occupiedValue');
+         occupiedValueElement.textContent = occupiedData.occupied;
 
-                    var formattedMonth = (month < 10) ? '0' + month : month;
-                    var formattedDay = (day < 10) ? '0' + day : day;
-                    var formattedDate = formattedDay + '-' + formattedMonth +  '-' + year ;
+         // Vacant Apartments
+         var vacantData = data[1];
+         var vacantCountElement = document.getElementById('vacantValue');
+         vacantCountElement.textContent = vacantData.vacant;
 
-                    var row = '<tr>';
-                    row += '<td>' + payment.flatNumber + '</td>';
-                    row += '<td>₹' + formattedAmount + '</td>';
-                    row += '<td>' + formattedDate + '</td>';
-                    row += '</tr>';
+         // Last 10 Payments Table
+         var paymentsData = data[2];
+         var tableBody = document.querySelector('tbody');
+         var htmlString = '';
+         var loopCount = paymentsData.length >= 10 ? 10 : paymentsData.length;
 
-                    htmlString += row;
+         for (var i = paymentsData.length - 1; i >= paymentsData.length - loopCount; i--) {
+             var payment = paymentsData[i];
+             const totalAmount = (payment.rentAmount || 0) + (payment.maintenanceAmount || 0) + (payment.electricityAmount || 0);
+             var formattedAmount = new Intl.NumberFormat('en-IN').format(totalAmount);
+             var paymentDate = new Date(payment.paymentDate);
+             var year = paymentDate.getFullYear();
+             var month = String(paymentDate.getMonth() + 1).padStart(2, '0');
+             var day = String(paymentDate.getDate()).padStart(2, '0');
+             var formattedDate = day + '-' + month + '-' + year;
 
-                }
+             var row = '<tr>';
+             row += '<td>' + payment.flatNumber + '</td>';
+             row += '<td>₹' + formattedAmount + '</td>';
+             row += '<td>' + formattedDate + '</td>';
+             row += '</tr>';
+             htmlString += row;
+         }
+         tableBody.innerHTML = htmlString;
 
-                tableBody.innerHTML = htmlString;
+         // --- Handle Outstanding Rent ---
+         var outstandingRentData = data[3];
+         const outstandingRentElement = document.getElementById('outstandingRentAmount');
+         const formattedNewAmount = new Intl.NumberFormat('en-IN').format(outstandingRentData.value);
+         outstandingRentElement.textContent = '₹' + formattedNewAmount;
 
-            })
-            .catch(function(error){
-                console.log(error);
-                alert('Failed to load payment records, please try again later')
-            });
+     })
+     .catch(function(error) {
+         console.log(error);
+         alert('Failed to load all dashboard data, please try again later :(');
+     });
+
 
 </script>
 

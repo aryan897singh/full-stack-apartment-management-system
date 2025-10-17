@@ -60,6 +60,19 @@
             font-size: 2rem;
             font-weight: 700;
         }
+        .card-link {
+            text-decoration: none; /* Removes the underline from the link */
+            color: inherit; /* Inherits the color from the parent, in this case, the card */
+        }
+
+        .card-link:hover .card {
+            background-color: #2e2e2e; /* Darkens the card on hover */
+            transition: background-color 0.3s ease; /* Adds a smooth transition effect */
+        }
+        .card-link {
+            text-decoration: none;
+            color: inherit;
+        }
         .overview-card.bg-primary {
             background-color: #004d99 !important;
             border-color: #003366;
@@ -185,44 +198,30 @@
     <div class="container mt-4">
 
         <div class="revenue-card">
-            <h5 class="card-title">Yearly Revenue Generated</h5>
-            <p class="card-text">$1,000,000</p>
+            <h5 class="card-title" >Yearly Revenue Generated</h5>
+            <p class="card-text" id = "totalYearPayments"></p>
         </div>
 
         <div class="row g-4 mb-4">
             <div class="col-md-6">
-                <div class="card overview-card bg-success p-3 h-100 text-white">
-                    <div class="card-body">
-                        <h5 class="card-title">This Month's Revenue</h5>
-                        <p class="card-text" id = "totalPayments">55,000</p>
+                <a href = "http://localhost:8080/OWNER_PAGES/monthly-revenue.html" id = "month-revenue-link" class = "card-link">
+                    <div class="card overview-card bg-success p-3 h-100 text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">This Month's Revenue</h5>
+                            <p class="card-text" id = "totalPayments">55,000</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-md-6">
+                <a href = "http://localhost:8080/OWNER_PAGES/deposit.html" id = "deposit-link" class = "card-link">
                 <div class="card overview-card bg-warning p-3 h-100 text-white">
                     <div class="card-body">
                         <h5 class="card-title">Deposit Collected</h5>
                         <p class="card-text" id = "depositCountElement"></p>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="card p-4 mb-4">
-            <h5 class="card-title mb-3">Payment History</h5>
-            <div class="table-responsive">
-                <table class="table table-dark table-hover mb-0">
-                    <thead>
-                    <tr>
-                        <th scope="col">Apartment</th>
-                        <th scope="col">Amount Paid</th>
-                        <th scope="col">Date Paid</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- THIS IS WHERE MY POPULATED DATA GOES -->
-                    </tbody>
-                </table>
+                </a>
             </div>
         </div>
 
@@ -325,58 +324,44 @@
 
             //Mentioning Deposit Count data in card:
             var depositCountElement = document.getElementById('depositCountElement')
-            const displayCount = depositCountElement[0]
             depositCountElement.textContent = depositCount[0] + " OUT OF " + depositCount[1];
-           /* When a Java ArrayList is sent as a response to a JavaScript frontend,
-           Spring Boot's Jackson library automatically serializes it into a JSON array.
-           In JavaScript, a JSON array is parsed as a native array,
-           so you access its elements using bracket notation [].
-            */
-
-            var tableBody = document.querySelector('tbody');
-            var htmlString = '';
-
-            var loopIndex;
+            /* When a Java ArrayList is sent as a response to a JavaScript frontend,
+            Spring Boot's Jackson library automatically serializes it into a JSON array.
+            In JavaScript, a JSON array is parsed as a native array,
+            so you access its elements using bracket notation [].
+             */
 
 
-            let totalPayment = 0;
-            //FOR FUTURE NOTE WHEN NUMBER OF PAYMENTS EXCEEDS 10, ADD A SCROLLING MECHANISM AND ADD A FILTER BASED ON DATE AND FLAT NO.
-            for (var i = data.length - 1; i >= 0  ; i--){
+
+            const now = new Date();
+            const currentMonth = now.getMonth() //rem that month is 0 indexed
+            const currentYear = now.getFullYear();
+
+            let totalPaymentThisMonth = 0;
+            let totalPaymentThisYear = 0;
+
+            for (var i = 0; i < getAllPayments.length; i++){
                 var payment = getAllPayments[i];
+                const paymentDate = new Date(payment.paymentDate);
 
-                totalPayment += payment.amount;
-
-                var formattedAmount  = new Intl.NumberFormat('en-IN').format(payment.amount);
-
-                var paymentDate = new Date(payment.paymentDate);
-
-
-                var year = paymentDate.getFullYear();
-                var month = paymentDate.getMonth() + 1; // getMonth() is 0-indexed
-                var day = paymentDate.getDate();
-
-
-                var formattedMonth = (month < 10) ? '0' + month : month;
-                var formattedDay = (day < 10) ? '0' + day : day;
-                var formattedDate = formattedDay + '-' + formattedMonth +  '-' + year ;
-
-                var row = '<tr>';
-                row += '<td>' + payment.flatNumber + '</td>';
-                row += '<td>₹' + formattedAmount + '</td>';
-                row += '<td>' + formattedDate + '</td>';
-                row += '</tr>';
-
-                htmlString += row;
+                if(paymentDate.getMonth() === currentMonth && paymentDate.getFullYear() === currentYear ){
+                    totalPaymentThisMonth += payment.rentAmount + payment.maintenanceAmount ;
+                }
+                if(paymentDate.getFullYear() === currentYear){
+                    totalPaymentThisYear += payment.rentAmount + payment.maintenanceAmount;
+                }
 
             }
 
             var totalPaymentsElement = document.getElementById('totalPayments');
-            var formattedTotalAmount  = new Intl.NumberFormat('en-IN').format(totalPayment);
+            var totalYearPaymentsElement = document.getElementById('totalYearPayments');
 
-            totalPaymentsElement.textContent = formattedTotalAmount;
+            var formattedTotalAmount  = new Intl.NumberFormat('en-IN').format(totalPaymentThisMonth);
+            var formattedTotalYearAmount  = new Intl.NumberFormat('en-IN').format(totalPaymentThisYear);
 
-            tableBody.innerHTML = htmlString;
 
+            totalPaymentsElement.textContent = "₹" + formattedTotalAmount;
+            totalYearPaymentsElement.textContent = "₹" + formattedTotalYearAmount;
 
 
         })
@@ -384,8 +369,6 @@
             console.log(error)
             alert('Something went wrong, please try again later :(')
         })
-
-
 
 </script>
 

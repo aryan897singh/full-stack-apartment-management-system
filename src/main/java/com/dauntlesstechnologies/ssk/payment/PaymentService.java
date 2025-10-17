@@ -2,8 +2,10 @@ package com.dauntlesstechnologies.ssk.payment;
 
 import com.dauntlesstechnologies.ssk.apartments.Apartment;
 import com.dauntlesstechnologies.ssk.apartments.ApartmentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -42,23 +44,38 @@ public class PaymentService {
             return paymentDtos;
         }
 
-    public void createPayment(UpdatePaymentDto updatePaymentDto){
+        @Transactional
+        public void createPaymentAndUpdateApartmentRecord(UpdatePaymentDto updatePaymentDto){
         Payment payment = new Payment();
+        Apartment apartment;
 
         Optional<Apartment> apartmentOptional =  apartmentRepository.findByFlatNumber(updatePaymentDto.flatNumber());
 
         if (apartmentOptional.isPresent()){
-            Apartment apartment = apartmentOptional.get();
+            apartment = apartmentOptional.get();
             payment.setApartment(apartment);
         }
         else{
             throw new RuntimeException("Apartment Not Found");
         }
 
-        payment.setAmount(updatePaymentDto.amount());
+        payment.setRentAmount(updatePaymentDto.rentAmount());
+        payment.setMaintenanceAmount(updatePaymentDto.maintenanceAmount());
+        payment.setElectricityAmount(updatePaymentDto.electricityAmount());
         payment.setPaymentMethod(updatePaymentDto.paymentMethod());
         payment.setPaymentDate(updatePaymentDto.paymentDate());
         paymentRepository.save(payment);
+
+        //Need to add up the total rent, unlike broken payment records
+        //hence we need to add to existing rather than set new payment
+        //and the apt record will reset monthly anyway
+        apartmentRepository.addPaymentToApartment(
+                apartment.getId(),
+                updatePaymentDto.rentAmount(),
+                updatePaymentDto.maintenanceAmount()
+                );
+
+
     }
 
     public void updatePayment(Long id, UpdatePaymentDto updatePaymentDto){
@@ -78,7 +95,9 @@ public class PaymentService {
                 throw new RuntimeException("No such apartment found with provided flat number");
             }
 
-            payment.setAmount(updatePaymentDto.amount());
+            payment.setRentAmount(updatePaymentDto.rentAmount());
+            payment.setMaintenanceAmount(updatePaymentDto.maintenanceAmount());
+            payment.setElectricityAmount(updatePaymentDto.electricityAmount());
             payment.setPaymentMethod(updatePaymentDto.paymentMethod());
             payment.setPaymentDate(updatePaymentDto.paymentDate());
 
@@ -110,7 +129,9 @@ public class PaymentService {
         return new PaymentDto(
                 payment.getId(),
                 payment.getApartment().getFlatNumber(),
-                payment.getAmount(),
+                payment.getRentAmount(),
+                payment.getMaintenanceAmount(),
+                payment.getElectricityAmount(),
                 payment.getPaymentMethod(),
                 payment.getPaymentDate()
         );

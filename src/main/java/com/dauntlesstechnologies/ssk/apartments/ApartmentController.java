@@ -2,6 +2,7 @@ package com.dauntlesstechnologies.ssk.apartments;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,17 @@ public class ApartmentController {
     @GetMapping("/vacant")
     public Map<String, Integer> getVacant(){
         return Collections.singletonMap("vacant", apartmentService.occupiedOrVacantCount().get(1));
+    }
+
+    @GetMapping("/getAllOutstandingRentApartments")
+    public List<ApartmentDto> getAllOutstandingRentAparmtents(){
+        return apartmentService.getAllOutstandingRentAparmtents();
+
+    }
+
+    @GetMapping("/getOutstandingRentAmount")
+    public Map<String, BigDecimal> getOutstandingRentAmount(){
+        return Collections.singletonMap("value", apartmentService.getOutstandingRentAmount());
     }
 
     @PutMapping("/update/{id}")

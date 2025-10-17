@@ -68,6 +68,11 @@ public class MaintenanceRequestController {
         maintenanceRequestService.deleteMaintenanceRequest(id);
     }
 
+    @PatchMapping(path = "/updateStatus/{id}")
+    public void updateMaintenanceRequestStatus(@PathVariable("id") Long id, @RequestBody UpdateStatusDto updateStatusDto){
+        maintenanceRequestService.updateMaintenanceRequestStatus(id, updateStatusDto);
+    }
+
 
 
      /*

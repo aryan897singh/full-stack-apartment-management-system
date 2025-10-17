@@ -11,7 +11,6 @@ public record ApartmentDto(
         BigDecimal maintenanceAmount,
         BigDecimal paidMaintenance,
         BigDecimal paidRent,
-        Boolean rentOutstanding,
         Boolean occupied,
         Date lastOccupied,
         Boolean depositCollected
