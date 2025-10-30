@@ -28,14 +28,18 @@ public class TenantService {
         this.depositRepository = depositRepository;
     }
 
-    public List<TenantDto> getAllTenants(){
+    public List<TenantDto> getAllUniqueTenants(){
         List<TenantDto> tenantDtos = new ArrayList<>();
         List<Tenant> tenants = tenantRepository.findAll();
 
         System.out.println("Number of tenants found: " + tenants.size());
 
         for(int i = 0; i < tenants.size(); i++ ){
-            tenantDtos.add(convertToDto(tenants.get(i)));
+            //ensures that we are getting all unique tenants for overall review of households occupied
+            if(tenants.get(i).isMainOwner()){
+                tenantDtos.add(convertToDto(tenants.get(i)));
+            }
+
         }
         return tenantDtos;
     }
@@ -64,10 +68,21 @@ public class TenantService {
 
     }
 
+    //for view all details under tenants page
+    public List<TenantDto> findByFlatNumber(String flatNumber){
+        List<Tenant> tenants = tenantRepository.findByFlatNumber(flatNumber);
+        List<TenantDto> tenantDtos = new ArrayList<>();
+        for(Tenant tenant : tenants){
+            tenantDtos.add(convertToDto(tenant));
+        }
+        return tenantDtos;
+    }
+
     private TenantDto convertToDto(Tenant tenant) {
         return new TenantDto(
                 tenant.getId(),
                 tenant.getName(),
+                tenant.isMainOwner(),
                 tenant.getEmail(),
                 tenant.getPhoneNumber(),
                 tenant.getAddress(),
@@ -98,6 +113,7 @@ public class TenantService {
 
             tenant.setName(updateTenantDto.name());
             tenant.setEmail(updateTenantDto.email());
+            tenant.setMainOwner(updateTenantDto.mainOwner());
             tenant.setPhoneNumber(updateTenantDto.phoneNumber());
             tenant.setAddress(updateTenantDto.address());
             tenant.setFatherName(updateTenantDto.fatherName());
@@ -119,6 +135,7 @@ public class TenantService {
         Tenant tenant = new Tenant();
         tenant.setName(tenantDto.name());
         tenant.setEmail(tenantDto.email());
+        tenant.setMainOwner(tenantDto.mainOwner());
         tenant.setPhoneNumber(tenantDto.phoneNumber());
         tenant.setAddress(tenantDto.address());
         tenant.setFatherName(tenantDto.fatherName());

@@ -7,6 +7,7 @@ import java.util.Date;
 public record UpdateTenantDto(
         String name,
         String email,
+        boolean mainOwner,
         String phoneNumber,
         String address,
         String fatherName,

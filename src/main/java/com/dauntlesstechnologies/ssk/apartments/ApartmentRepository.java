@@ -33,5 +33,7 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
     @Query("SELECT a FROM Apartment a WHERE (a.paidRent + a.paidMaintenance) < (a.rentAmount + a.maintenanceAmount)")
     List<Apartment> findApartmentsWithOutstandingRent();
 
+
+
 }
 

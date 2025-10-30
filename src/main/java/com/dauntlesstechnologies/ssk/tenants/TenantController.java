@@ -27,9 +27,9 @@ public class TenantController {
         return tenantService.findById(id);
     }
 
-    @GetMapping("/getAllTenants")
-    public List<TenantDto> getAllTenants(){
-        return tenantService.getAllTenants();
+    @GetMapping("/getAllUniqueTenants")
+    public List<TenantDto> getAllUniqueTenants(){
+        return tenantService.getAllUniqueTenants();
 
     }
 

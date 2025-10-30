@@ -42,7 +42,6 @@ public class ApartmentController {
     @GetMapping("/getAllOutstandingRentApartments")
     public List<ApartmentDto> getAllOutstandingRentAparmtents(){
         return apartmentService.getAllOutstandingRentAparmtents();
-
     }
 
     @GetMapping("/getOutstandingRentAmount")

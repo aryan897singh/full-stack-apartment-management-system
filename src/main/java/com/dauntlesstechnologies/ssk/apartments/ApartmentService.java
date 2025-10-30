@@ -39,7 +39,10 @@ public class ApartmentService {
         List<ApartmentDto> apartmentDtos = new ArrayList<>();
 
         for(Apartment apartment : apartments){
-            apartmentDtos.add(convertEntitytoDTO(apartment));
+            Long aptId = apartment.getId();
+            if(tenantRepository.existsById(aptId)){
+                apartmentDtos.add(convertEntitytoDTO(apartment));
+            }
         }
         return apartmentDtos;
     }
@@ -50,12 +53,15 @@ public class ApartmentService {
         BigDecimal outstandingRent = BigDecimal.ZERO;
 
         for(int i = 0; i < apartments.size(); i++){
-            //FIX THIS TO SHOW OUTSTANDING RENT
-            BigDecimal outstandingMaintenance = apartments.get(i).getMaintenanceAmount().subtract( apartments.get(i).getPaidMaintenance());
-            BigDecimal outstandingRentPay = apartments.get(i).getExpectedRent().subtract( apartments.get(i).getPaidRent());
 
-            BigDecimal thisOutstandingRent = outstandingMaintenance.add(outstandingRentPay);
-            outstandingRent = outstandingRent.add(thisOutstandingRent);
+            if(apartments.get(i).getOccupied()){
+                BigDecimal outstandingMaintenance = apartments.get(i).getMaintenanceAmount().subtract( apartments.get(i).getPaidMaintenance());
+                BigDecimal outstandingRentPay = apartments.get(i).getRentAmount().subtract( apartments.get(i).getPaidRent());
+
+                BigDecimal thisOutstandingRent = outstandingMaintenance.add(outstandingRentPay);
+                outstandingRent = outstandingRent.add(thisOutstandingRent);
+            }
+
         }
 
         return outstandingRent;

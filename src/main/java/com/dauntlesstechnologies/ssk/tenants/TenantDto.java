@@ -7,6 +7,7 @@ import java.util.Date;
 public record TenantDto(
         Long id,
         String name,
+        boolean mainOwner,
         String email,
         String phoneNumber,
         String address,

@@ -10,6 +10,8 @@ public interface TenantRepository extends JpaRepository<Tenant, Long>{
 
     public boolean existsByApartmentId(Long id);
 
+    public List<Tenant> findByFlatNumber(String flatNumber);
+
     }
 
 

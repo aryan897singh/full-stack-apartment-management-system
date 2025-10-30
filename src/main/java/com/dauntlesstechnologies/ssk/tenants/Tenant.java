@@ -22,6 +22,9 @@ public class Tenant {
     @Column(nullable = false)
     private String name;
 
+    @Column(name = "main_owner")
+    private boolean mainOwner;
+
     @Column
     private String email;
 
@@ -169,5 +172,13 @@ public class Tenant {
 
     public void setExists(boolean exists) {
         this.exists = exists;
+    }
+
+    public boolean isMainOwner() {
+        return mainOwner;
+    }
+
+    public void setMainOwner(boolean mainOwner) {
+        this.mainOwner = mainOwner;
     }
 }
