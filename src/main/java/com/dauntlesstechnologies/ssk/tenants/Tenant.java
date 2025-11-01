@@ -23,7 +23,7 @@ public class Tenant {
     private String name;
 
     @Column(name = "main_owner")
-    private boolean mainOwner;
+    private Boolean mainOwner;
 
     @Column
     private String email;
@@ -174,11 +174,11 @@ public class Tenant {
         this.exists = exists;
     }
 
-    public boolean isMainOwner() {
+    public Boolean isMainOwner() {
         return mainOwner;
     }
 
-    public void setMainOwner(boolean mainOwner) {
+    public void setMainOwner(Boolean mainOwner) {
         this.mainOwner = mainOwner;
     }
 }

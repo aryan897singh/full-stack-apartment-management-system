@@ -222,7 +222,7 @@
 
 <script>
  <!-- WHERE MY CODE STARTS -->
-    const fetchOccupied = fetch('http://localhost:8080/apartments/occupied')
+    const fetchOccupied = fetch('/apartments/occupied')
      .then(function(response) {
          if (!response.ok) {
              throw new Error('Something went wrong with the occupied request');
@@ -230,7 +230,7 @@
          return response.json();
      });
 
- const fetchVacant = fetch('http://localhost:8080/apartments/vacant')
+ const fetchVacant = fetch('/apartments/vacant')
      .then(function(response) {
          if (!response.ok) {
              throw new Error('Something went wrong with the vacant request');
@@ -238,7 +238,7 @@
          return response.json();
      });
 
- const fetchPayments = fetch('http://localhost:8080/payments/getAllPayments')
+ const fetchPayments = fetch('/payments/getAllPayments')
      .then(function(response) {
          if (!response.ok) {
              throw new Error('Something went wrong with the payments request');
@@ -246,7 +246,7 @@
          return response.json();
      });
 
- const fetchOutstandingRent = fetch('http://localhost:8080/apartments/getOutstandingRentAmount')
+ const fetchOutstandingRent = fetch('/apartments/getOutstandingRentAmount')
      .then(function(response) {
          if (!response.ok) {
              throw new Error('Something went wrong with the outstanding rent request');

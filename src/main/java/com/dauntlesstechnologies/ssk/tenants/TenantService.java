@@ -36,7 +36,7 @@ public class TenantService {
 
         for(int i = 0; i < tenants.size(); i++ ){
             //ensures that we are getting all unique tenants for overall review of households occupied
-            if(tenants.get(i).isMainOwner()){
+            if(Boolean.TRUE.equals(tenants.get(i).isMainOwner())){
                 tenantDtos.add(convertToDto(tenants.get(i)));
             }
 
@@ -87,7 +87,7 @@ public class TenantService {
                 tenant.getPhoneNumber(),
                 tenant.getAddress(),
                 tenant.getFatherName(),
-                tenant.getApartment().getId(),
+                (tenant.getApartment() != null) ? tenant.getApartment().getId() : null,
                 tenant.getFlatNumber(),
                 tenant.getAadharCardNumber(),
                 tenant.isCriminalHistory(),

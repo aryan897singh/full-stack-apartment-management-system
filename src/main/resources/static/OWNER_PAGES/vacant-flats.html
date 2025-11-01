@@ -185,7 +185,7 @@
 <script src="../js/bootstrap.bundle.min.js"></script>
 
 <script>
-    fetch('http://localhost:8080/apartments/getAllVacantApartments')
+    fetch('/apartments/getAllVacantApartments')
         .then(function(response){
             if(!response.ok){
                 throw new Error('Something went wrong with the response')

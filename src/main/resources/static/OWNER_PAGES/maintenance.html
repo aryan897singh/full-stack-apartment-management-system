@@ -225,35 +225,35 @@
     //NOTE: IMPLEMENTING THE Promise.all() TO HANDLE MULTIPLE API CALLS IN A CLEAN MANNER
     //WHEN ALL PAGES ARE READY, GO BACK AND IMPLEMENT Promise.all() IN DASHBOARD.HTML AS WELL
 
-    const fetchOpenCount = fetch('http://localhost:8080/maintenanceRequests/countOpenRequests').then(function(response){
+    const fetchOpenCount = fetch('/maintenanceRequests/countOpenRequests').then(function(response){
         if(!response.ok){
             throw new Error('Something went wrong with the response')
         }
         return response.json();
     })
 
-    const fetchCompletedCount = fetch('http://localhost:8080/maintenanceRequests/countCompletedRequests').then(function(response){
+    const fetchCompletedCount = fetch('/maintenanceRequests/countCompletedRequests').then(function(response){
         if(!response.ok){
             throw new Error('Something went wrong with the response')
         }
         return response.json();
     })
 
-    const fetchPendingCount = fetch('http://localhost:8080/maintenanceRequests/countPendingRequests').then(function(response){
+    const fetchPendingCount = fetch('/maintenanceRequests/countPendingRequests').then(function(response){
         if(!response.ok){
             throw new Error('Something went wrong with the response')
         }
         return response.json();
     })
 
-    const fetchPendingRequests = fetch('http://localhost:8080/maintenanceRequests/getAllPendingRequests').then(function(response){
+    const fetchPendingRequests = fetch('/maintenanceRequests/getAllPendingRequests').then(function(response){
         if(!response.ok){
             throw new Error('Something went wrong with the response')
         }
         return response.json();
     })
 
-    const fetchAllRequests = fetch('http://localhost:8080/maintenanceRequests/getAllMaintenanceRequests').then(function(response){
+    const fetchAllRequests = fetch('/maintenanceRequests/getAllMaintenanceRequests').then(function(response){
         if(!response.ok){
             throw new Error('Something went wrong with the response')
         }

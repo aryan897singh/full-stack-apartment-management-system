@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS deposits_tbl;
 DROP TABLE IF EXISTS manager_maintenance_types;
 DROP TABLE IF EXISTS managers_tbl;
 DROP TABLE IF EXISTS apartment_tbl;
+DROP TABLE IF EXISTS config_tbl; -- Added drop for new table
 
 
 CREATE TABLE apartment_tbl (
@@ -34,6 +35,7 @@ CREATE TABLE tenants_tbl (
                              aadhar_card_number VARCHAR(255) UNIQUE,
                              criminal_history BOOLEAN DEFAULT FALSE,
                              agreement_signed BOOLEAN DEFAULT FALSE,
+                             main_owner BOOLEAN DEFAULT FALSE NOT NULL, -- <-- Updated to NOT NULL
                              join_date DATETIME,
                              leave_date DATETIME,
                              exists_flag BOOLEAN DEFAULT TRUE,
@@ -107,3 +109,11 @@ CREATE TABLE deposits_tbl (
                                   FOREIGN KEY (apartment_id)
                                       REFERENCES apartment_tbl(id)
 );
+
+-- START OF NEW TABLE
+CREATE TABLE config_tbl (
+                            id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                            config_key VARCHAR(255) NOT NULL UNIQUE,
+                            config_value VARCHAR(255) NOT NULL
+);
+-- END OF NEW TABLE

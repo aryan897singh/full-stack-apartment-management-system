@@ -296,7 +296,7 @@
 
 <script>
 
-    const fetchGetAllPayment = fetch('http://localhost:8080/payments/getAllPayments')
+    const fetchGetAllPayment = fetch('/payments/getAllPayments')
         .then(function(response){
             if(!response.ok){
                 throw new Error('Something went wrong with the request')
@@ -306,7 +306,7 @@
         })
 
 
-    const fetchDepositCount = fetch('http://localhost:8080/deposits/depositCount')
+    const fetchDepositCount = fetch('/deposits/depositCount')
         .then(function(response){
             if(!response.ok){
                 throw new Error('Something went wrong with the response')
