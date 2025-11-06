@@ -125,9 +125,9 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">
+        <a class="navbar-brand" href="/OWNER_PAGES/Dashboard.html">
             <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-            Shri Shyam Kaleshwar Residency Dashboard
+            <span id = "nav-brand-app-name">Loading...</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -135,19 +135,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                    <a class="nav-link" href="/OWNER_PAGES/Dashboard.html">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Tenants.html">Tenants</a>
+                    <a class="nav-link" href="/OWNER_PAGES/Tenants.html">Tenants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/payments.html">Payments</a>
+                    <a class="nav-link" href="/OWNER_PAGES/payments.html">Payments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/maintenance.html">Maintenance</a>
+                    <a class="nav-link" href="/OWNER_PAGES/maintenance.html">Maintenance</a>
                 </li>
             </ul>
-            <a href="#" class="profile-circle me-2" title="Profile Details">AS</a>
+            <a href="/OWNER_PAGES/configuration.html" class="profile-circle me-2" title="Profile Details">AS</a>
         </div>
     </div>
 </nav>
@@ -156,7 +156,7 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0">Vacant Apartment Details</h2>
-            <a href="http://localhost:8080/OWNER_PAGES/Dashboard.html" class="btn btn-primary">Go Back</a>
+            <a href="/OWNER_PAGES/Dashboard.html" class="btn btn-primary">Go Back</a>
         </div>
 
         <div class="card p-4">
@@ -183,16 +183,26 @@
 </footer>
 
 <script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/config-loader.js"></script>
 
 <script>
-    fetch('/apartments/getAllVacantApartments')
+    const fetchVacant = fetch('/apartments/getAllVacantApartments')
         .then(function(response){
             if(!response.ok){
                 throw new Error('Something went wrong with the response')
             }
             return response.json();
-        })
-        .then(function(data){
+        });
+
+    const fetchSettings = getAppSettings();
+
+    Promise.all([fetchVacant, fetchSettings])
+        .then(function(results){
+
+            const data = results[0];
+            const settings = results[1];
+
+            document.getElementById('nav-brand-app-name').textContent = settings.APARTMENT_NAME;
 
             var tableBody = document.querySelector('tbody');
             var htmlString = '';
@@ -200,20 +210,16 @@
             for(var i = 0; i < data.length ; i++){
                 const apartment = data[i];
 
-
                 const lastOccupiedDate = new Date(apartment.lastOccupied);
-
 
                 const year = lastOccupiedDate.getFullYear();
                 const month = String(lastOccupiedDate.getMonth() + 1).padStart(2, '0'); // getMonth() is 0-indexed
                 const day = String(lastOccupiedDate.getDate()).padStart(2, '0');
                 const formattedDate = `${day}-${month}-${year}`;
 
-
                 const today = new Date();
                 const timeDifference = today.getTime() - lastOccupiedDate.getTime();
                 const vacancyDays = Math.floor(timeDifference / (1000 * 3600 * 24));
-
 
                 htmlString += `
                     <tr>
@@ -222,18 +228,13 @@
                         <td>${vacancyDays}</td>
                     </tr>
                 `;
-
             }
             tableBody.innerHTML = htmlString;
-
         })
         .catch(function(error){
             console.log(error)
             alert('Something went wrong in obtaining the data, please try again later')
         });
-
-
 </script>
-
 </body>
 </html>

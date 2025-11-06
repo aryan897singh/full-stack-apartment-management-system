@@ -76,14 +76,30 @@ INSERT INTO furniture (apartment_id, furniture_type, quantity) VALUES
                                                                    ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 'FANS', 2),
                                                                    ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 'TUBELIGHTS', 2);
 
--- START OF NEW DATA
+-- --------------------------------------------------
+-- CONFIGURATION SETTINGS
+-- --------------------------------------------------
+-- Clear old config data for a clean seed
+DELETE FROM config_tbl;
+
+-- Seed all 15 configuration settings from the new plan
 INSERT INTO config_tbl (config_key, config_value) VALUES
-                                                      ('RENT_DUE_DAY', '5'),
-                                                      ('CURRENCY_SYMBOL', '₹'),
-                                                      ('LATE_FEE_GRACE_PERIOD', '3'),
-                                                      ('LATE_FEE_TYPE', 'FLAT'),
-                                                      ('LATE_FEE_VALUE', '500'),
-                                                      ('APP_NAME', 'Apartment Manager'),
-                                                      ('ADMIN_ACCESS_ENABLED', 'FALSE'),
-                                                      ('MAINTENANCE_APPROVAL_REQ', 'TRUE');
--- END OF NEW DATA
+-- Financial & Billing
+('RENT_DUE_DAY', '5'),
+('CURRENCY_SYMBOL', '₹'),
+('LATE_FEE_Enabled', 'TRUE'),
+('LATE_FEE_TYPE', 'FLAT'),
+('LATE_FEE_VALUE', '500'),
+('DEFAULT_MAINTENANCE_ENFABLED', 'TRUE'),
+('DEFAULT_MAINTENANCE_FEE', '1000'),
+('ELECTRICITY_RATE', '8.5'),
+-- Tenant & System Rules
+('ADMIN_ACCESS_ENABLED', 'FALSE'),
+('REQUIRE_POLICE_VERIFICATION', 'TRUE'),
+('REQUIRE_AGREEMENT_SIGNED', 'TRUE'),
+('MAX_OCCUPANTS', '4'),
+-- Maintenance & Notifications
+('MAINTENANCE_APPROVAL_REQUEST', 'TRUE'),
+('OWNER_NOTIFICATION_EMAIL', 'owner@example.com'),
+-- Branding & Personalization
+('APARTMENT_NAME', 'Apartment Manager');

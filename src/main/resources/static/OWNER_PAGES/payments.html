@@ -167,9 +167,9 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">
+        <a class="navbar-brand" href="/OWNER_PAGES/Dashboard.html">
             <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-            Shri Shyam Kaleshwar Residency Dashboard
+            <span id = "nav-brand-app-name">Loading...</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -177,19 +177,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                    <a class="nav-link" href="/OWNER_PAGES/Dashboard.html">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Tenants.html">Tenants</a>
+                    <a class="nav-link" href="/OWNER_PAGES/Tenants.html">Tenants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="http://localhost:8080/OWNER_PAGES/payments.html">Payments</a>
+                    <a class="nav-link active" aria-current="page" href="/OWNER_PAGES/payments.html">Payments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/maintenance.html">Maintenance</a>
+                    <a class="nav-link" href="/OWNER_PAGES/maintenance.html">Maintenance</a>
                 </li>
             </ul>
-            <a href="#" class="profile-circle me-2" title="Profile Details">AS</a>
+            <a href="/OWNER_PAGES/configuration.html" class="profile-circle me-2" title="Profile Details">AS</a>
         </div>
     </div>
 </nav>
@@ -204,7 +204,7 @@
 
         <div class="row g-4 mb-4">
             <div class="col-md-6">
-                <a href = "http://localhost:8080/OWNER_PAGES/monthly-revenue.html" id = "month-revenue-link" class = "card-link">
+                <a href = "/OWNER_PAGES/monthly-revenue.html" id = "month-revenue-link" class = "card-link">
                     <div class="card overview-card bg-success p-3 h-100 text-white">
                         <div class="card-body">
                             <h5 class="card-title">This Month's Revenue</h5>
@@ -214,7 +214,7 @@
                 </a>
             </div>
             <div class="col-md-6">
-                <a href = "http://localhost:8080/OWNER_PAGES/deposit.html" id = "deposit-link" class = "card-link">
+                <a href = "/OWNER_PAGES/deposit.html" id = "deposit-link" class = "card-link">
                 <div class="card overview-card bg-warning p-3 h-100 text-white">
                     <div class="card-body">
                         <h5 class="card-title">Deposit Collected</h5>
@@ -294,6 +294,8 @@
     <small class="small-text">purelydauntless</small>
 </footer>
 
+<script src ="../js/config-loader.js"></script>
+
 <script>
 
     const fetchGetAllPayment = fetch('/payments/getAllPayments')
@@ -314,13 +316,20 @@
             return response.json();
         })
 
+    const fetchSettings = getAppSettings();
 
 
-    Promise.all([fetchGetAllPayment, fetchDepositCount])
+    Promise.all([fetchGetAllPayment, fetchDepositCount, fetchSettings])
         .then(function(data){
 
             const getAllPayments = data[0];
             const depositCount = data[1];
+            const settings = data[2];
+            const CURRENCY_SYMBOL = settings.CURRENCY_SYMBOL || '₹';
+
+            //updating main name
+            document.getElementById('nav-brand-app-name').textContent = settings.APARTMENT_NAME;
+
 
             //Mentioning Deposit Count data in card:
             var depositCountElement = document.getElementById('depositCountElement')
@@ -360,8 +369,8 @@
             var formattedTotalYearAmount  = new Intl.NumberFormat('en-IN').format(totalPaymentThisYear);
 
 
-            totalPaymentsElement.textContent = "₹" + formattedTotalAmount;
-            totalYearPaymentsElement.textContent = "₹" + formattedTotalYearAmount;
+            totalPaymentsElement.textContent = CURRENCY_SYMBOL + formattedTotalAmount;
+            totalYearPaymentsElement.textContent = CURRENCY_SYMBOL + formattedTotalYearAmount;
 
 
         })

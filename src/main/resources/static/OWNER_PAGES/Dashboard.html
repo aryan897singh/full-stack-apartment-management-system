@@ -133,9 +133,9 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">
+        <a class="navbar-brand" href="/OWNER_PAGES/Dashboard.html">
             <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-            Shri Shyam Kaleshwar Residency Dashboard
+            <span id = "nav-brand-app-name">Loading...</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -143,19 +143,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                    <a class="nav-link active" aria-current="page" href="/OWNER_PAGES/Dashboard.html">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Tenants.html">Tenants</a>
+                    <a class="nav-link" href="/OWNER_PAGES/Tenants.html">Tenants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/payments.html">Payments</a>
+                    <a class="nav-link" href="/OWNER_PAGES/payments.html">Payments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/maintenance.html">Maintenance</a>
+                    <a class="nav-link" href="/OWNER_PAGES/maintenance.html">Maintenance</a>
                 </li>
             </ul>
-            <a href="#" class="profile-circle ms-3" title="Profile Details">AS</a>
+            <a href="/OWNER_PAGES/configuration.html" class="profile-circle ms-3" title="Profile Details">AS</a>
         </div>
     </div>
 </nav>
@@ -165,7 +165,7 @@
         <h2 class="mb-4">Dashboard Overview</h2>
         <div class="row g-4 mb-4">
             <div class="col-md-4">
-                <a href="http://localhost:8080/OWNER_PAGES/occupied-flats.html" id="occupied-link" class="card-link">
+                <a href="/OWNER_PAGES/occupied-flats.html" id="occupied-link" class="card-link">
                     <div class="card overview-card bg-primary p-3 h-100 text-white">
                         <div class="card-body">
                             <h5 class="card-title">Occupied Apartments</h5>
@@ -175,7 +175,7 @@
                 </a>
             </div>
             <div class="col-md-4">
-                <a href="http://localhost:8080/OWNER_PAGES/vacant-flats.html" id="vacant-link" class="card-link">
+                <a href="/OWNER_PAGES/vacant-flats.html" id="vacant-link" class="card-link">
                     <div class="card overview-card bg-success p-3 h-100 text-white">
                         <div class="card-body">
                             <h5 class="card-title">Vacant Apartments</h5>
@@ -185,7 +185,7 @@
                 </a>
             </div>
             <div class="col-md-4">
-                <a href="http://localhost:8080/OWNER_PAGES/outstanding-rent.html" id="outstanding-rent-link" class="card-link">
+                <a href="/OWNER_PAGES/outstanding-rent.html" id="outstanding-rent-link" class="card-link">
                 <div class="card overview-card bg-warning p-3 h-100 text-white">
                     <div class="card-body">
                         <h5 class="card-title">Outstanding Rent</h5>
@@ -217,11 +217,12 @@
     <p>Made by Aryan Singh</p>
     <small class="small-text">purelydauntless</small>
 </footer>
-<script src="js/bootstrap.bundle.min.js"></script>
+<script src="../js/bootstrap.bundle.min.js"></script>
 
+<script src ="../js/config-loader.js"></script>
 
 <script>
- <!-- WHERE MY CODE STARTS -->
+ //<!-- WHERE MY CODE STARTS -->
     const fetchOccupied = fetch('/apartments/occupied')
      .then(function(response) {
          if (!response.ok) {
@@ -254,8 +255,10 @@
          return response.json();
      });
 
+ const fetchSettings = getAppSettings();
 
- Promise.all([fetchOccupied, fetchVacant, fetchPayments, fetchOutstandingRent])
+
+ Promise.all([fetchOccupied, fetchVacant, fetchPayments, fetchOutstandingRent, fetchSettings])
      .then(function(data) {
 
          var occupiedData = data[0];
@@ -266,6 +269,12 @@
          var vacantData = data[1];
          var vacantCountElement = document.getElementById('vacantValue');
          vacantCountElement.textContent = vacantData.vacant;
+
+         var settings = data[4];
+
+         const CURRENCY_SYMBOL = settings.CURRENCY_SYMBOL || '₹' //in case we need a fallback
+
+         document.getElementById('nav-brand-app-name').textContent = settings.APARTMENT_NAME;
 
          // Last 10 Payments Table
          var paymentsData = data[2];
@@ -285,7 +294,7 @@
 
              var row = '<tr>';
              row += '<td>' + payment.flatNumber + '</td>';
-             row += '<td>₹' + formattedAmount + '</td>';
+             row += '<td>' + CURRENCY_SYMBOL + formattedAmount + '</td>';
              row += '<td>' + formattedDate + '</td>';
              row += '</tr>';
              htmlString += row;
@@ -294,9 +303,11 @@
 
          // --- Handle Outstanding Rent ---
          var outstandingRentData = data[3];
+
+
          const outstandingRentElement = document.getElementById('outstandingRentAmount');
          const formattedNewAmount = new Intl.NumberFormat('en-IN').format(outstandingRentData.value);
-         outstandingRentElement.textContent = '₹' + formattedNewAmount;
+         outstandingRentElement.textContent = CURRENCY_SYMBOL + formattedNewAmount;
 
      })
      .catch(function(error) {
@@ -306,6 +317,8 @@
 
 
 </script>
+
+
 
 
 

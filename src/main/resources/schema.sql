@@ -6,8 +6,7 @@ DROP TABLE IF EXISTS deposits_tbl;
 DROP TABLE IF EXISTS manager_maintenance_types;
 DROP TABLE IF EXISTS managers_tbl;
 DROP TABLE IF EXISTS apartment_tbl;
-DROP TABLE IF EXISTS config_tbl; -- Added drop for new table
-
+DROP TABLE IF EXISTS config_tbl;
 
 CREATE TABLE apartment_tbl (
                                id BIGINT AUTO_INCREMENT PRIMARY KEY,

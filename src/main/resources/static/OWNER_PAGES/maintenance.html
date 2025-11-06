@@ -113,7 +113,7 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">
             <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-            Shri Shyam Kaleshwar Residency Dashboard
+            <span id = "nav-brand-app-name">Loading...</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -121,21 +121,21 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                    <a class="nav-link" href="/OWNER_PAGES/Dashboard.html">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Tenants.html">Tenants</a>
+                    <a class="nav-link" href="/OWNER_PAGES/Tenants.html">Tenants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/payments.html">Payments</a>
+                    <a class="nav-link" href="/OWNER_PAGES/payments.html">Payments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="http://localhost:8080/OWNER_PAGES/maintenance.html">Maintenance</a>
+                    <a class="nav-link active" aria-current="page" href="/OWNER_PAGES/maintenance.html">Maintenance</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="profile-circle" href="#">AS</a>
+                    <a class="profile-circle" href="/OWNER_PAGES/configuration.html">AS</a>
                 </li>
             </ul>
         </div>
@@ -220,6 +220,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/config-loader.js"></script>
 
 <script>
     //NOTE: IMPLEMENTING THE Promise.all() TO HANDLE MULTIPLE API CALLS IN A CLEAN MANNER
@@ -260,27 +261,29 @@
         return response.json();
     })
 
-    Promise.all([fetchOpenCount, fetchCompletedCount, fetchPendingCount, fetchPendingRequests, fetchAllRequests  ])
+    const fetchSettings = getAppSettings();
+
+    Promise.all([fetchOpenCount, fetchCompletedCount, fetchPendingCount, fetchPendingRequests, fetchAllRequests, fetchSettings])
         .then(function(results){
             const openCount = results[0];
             const pendingCount = results[2];
             const pendingRequests = results[3];
             const allRequests = results[4];
+            const settings = results[5];
+
             //NOW I CAN WORK WITH MY DATA
 
-            //Step 1. Filling in data in count cards
+            document.getElementById('nav-brand-app-name').textContent = settings.APARTMENT_NAME;
 
+            //Step 1. Filling in data in count cards
             var openRequestsCountElement = document.getElementById('openRequestsCountElement');
             var pendingRequestsCountElement = document.getElementById('pendingRequestsCountElement');
 
             openRequestsCountElement.textContent = openCount.count;
             pendingRequestsCountElement.textContent = pendingCount.count;
 
-
             //Step 3. Populating the pending requests table
-
             var pendingTableBody = document.getElementById('pending-requests-table')
-
             var htmlString = '';
 
             for(var i = pendingRequests.length - 1; i >= 0; i--){
@@ -307,14 +310,11 @@
                 row += '</tr>';
 
                 htmlString += row;
-
             }
 
             pendingTableBody.innerHTML = htmlString;
 
-
             //Step 4. Populating request history table
-
             var requestTableBody = document.getElementById('all-requests-table')
             var htmlString2 = '';
 
@@ -351,18 +351,14 @@
                 row += '</tr>'
 
                 htmlString2 += row;
-
             }
 
             requestTableBody.innerHTML = htmlString2;
 
-
         }).catch(function(error){
-            console.log(error)
-            alert('Something went wrong, please try again later :(')
+        console.log(error)
+        alert('Something went wrong, please try again later :(')
     })
-
-
 
     const pendingTableBody = document.getElementById('pending-requests-table')
 
@@ -384,7 +380,7 @@
         }
 
         //NEED TO MAKE PATCH (NOT PUT, SINCE WE NEED TO SEND ALL DATA AGAIN) API CALL TO UPDATE THE DATA
-        fetch(`http://localhost:8080/maintenanceRequests/updateStatus/${requestId}`, {
+        fetch(`/maintenanceRequests/updateStatus/${requestId}`, {
             method: 'PATCH', // PATCH is common for partial updates like changing a status
             headers: {
                 'Content-Type': 'application/json'
@@ -404,9 +400,6 @@
                 alert('Failed to update request status. Please try again.');
             });
     });
-
-
-
 </script>
 
 </body>

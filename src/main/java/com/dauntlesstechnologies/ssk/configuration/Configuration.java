@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 
 @Entity
+@Table(name = "config_tbl")
 public class Configuration {
 
     @Id
@@ -13,7 +14,7 @@ public class Configuration {
     @Column(name = "config_key", unique = true, nullable = false)
     private String configKey;
 
-    @Column
+    @Column(name = "config_value")
     private String configValue;
 
     public Long getId() {

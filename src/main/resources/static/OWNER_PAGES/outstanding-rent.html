@@ -98,9 +98,9 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">
+        <a class="navbar-brand" href="/OWNER_PAGES/Dashboard.html">
             <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-            Shri Shyam Kaleshwar Residency Dashboard
+            <span id = "nav-brand-app-name">Loading...</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -108,19 +108,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                    <a class="nav-link" href="/OWNER_PAGES/Dashboard.html">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Tenants.html">Tenants</a>
+                    <a class="nav-link" href="/OWNER_PAGES/Tenants.html">Tenants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="http://localhost:8080/OWNER_PAGES/payments.html">Payments</a>
+                    <a class="nav-link active" aria-current="page" href="/OWNER_PAGES/payments.html">Payments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/maintenance.html">Maintenance</a>
+                    <a class="nav-link" href="/OWNER_PAGES/maintenance.html">Maintenance</a>
                 </li>
             </ul>
-            <a href="#" class="profile-circle me-2" title="Profile Details">AS</a>
+            <a href="/OWNER_PAGES/configuration.html" class="profile-circle me-2" title="Profile Details">AS</a>
         </div>
     </div>
 </nav>
@@ -129,7 +129,7 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0">Apartments with Outstanding Rent</h2>
-            <a href="http://localhost:8080/OWNER_PAGES/Dashboard.html" class="btn btn-primary">Go Back</a>
+            <a href="/OWNER_PAGES/Dashboard.html" class="btn btn-primary">Go Back</a>
         </div>
 
         <div class="card p-4">
@@ -158,60 +158,75 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/config-loader.js"></script>
 
 <script>
-    fetch('/apartments/getAllOutstandingRentApartments')
-    .then(function(response) {
-        if(!response.ok) {
-            throw Error(response.statusText);
-        }
-        return response.json();
-    })
-    .then(function(data) {
+    const fetchOutstanding = fetch('/apartments/getAllOutstandingRentApartments')
+        .then(function(response) {
+            if(!response.ok) {
+                throw Error(response.statusText);
+            }
+            return response.json();
+        });
 
-        var tableBody = document.querySelector('tbody');
-        htmlString = '';
+    const fetchSettings = getAppSettings();
 
-        for(var i = 0; i < data.length; ++i) {
-            const apartment = data[i];
+    Promise.all([fetchOutstanding, fetchSettings])
+        .then(function(results) {
 
-            const rentExpected = (apartment.rentAmount || 0) + (apartment.maintenanceAmount || 0);
-            const rentPaid = (apartment.paidRent || 0) + (apartment.paidMaintenance || 0);
-            const outstanding = rentExpected - rentPaid;
+            const data = results[0];
+            const settings = results[1];
+            const CURRENCY_SYMBOL = settings.CURRENCY_SYMBOL || '₹';
 
-            const today = new Date();
+            // 1. Get the RENT_DUE_DAY from settings.
+            // We use parseInt() because it comes from the DB as a string.
+            // We set a fallback of '5' just in case.
+            const rentDueDay = parseInt(settings.RENT_DUE_DAY, 10) || 5;
 
-            const dueDate = new Date(today.getFullYear(), today.getMonth(), 5);
+            document.getElementById('nav-brand-app-name').textContent = settings.APARTMENT_NAME;
 
-            const timeDifference = today.getTime() - dueDate.getTime();
-            //Note Math.max basically returns the larger value, so if the difference is negative
-            //it will select 0 and display 0 since we havent hit the due date yet
-            const daysLate = Math.max(0, Math.floor(timeDifference / (1000 * 3600 * 24)));
+            var tableBody = document.querySelector('tbody');
+            htmlString = '';
 
+            for(var i = 0; i < data.length; ++i) {
+                const apartment = data[i];
 
-            const formattedExpected = new Intl.NumberFormat('en-IN').format(rentExpected);
-            const formattedPaid = new Intl.NumberFormat('en-IN').format(rentPaid);
-            const formattedOutstanding = new Intl.NumberFormat('en-IN').format(outstanding);
+                const rentExpected = (apartment.rentAmount || 0) + (apartment.maintenanceAmount || 0);
+                const rentPaid = (apartment.paidRent || 0) + (apartment.paidMaintenance || 0);
+                const outstanding = rentExpected - rentPaid;
 
-            htmlString += `
+                const today = new Date();
+
+                // 2. Use the new 'rentDueDay' variable instead of the hardcoded 5
+                const dueDate = new Date(today.getFullYear(), today.getMonth(), rentDueDay);
+
+                const timeDifference = today.getTime() - dueDate.getTime();
+                //Note Math.max basically returns the larger value, so if the difference is negative
+                //it will select 0 and display 0 since we havent hit the due date yet
+                const daysLate = Math.max(0, Math.floor(timeDifference / (1000 * 3600 * 24)));
+
+                const formattedExpected = new Intl.NumberFormat('en-IN').format(rentExpected);
+                const formattedPaid = new Intl.NumberFormat('en-IN').format(rentPaid);
+                const formattedOutstanding = new Intl.NumberFormat('en-IN').format(outstanding);
+
+                htmlString += `
                     <tr>
                         <td>${apartment.flatNumber}</td>
-                        <td>₹${formattedExpected}</td>
-                        <td>₹${formattedPaid}</td>
-                         <td>₹${formattedOutstanding}</td>
+                        <td>${CURRENCY_SYMBOL}${formattedExpected}</td>
+                        <td>${CURRENCY_SYMBOL}${formattedPaid}</td>
+                         <td>${CURRENCY_SYMBOL}${formattedOutstanding}</td>
                          <td>${daysLate}</td>
                     </tr>
                 `;
+            }
 
-        }
+            tableBody.innerHTML = htmlString;
 
-        tableBody.innerHTML = htmlString;
-
-    })
-    .catch(function(error) {
-        console.log(error);
-        alert('Failed to load data, please try again :(')
-    })
+        })
+        .catch(function(error) {
+            console.log(error);
+            alert('Failed to load data, please try again :(')
+        })
 </script>
 
 </body>

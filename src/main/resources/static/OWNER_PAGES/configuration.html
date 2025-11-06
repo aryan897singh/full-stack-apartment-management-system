@@ -42,26 +42,21 @@
             font-weight: 300;
             color: #f8f9fa;
         }
-
-        /* --- START OF STYLE FIXES --- */
         h5 {
-            color: #0d6efd; /* Brighter Blue section headings */
+            color: #0d6efd;
             font-weight: 500;
             border-bottom: 1px solid #343a40;
             padding-bottom: 10px;
             margin-top: 1.5rem;
             margin-bottom: 1rem;
         }
-        /* This is the fix: Increased specificity to force override */
         .card .form-label {
-            color: #f8f9fa !important; /* Bright white labels */
+            color: #f8f9fa !important;
             font-weight: 500 !important;
         }
         .form-check-label {
-            color: #f8f9fa !important; /* Bright white labels for toggles */
+            color: #f8f9fa !important;
         }
-        /* --- END OF STYLE FIXES --- */
-
         .profile-circle {
             width: 40px;
             height: 40px;
@@ -78,7 +73,7 @@
         .form-control, .form-select {
             background-color: #2c2c2c;
             border: 1px solid #444;
-            color: #ffffff;
+            color: #ffffff !important;
             padding: 0.375rem 0.75rem;
             line-height: 1.5;
         }
@@ -99,7 +94,7 @@
             border-color: #007bff;
         }
         .dependent-field-group {
-            display: none; /* Hidden by default */
+            display: none;
             padding-left: 1.5rem;
             border-left: 2px solid #007bff;
             margin-top: 1rem;
@@ -123,7 +118,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="http://localhost:8080/OWNER_PAGES/Dashboard.html" id="nav-brand-app-name">
+        <a class="navbar-brand" href="/OWNER_PAGES/Dashboard.html" id="nav-brand-app-name">
             Apartment Manager
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,22 +127,22 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                    <a class="nav-link" href="/OWNER_PAGES/Dashboard.html">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Tenants.html">Tenants</a>
+                    <a class="nav-link" href="/OWNER_PAGES/Tenants.html">Tenants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/payments.html">Payments</a>
+                    <a class="nav-link" href="/OWNER_PAGES/payments.html">Payments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/maintenance.html">Maintenance</a>
+                    <a class="nav-link" href="/OWNER_PAGES/maintenance.html">Maintenance</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="http://localhost:8080/OWNER_PAGES/OwnerSettings.html">Settings</a>
+                    <a class="nav-link active" aria-current="page" href="/OWNER_PAGES/OwnerSettings.html">Settings</a>
                 </li>
             </ul>
-            <a href="#" class="profile-circle ms-3" title="Profile Details">AS</a>
+            <a href="/OWNER_PAGES/configuration.html" class="profile-circle ms-3" title="Profile Details">AS</a>
         </div>
     </div>
 </nav>
@@ -267,32 +262,30 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-        const alertBox = document.getElementById('alert-message');
-        const form = document.getElementById('settings-form');
+        var alertBox = document.getElementById('alert-message');
+        var form = document.getElementById('settings-form');
 
-        // --- Helper function to show/hide dependent fields ---
         function toggleDependentFields(checkbox) {
-            const containerId = checkbox.dataset.controlsContainer;
+            var containerId = checkbox.dataset.controlsContainer;
             if (containerId) {
-                const container = document.querySelector(containerId);
+                var container = document.querySelector(containerId);
                 if (container) {
                     container.style.display = checkbox.checked ? 'block' : 'none';
                 }
             }
         }
 
-        // --- 1. LOAD ALL SETTINGS ON PAGE LOAD ---
-        fetch('http://localhost:8080/configuration')
-            .then(response => {
+        // --- FIX #1: Using relative path ---
+        fetch('/configuration')
+            .then(function(response) {
                 if (!response.ok) {
                     throw new Error('Failed to fetch settings');
                 }
                 return response.json();
             })
-            .then(settings => {
-                settings.forEach(config => {
-                    // Use getElementById for fastest lookup since IDs are unique
-                    const element = document.getElementById(config.configKey);
+            .then(function(settings) {
+                settings.forEach(function(config) {
+                    var element = document.getElementById(config.configKey);
 
                     if (element) {
                         if (element.type === 'checkbox') {
@@ -306,35 +299,32 @@
                     }
                 });
 
-                const appName = document.getElementById('APARTMENT_NAME').value;
+                var appName = document.getElementById('APARTMENT_NAME').value;
                 if(appName) {
                     document.getElementById('nav-brand-app-name').textContent = appName;
                 }
             })
-            .catch(error => {
+            .catch(function(error) {
                 console.error('Error loading settings:', error);
                 showAlert('Failed to load settings from server.', 'danger');
             });
 
-        // --- 2. ADD LISTENERS TO ALL BOOLEAN TOGGLES ---
-        const toggles = document.querySelectorAll('input[type="checkbox"][data-controls-container]');
-        toggles.forEach(toggle => {
+        var toggles = document.querySelectorAll('input[type="checkbox"][data-controls-container]');
+        toggles.forEach(function(toggle) {
             toggle.addEventListener('change', function() {
                 toggleDependentFields(this);
             });
         });
 
-        // --- 3. SAVE ALL SETTINGS ON FORM SUBMIT ---
         form.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // Get ALL form elements that have the 'data-config-key' attribute
-            const inputs = form.querySelectorAll('[data-config-key]');
-            const updatePromises = [];
+            var inputs = form.querySelectorAll('[data-config-key]');
+            var updatePromises = [];
 
-            inputs.forEach(input => {
-                const key = input.dataset.configKey;
-                let value = '';
+            inputs.forEach(function(input) {
+                var key = input.dataset.configKey;
+                var value = '';
 
                 if (input.type === 'checkbox') {
                     value = input.checked ? 'TRUE' : 'FALSE';
@@ -342,9 +332,10 @@
                     value = input.value;
                 }
 
-                const dto = { configKey: key, configValue: value };
+                var dto = { configKey: key, configValue: value };
 
-                const fetchPromise = fetch('http://localhost:8080/configuration/update', {
+                // --- FIX #1: Using relative path ---
+                var fetchPromise = fetch('/configuration/update', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(dto)
@@ -353,14 +344,19 @@
             });
 
             Promise.all(updatePromises)
-                .then(() => {
+                .then(function() {
+
+                    // --- FIX #2: Clear the cache so other pages get new data ---
+                    sessionStorage.removeItem('appSettings');
+                    // ---
+
                     showAlert('Settings saved successfully!', 'success');
-                    const appName = document.getElementById('APARTMENT_NAME').value;
+                    var appName = document.getElementById('APARTMENT_NAME').value;
                     if(appName) {
                         document.getElementById('nav-brand-app-name').textContent = appName;
                     }
                 })
-                .catch(error => {
+                .catch(function(error) {
                     console.error('Failed to save settings:', error);
                     showAlert('Error saving one or more settings.', 'danger');
                 });
@@ -368,9 +364,9 @@
 
         function showAlert(message, type) {
             alertBox.textContent = message;
-            alertBox.className = `alert alert-${type}`;
+            alertBox.className = 'alert alert-' + type;
             alertBox.style.display = 'block';
-            window.scrollTo(0, 0); // Scroll to top to see the alert
+            window.scrollTo(0, 0);
         }
     });
 </script>

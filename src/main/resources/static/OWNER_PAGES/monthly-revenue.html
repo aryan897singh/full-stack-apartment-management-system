@@ -98,9 +98,9 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">
+        <a class="navbar-brand" href="/OWNER_PAGES/Dashboard.html">
             <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-            Shri Shyam Kaleshwar Residency Dashboard
+            <span id = "nav-brand-app-name">Loading...</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -108,19 +108,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                    <a class="nav-link" href="/OWNER_PAGES/Dashboard.html">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/Tenants.html">Tenants</a>
+                    <a class="nav-link" href="/OWNER_PAGES/Tenants.html">Tenants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="http://localhost:8080/OWNER_PAGES/payments.html">Payments</a>
+                    <a class="nav-link active" aria-current="page" href="/OWNER_PAGES/payments.html">Payments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/OWNER_PAGES/maintenance.html">Maintenance</a>
+                    <a class="nav-link" href="/OWNER_PAGES/maintenance.html">Maintenance</a>
                 </li>
             </ul>
-            <a href="#" class="profile-circle me-2" title="Profile Details">AS</a>
+            <a href="/OWNER_PAGES/configuration.html" class="profile-circle me-2" title="Profile Details">AS</a>
         </div>
     </div>
 </nav>
@@ -129,7 +129,7 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0">Tenant Payment History</h2>
-            <a href="http://localhost:8080/OWNER_PAGES/add-new-payment.html" class="btn btn-primary">Add New Payment</a>
+            <a href="/OWNER_PAGES/add-new-payment.html" class="btn btn-primary">Add New Payment</a>
         </div>
 
         <div class="card p-4">
@@ -158,16 +158,27 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/config-loader.js"></script>
 
 <script>
-    fetch('/payments/getAllPayments')
+    const fetchPayments = fetch('/payments/getAllPayments')
         .then(function(response) {
             if (!response.ok) {
                 throw Error(response.statusText);
             }
             return response.json();
-        })
-        .then(function(data){
+        });
+
+    const fetchSettings = getAppSettings();
+
+    Promise.all([fetchPayments, fetchSettings])
+        .then(function(results){
+
+            const data = results[0];
+            const settings = results[1];
+            const CURRENCY_SYMBOL = settings.CURRENCY_SYMBOL || '₹';
+
+            document.getElementById('nav-brand-app-name').textContent = settings.APARTMENT_NAME;
 
             var tableBody = document.querySelector('tbody')
             var htmlString = '';
@@ -181,33 +192,25 @@
                 var formattedMaintenanceAmount  = new Intl.NumberFormat('en-IN').format(payment.maintenanceAmount);
                 var formattedElectricityAmount  = new Intl.NumberFormat('en-IN').format(payment.electricityAmount);
 
-
-
                 var paymentDate = new Date(payment.paymentDate);
-
 
                 var year = paymentDate.getFullYear();
                 var month = paymentDate.getMonth() + 1; // getMonth() is 0-indexed
                 var day = paymentDate.getDate();
 
-
                 var formattedMonth = (month < 10) ? '0' + month : month;
                 var formattedDay = (day < 10) ? '0' + day : day;
                 var formattedDate = formattedDay + '-' + formattedMonth +  '-' + year ;
 
-
                 var row = '<tr>';
                 row += '<td>' + payment.flatNumber + '</td>';
-                row += '<td>₹' + formattedRentAmount + '</td>';
-                row += '<td>₹' + formattedMaintenanceAmount + '</td>';
-                row += '<td>₹' + formattedElectricityAmount + '</td>';
+                row += '<td>' + CURRENCY_SYMBOL + formattedRentAmount + '</td>';
+                row += '<td>' + CURRENCY_SYMBOL + formattedMaintenanceAmount + '</td>';
+                row += '<td>' + CURRENCY_SYMBOL + formattedElectricityAmount + '</td>';
                 row += '<td>' + formattedDate + '</td>';
                 row += '</tr>';
 
                 htmlString += row;
-
-
-
             }
 
             tableBody.innerHTML = htmlString;
@@ -216,10 +219,6 @@
             console.log(error);
             alert('Failed to load payment records, please try again')
         })
-
-
-
-
 </script>
 </body>
 </html>
