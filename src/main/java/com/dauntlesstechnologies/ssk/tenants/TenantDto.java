@@ -13,12 +13,12 @@ public record TenantDto(
         String address,
         String fatherName,
         Long apartmentId,
-        String flatNumber,
         String aadharCardNumber,
         boolean criminalHistory,
         boolean agreementSigned,
         Date joinDate,
         Date leaveDate,
-        boolean exists
+        boolean exists,
+        String flatNumber
 ) {
 }

@@ -73,12 +73,6 @@
             font-size: 0.8rem;
             color: #6c757d;
         }
-        footer .small-text {
-            display: block;
-            margin-top: 0.25rem;
-            font-size: 0.7rem;
-            color: #495057;
-        }
         .profile-circle {
             width: 40px;
             height: 40px;
@@ -99,8 +93,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="/OWNER_PAGES/Dashboard.html">
-            <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-            <span id = "nav-brand-app-name">Loading...</span>
+            <span id="nav-brand-app-name">Loading...</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -142,9 +135,9 @@
                         <th scope="col">Maintenance</th>
                         <th scope="col">Electricity</th>
                         <th scope="col">Date</th>
-                    </tr>
+                        <th scope="col" class="text-end">Actions</th> </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="payments-table-body">
                     </tbody>
                 </table>
             </div>
@@ -154,71 +147,95 @@
 
 <footer>
     <p>Made by Aryan Singh :)</p>
-    <small class="small-text">purelydauntless</small>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../js/config-loader.js"></script>
 
 <script>
-    const fetchPayments = fetch('/payments/getAllPayments')
-        .then(function(response) {
-            if (!response.ok) {
-                throw Error(response.statusText);
+    document.addEventListener('DOMContentLoaded', async () => {
+        const fetchPayments = fetch('/payments/getAllPayments')
+            .then(function(response) {
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                return response.json();
+            });
+
+        const fetchSettings = getAppSettings();
+        const tableBody = document.getElementById('payments-table-body');
+
+        Promise.all([fetchPayments, fetchSettings])
+            .then(function(results){
+                const data = results[0];
+                const settings = results[1];
+                const CURRENCY_SYMBOL = settings.CURRENCY_SYMBOL || '₹';
+
+                document.getElementById('nav-brand-app-name').textContent = settings.APARTMENT_NAME;
+
+                let htmlString = '';
+
+                for(var i = 0; i < data.length; i++){
+                    var payment = data[i];
+
+                    var formattedRentAmount  = new Intl.NumberFormat('en-IN').format(payment.rentAmount);
+                    var formattedMaintenanceAmount  = new Intl.NumberFormat('en-IN').format(payment.maintenanceAmount);
+                    var formattedElectricityAmount  = new Intl.NumberFormat('en-IN').format(payment.electricityAmount);
+
+                    var paymentDate = new Date(payment.paymentDate);
+                    var year = paymentDate.getFullYear();
+                    var month = (paymentDate.getMonth() + 1).toString().padStart(2, '0');
+                    var day = paymentDate.getDate().toString().padStart(2, '0');
+                    var formattedDate = day + '-' + month +  '-' + year ;
+
+                    // Added a 'data-row-id' to the <tr> for easy removal
+                    var row = `<tr id="payment-row-${payment.id}">`;
+                    row += '<td>' + payment.flatNumber + '</td>';
+                    row += '<td>' + CURRENCY_SYMBOL + formattedRentAmount + '</td>';
+                    row += '<td>' + CURRENCY_SYMBOL + formattedMaintenanceAmount + '</td>';
+                    row += '<td>' + CURRENCY_SYMBOL + formattedElectricityAmount + '</td>';
+                    row += '<td>' + formattedDate + '</td>';
+
+                    // --- NEW ACTIONS BUTTONS ---
+                    row += `<td class="text-end">
+                                <a href="/OWNER_PAGES/edit-payment.html?paymentId=${payment.id}" class="btn btn-sm btn-outline-info me-1">Edit</a>
+                                <button class="btn btn-sm btn-outline-danger btn-delete-payment" data-payment-id="${payment.id}">Delete</button>
+                            </td>`;
+                    row += '</tr>';
+
+                    htmlString += row;
+                }
+                tableBody.innerHTML = htmlString;
+            })
+            .catch(function(error){
+                console.log(error);
+                alert('Failed to load payment records, please try again');
+            });
+
+        // --- NEW DELETE LOGIC ---
+        tableBody.addEventListener('click', function(event) {
+            if (event.target.classList.contains('btn-delete-payment')) {
+                const paymentId = event.target.dataset.paymentId;
+
+                if (confirm('Are you sure you want to delete this payment record? This action cannot be undone.')) {
+                    fetch(`/payments/deletePayment/${paymentId}`, {
+                        method: 'DELETE'
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Failed to delete payment.');
+                            }
+                            // Success: remove the table row from the UI
+                            document.getElementById(`payment-row-${paymentId}`).remove();
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            alert('Error: Could not delete payment record.');
+                        });
+                }
             }
-            return response.json();
         });
-
-    const fetchSettings = getAppSettings();
-
-    Promise.all([fetchPayments, fetchSettings])
-        .then(function(results){
-
-            const data = results[0];
-            const settings = results[1];
-            const CURRENCY_SYMBOL = settings.CURRENCY_SYMBOL || '₹';
-
-            document.getElementById('nav-brand-app-name').textContent = settings.APARTMENT_NAME;
-
-            var tableBody = document.querySelector('tbody')
-            var htmlString = '';
-
-            var loopIndex;
-
-            for(var i = 0; i < data.length; i++){
-                var payment = data[i]
-
-                var formattedRentAmount  = new Intl.NumberFormat('en-IN').format(payment.rentAmount);
-                var formattedMaintenanceAmount  = new Intl.NumberFormat('en-IN').format(payment.maintenanceAmount);
-                var formattedElectricityAmount  = new Intl.NumberFormat('en-IN').format(payment.electricityAmount);
-
-                var paymentDate = new Date(payment.paymentDate);
-
-                var year = paymentDate.getFullYear();
-                var month = paymentDate.getMonth() + 1; // getMonth() is 0-indexed
-                var day = paymentDate.getDate();
-
-                var formattedMonth = (month < 10) ? '0' + month : month;
-                var formattedDay = (day < 10) ? '0' + day : day;
-                var formattedDate = formattedDay + '-' + formattedMonth +  '-' + year ;
-
-                var row = '<tr>';
-                row += '<td>' + payment.flatNumber + '</td>';
-                row += '<td>' + CURRENCY_SYMBOL + formattedRentAmount + '</td>';
-                row += '<td>' + CURRENCY_SYMBOL + formattedMaintenanceAmount + '</td>';
-                row += '<td>' + CURRENCY_SYMBOL + formattedElectricityAmount + '</td>';
-                row += '<td>' + formattedDate + '</td>';
-                row += '</tr>';
-
-                htmlString += row;
-            }
-
-            tableBody.innerHTML = htmlString;
-        })
-        .catch(function(error){
-            console.log(error);
-            alert('Failed to load payment records, please try again')
-        })
+    });
 </script>
 </body>
 </html>

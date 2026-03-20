@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Apartment Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .content-wrapper { flex-grow: 1; }
+        .navbar { background-color: #1e1e1e !important; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); }
+        .navbar-brand { font-weight: 600; color: #f8f9fa !important; }
+        .nav-link { color: #adb5bd !important; }
+        .nav-link:hover { color: #ffffff !important; }
+        .card {
+            background-color: #1e1e1e;
+            border: 1px solid #343a40;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        h2, h5 { font-weight: 300; color: #f8f9fa; }
+        h5.card-title {
+            color: #0d6efd; /* Blue title for tenants */
+            border-bottom: 1px solid #343a40;
+            padding-bottom: 10px;
+        }
+        .profile-circle {
+            width: 40px; height: 40px; background-color: #007bff; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-weight: bold; color: #fff; cursor: pointer; text-decoration: none;
+        }
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0.75rem 0.5rem;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        .detail-item:last-child { border-bottom: none; }
+        .detail-item strong {
+            color: #adb5bd;
+            min-width: 150px;
+            margin-right: 1rem;
+        }
+        .detail-item span {
+            color: #f8f9fa;
+            font-size: 1.05rem;
+            word-break: break-all;
+        }
+        .card-footer {
+            background-color: #2a2a2a;
+            border-top: 1px solid #343a40;
+            padding: 1rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+        }
+        footer { background-color: #1e1e1e; padding: 1rem 0; text-align: center; border-top: 1px solid #343a40; margin-top: auto; }
+        footer p { margin: 0; font-size: 0.8rem; color: #6c757d; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/OWNER_PAGES/Dashboard.html">
+            <span id="nav-brand-app-name">Loading...</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/OWNER_PAGES/Tenants.html">Tenants</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/OWNER_PAGES/payments.html">Payments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/OWNER_PAGES/maintenance.html">Maintenance</a>
+                </li>
+            </ul>
+            <a href="/OWNER_PAGES/configuration.html" class="profile-circle me-2" title="Profile Details">AS</a>
+        </div>
+    </div>
+</nav>
+
+<div class="content-wrapper">
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0" id="flat-number-display">Flat [Loading...]</h2>
+            <a href="/OWNER_PAGES/Tenants.html" class="btn btn-primary">Go Back</a>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body p-4">
+                <h5 class="mb-3">Apartment Financials</h5>
+                <div class="detail-item">
+                    <strong>Expected Rent:</strong>
+                    <span id="expected-rent-display">...</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Actual Rent:</strong>
+                    <span id="rent-amount-display">...</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Rent Paid (This Month):</strong>
+                    <span id="rent-paid-display">...</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Maintenance Fee:</strong>
+                    <span id="maintenance-display">...</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Maintenance Paid (This Month):</strong>
+                    <span id="maintenance-paid-display">...</span>
+                </div>
+            </div>
+            <div class="card-footer" id="apartment-actions-footer" style="display: none;">
+                <a href="#" id="edit-apartment-btn" class="btn btn-outline-info btn-sm">Edit Apartment Details</a>
+            </div>
+        </div>
+
+        <h2 class="mb-4 mt-5">Resident Details</h2>
+        <div id="tenant-details-container">
+        </div>
+    </div>
+</div>
+
+<footer class="mt-5">
+    <p>Made by Aryan Singh :)</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/config-loader.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Get settings for navbar
+        const settings = await getAppSettings();
+        document.getElementById('nav-brand-app-name').textContent = settings.APARTMENT_NAME;
+        const CURRENCY_SYMBOL = settings.CURRENCY_SYMBOL || '₹';
+
+        // 1. Read the tenantId from the URL
+        const params = new URLSearchParams(window.location.search);
+        // We get the tenantId to find the apartment, but the edit button needs the apartmentId
+        const tenantId = params.get('tenantId');
+
+        if (!tenantId) {
+            alert('Error: No tenant ID specified.');
+            window.location.href = '/OWNER_PAGES/Tenants.html'; // Go back
+            return;
+        }
+
+        // Helper function to format dates
+        const formatDate = (dateString) => {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        };
+
+        // Helper function to format booleans
+        const formatBool = (boolValue) => {
+            return boolValue ? 'Yes' : 'No';
+        };
+
+        try {
+            // 2. Fetch data from our one 'details' endpoint
+            const response = await fetch(`/tenants/apartment-details/${tenantId}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch apartment details');
+            }
+
+            const data = await response.json(); // This is your ContainerDto
+            const apartment = data.apartmentDto;
+            const tenants = data.tenantDtoList;
+
+            // 3. Populate Apartment Details
+            document.getElementById('flat-number-display').textContent = `Flat ${apartment.flatNumber}`;
+            document.getElementById('expected-rent-display').textContent = `${CURRENCY_SYMBOL}${apartment.expectedRent.toLocaleString('en-IN')}`;
+            document.getElementById('rent-amount-display').textContent = `${CURRENCY_SYMBOL}${apartment.rentAmount.toLocaleString('en-IN')}`;
+            document.getElementById('rent-paid-display').textContent = `${CURRENCY_SYMBOL}${apartment.paidRent.toLocaleString('en-IN')}`;
+            document.getElementById('maintenance-display').textContent = `${CURRENCY_SYMBOL}${apartment.maintenanceAmount.toLocaleString('en-IN')}`;
+            document.getElementById('maintenance-paid-display').textContent = `${CURRENCY_SYMBOL}${apartment.paidMaintenance.toLocaleString('en-IN')}`;
+
+            // --- NEW: Set link for Edit Apartment Button ---
+            document.getElementById('edit-apartment-btn').href = `/OWNER_PAGES/edit-apartment.html?apartmentId=${apartment.id}`;
+            document.getElementById('apartment-actions-footer').style.display = 'flex'; // Show the footer
+
+            // 4. Build the vertical tenant cards
+            const tenantContainer = document.getElementById('tenant-details-container');
+            let htmlString = '';
+
+            tenants.forEach((tenant, index) => {
+                htmlString += `
+                    <div class="card mb-3" id="tenant-card-${tenant.id}">
+                        <div class="card-body p-4">
+                            <h5 class="card-title">Resident ${index + 1}: ${tenant.name}</h5>
+
+                            <div class="detail-item">
+                                <strong>Main Owner:</strong>
+                                <span>${formatBool(tenant.mainOwner)}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Phone Number:</strong>
+                                <span>${tenant.phoneNumber || 'N/A'}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Email:</strong>
+                                <span>${tenant.email || 'N/A'}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Address:</strong>
+                                <span>${tenant.address}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Father's Name:</strong>
+                                <span>${tenant.fatherName}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Aadhar Number:</strong>
+                                <span>${tenant.aadharCardNumber}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Agreement Signed:</strong>
+                                <span>${formatBool(tenant.agreementSigned)}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Police Verification:</strong>
+                                <span>${formatBool(!tenant.criminalHistory)}</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Join Date:</strong>
+                                <span>${formatDate(tenant.joinDate)}</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="/OWNER_PAGES/edit-tenant.html?tenantId=${tenant.id}" class="btn btn-outline-info btn-sm">Edit Tenant</a>
+                            <button class="btn btn-outline-danger btn-sm btn-delete-tenant" data-tenant-id="${tenant.id}">Delete Tenant</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            tenantContainer.innerHTML = htmlString;
+
+        } catch (error) {
+            console.error(error);
+            alert('Error loading page data.');
+        }
+
+        // --- DELETE TENANT LOGIC ---
+        const tenantContainer = document.getElementById('tenant-details-container');
+        tenantContainer.addEventListener('click', function(event) {
+            if (event.target.classList.contains('btn-delete-tenant')) {
+                const tenantId = event.target.dataset.tenantId;
+
+                if (confirm('Are you sure you want to delete this tenant? This is a soft-delete and will mark them as "moved out".')) {
+                    fetch(`/tenants/delete/${tenantId}`, {
+                        method: 'DELETE'
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Failed to delete tenant.');
+                            }
+                            document.getElementById(`tenant-card-${tenantId}`).remove();
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            alert('Error: Could not delete tenant.');
+                        });
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

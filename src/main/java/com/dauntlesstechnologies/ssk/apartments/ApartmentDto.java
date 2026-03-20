@@ -14,4 +14,25 @@ public record ApartmentDto(
         Boolean occupied,
         Date lastOccupied,
         Boolean depositCollected
-        ) {}
+        ) {
+
+    // It's a static "factory" that knows how to build an
+    // ApartmentDto from an Apartment entity.
+    public static ApartmentDto fromEntity(Apartment apartment) {
+        if (apartment == null) {
+            return null;
+        }
+        return new ApartmentDto(
+                apartment.getId(),
+                apartment.getFlatNumber(),
+                apartment.getExpectedRent(),
+                apartment.getRentAmount(),
+                apartment.getMaintenanceAmount(),
+                apartment.getPaidMaintenance(),
+                apartment.getPaidRent(),
+                apartment.getOccupied(),
+                apartment.getLastOccupied(),
+                apartment.getDepositCollected()
+        );
+    }
+}

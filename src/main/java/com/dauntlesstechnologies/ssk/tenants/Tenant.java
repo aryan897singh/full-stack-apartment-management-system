@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "tenants_tbl")
-//ALL BASIC JPA REPO METHODS WILL ONLY WORK WITH THE WHERE CLAUSE, SO IT DOESNT WORK WITH SOFT
+//ALL BASIC JPA REPO METHODS WILL ONLY WORK WITH THE WHERE CLAUSE, SO IT DOESN'T WORK WITH SOFT
 //DELETED TENANTS
 @Where(clause = "exists_flag = true")
 //NOTE - EXISTS IS A KEYWORD IN SQL SO HAD TO RENAME THE COLUMN TO EXISTS_FLAG
@@ -40,9 +40,6 @@ public class Tenant {
     @ManyToOne
     @JoinColumn(name = "apartment_id", referencedColumnName = "id") //nullable = false, because we want to soft delete)
     private Apartment apartment;
-
-    @Column(name = "flat_number")
-    private String flatNumber;
 
     @Column(unique = true, name = "aadhar_card_number")
     private String aadharCardNumber;
@@ -140,14 +137,6 @@ public class Tenant {
 
     public void setAgreementSigned(boolean agreementSigned) {
         this.agreementSigned = agreementSigned;
-    }
-
-    public String getFlatNumber() {
-        return flatNumber;
-    }
-
-    public void setFlatNumber(String flatNumber) {
-        this.flatNumber = flatNumber;
     }
 
     public Date getJoinDate() {

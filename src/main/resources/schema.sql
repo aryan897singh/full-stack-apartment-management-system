@@ -16,7 +16,6 @@ CREATE TABLE apartment_tbl (
                                maintenance_amount DECIMAL(10,2),
                                paid_maintenance DECIMAL(10,2),
                                paid_rent DECIMAL(10,2),
-                               rent_outstanding BOOLEAN,
                                occupied BOOLEAN DEFAULT FALSE,
                                last_occupied DATETIME,
                                deposit_collected BOOLEAN
@@ -30,11 +29,10 @@ CREATE TABLE tenants_tbl (
                              address VARCHAR(500),
                              father_name VARCHAR(255),
                              apartment_id BIGINT,
-                             flat_number VARCHAR(255),
                              aadhar_card_number VARCHAR(255) UNIQUE,
                              criminal_history BOOLEAN DEFAULT FALSE,
                              agreement_signed BOOLEAN DEFAULT FALSE,
-                             main_owner BOOLEAN DEFAULT FALSE NOT NULL, -- <-- Updated to NOT NULL
+                             main_owner BOOLEAN DEFAULT FALSE NOT NULL,
                              join_date DATETIME,
                              leave_date DATETIME,
                              exists_flag BOOLEAN DEFAULT TRUE,
