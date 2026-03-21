@@ -2,7 +2,7 @@ package com.dauntlesstechnologies.ssk.tenants;
 
 import com.dauntlesstechnologies.ssk.apartments.Apartment;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.Date;
@@ -11,7 +11,8 @@ import java.util.Date;
 @Table(name = "tenants_tbl")
 //ALL BASIC JPA REPO METHODS WILL ONLY WORK WITH THE WHERE CLAUSE, SO IT DOESN'T WORK WITH SOFT
 //DELETED TENANTS
-@Where(clause = "exists_flag = true")
+//NOTE: WHERE IS NOW SQLRESTRICTION IN MODERN HIBERNATE!!
+@SQLRestriction("exists_flag = true")
 //NOTE - EXISTS IS A KEYWORD IN SQL SO HAD TO RENAME THE COLUMN TO EXISTS_FLAG
 public class Tenant {
 
