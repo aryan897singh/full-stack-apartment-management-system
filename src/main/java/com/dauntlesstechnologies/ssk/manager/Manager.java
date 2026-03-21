@@ -14,7 +14,7 @@ public class Manager {
     private Long id;
 
     @Column(unique = true)
-    private String Name;
+    private String Name; //REFACTOR: MAKE SMALL
 
     @Column
     private Long number;
