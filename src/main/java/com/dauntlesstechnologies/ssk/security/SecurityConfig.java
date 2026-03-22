@@ -2,6 +2,7 @@ package com.dauntlesstechnologies.ssk.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,7 +24,15 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth->
-                        auth //Every URl is locked, you MUST be authenticated
+                        auth
+                                /*
+                                TESTING: Dashboard.html can only be accessed by owner
+                                         Tenants.html can only be accessed by tenant
+                                 */
+                                .requestMatchers("/apartments/**").hasRole("OWNER")
+                                .requestMatchers("/tenants/**").hasRole("TENANT")
+
+
                                 .anyRequest()
                                 .authenticated())
                 .oauth2Login(oauth2 ->
