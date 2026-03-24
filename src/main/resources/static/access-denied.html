@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>SHRI SHYAM KALESHWAR RESIDENCY | ACCESS_DENIED</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-background": "#f9f5fd",
+                        "tertiary-container": "#7000ff",
+                        "secondary-dim": "#e90036",
+                        "on-surface-variant": "#acaab1",
+                        "on-error-container": "#ffa8a3",
+                        "on-tertiary-fixed-variant": "#4700a7",
+                        "error-container": "#9f0519",
+                        "surface-bright": "#2c2b33",
+                        "on-error": "#490006",
+                        "background": "#0e0e13",
+                        "surface-container-high": "#1f1f26",
+                        "on-secondary-fixed": "#6f0014",
+                        "surface-container": "#19191f",
+                        "primary": "#8ff5ff",
+                        "on-secondary-container": "#fff6f5",
+                        "secondary": "#ff7073",
+                        "tertiary-dim": "#874cff",
+                        "secondary-container": "#bf002a",
+                        "error-dim": "#d7383b",
+                        "on-primary": "#005d63",
+                        "tertiary-fixed": "#bda1ff",
+                        "on-secondary": "#49000a",
+                        "surface-variant": "#25252d",
+                        "outline": "#76747b",
+                        "on-secondary-fixed-variant": "#a50023",
+                        "outline-variant": "#48474d",
+                        "tertiary": "#ac89ff",
+                        "on-tertiary-fixed": "#1f0052",
+                        "inverse-surface": "#fcf8ff",
+                        "primary-container": "#00eefc",
+                        "inverse-primary": "#006a71",
+                        "surface-dim": "#0e0e13",
+                        "surface": "#0e0e13",
+                        "on-tertiary": "#290067",
+                        "primary-dim": "#00deec",
+                        "secondary-fixed": "#ffc3c1",
+                        "surface-container-highest": "#25252d",
+                        "inverse-on-surface": "#55545b",
+                        "surface-container-low": "#131319",
+                        "on-surface": "#f9f5fd",
+                        "surface-tint": "#8ff5ff",
+                        "primary-fixed-dim": "#00deec",
+                        "on-tertiary-container": "#f8f1ff",
+                        "on-primary-fixed": "#003f43",
+                        "surface-container-lowest": "#000000",
+                        "tertiary-fixed-dim": "#b190ff",
+                        "primary-fixed": "#00eefc",
+                        "on-primary-fixed-variant": "#005e64",
+                        "on-primary-container": "#005359",
+                        "secondary-fixed-dim": "#ffafae",
+                        "error": "#ff716c"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Manrope"],
+                        "label": ["Space Grotesk"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255, 112, 115, 0.05) 50%, rgba(0, 0, 0, 0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 10s linear infinite;
+        }
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100px; }
+        }
+        .digital-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(25, 25, 31, 0.5) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(25, 25, 31, 0.5) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-secondary selection:text-on-secondary overflow-hidden">
+<!-- Global Layout Shell: TopAppBar (Shared Component) -->
+<header class="fixed top-0 w-full z-50 bg-[#0e0e13] border-b border-[#00F0FF]/10 flex justify-between items-center px-6 h-16 w-full">
+    <div class="flex items-center gap-2">
+        <span class="text-[#00F0FF] font-black tracking-tighter text-xl uppercase">SHRI SHYAM KALESHWAR RESIDENCY</span>
+        <div class="ml-4 h-4 w-[1px] bg-outline-variant"></div>
+        <span class="font-['Space_Grotesk'] uppercase tracking-widest text-[10px] text-[#00F0FF]">Core_Protocol_v.0.9</span>
+    </div>
+    <div class="flex items-center gap-6">
+        <span class="material-symbols-outlined text-[#00F0FF] hover:text-[#8ff5ff] transition-colors cursor-pointer" data-icon="security">security</span>
+        <span class="material-symbols-outlined text-[#00F0FF] hover:text-[#8ff5ff] transition-colors cursor-pointer" data-icon="help_outline">help_outline</span>
+    </div>
+</header>
+<!-- Background Layering -->
+<div class="fixed inset-0 digital-grid pointer-events-none"></div>
+<div class="scanline"></div>
+<!-- Main Content Canvas -->
+<main class="relative z-10 min-h-screen flex flex-col items-center justify-center p-6">
+    <!-- Status Indicator Overlay -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 pointer-events-none">
+        <h2 class="font-headline font-black text-[12rem] leading-none tracking-tighter text-error select-none">403</h2>
+    </div>
+    <!-- Central Security Card -->
+    <div class="w-full max-w-2xl bg-surface-container-low border-l-4 border-secondary p-12 relative overflow-hidden">
+        <!-- Glow Effect -->
+        <div class="absolute -top-24 -right-24 w-64 h-64 bg-secondary/10 blur-[80px] rounded-full"></div>
+        <!-- Content -->
+        <div class="relative z-20 space-y-8">
+            <div class="flex items-center gap-4">
+                <div class="p-3 bg-secondary/10">
+                    <span class="material-symbols-outlined text-secondary text-4xl" data-icon="gpp_bad" style="font-variation-settings: 'FILL' 1;">gpp_bad</span>
+                </div>
+                <div>
+                    <p class="font-headline text-[10px] uppercase tracking-[0.3em] text-secondary-dim font-bold">Security_Protocol_Violation</p>
+                    <h1 class="font-headline text-4xl md:text-5xl font-black text-on-surface tracking-tight uppercase">Access Unauthorized</h1>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <p class="text-on-surface-variant text-lg leading-relaxed max-w-lg">
+                    Your credentials do not grant you access to this sector. Unauthorized access attempts are logged and transmitted to the central security node.
+                </p>
+                <div class="flex items-center gap-3 py-2 px-4 bg-error-container/10 border border-error-container/20 w-fit">
+                    <span class="material-symbols-outlined text-error text-sm" data-icon="report">report</span>
+                    <span class="font-headline text-[10px] uppercase tracking-widest text-error">Identity verification failed: ID_REDACTED</span>
+                </div>
+            </div>
+            <div class="pt-8 flex flex-col md:flex-row items-center gap-6">
+                <!-- Primary CTA -->
+                <button class="w-full md:w-auto px-10 py-4 bg-secondary text-on-secondary font-headline font-bold uppercase tracking-widest text-sm hover:brightness-110 active:scale-95 transition-all">
+                    Login Again
+                </button>
+                <!-- Secondary Link -->
+                <button class="w-full md:w-auto px-10 py-4 border border-outline-variant text-on-surface-variant font-headline font-bold uppercase tracking-widest text-sm hover:bg-surface-container-high transition-colors">
+                    Return to Safety
+                </button>
+            </div>
+            <!-- Countdown Data -->
+        </div>
+    </div>
+    <!-- Technical Metadata Footer Decor -->
+</main>
+<!-- SideNavBar (Shared Component - Condensed for focus) -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-20 flex flex-col py-8 bg-[#0e0e13] border-r border-[#19191f] items-center space-y-8 z-40">
+    <div class="group relative cursor-not-allowed">
+        <span class="material-symbols-outlined text-[#1f1f26] opacity-50 text-2xl" data-icon="terminal">terminal</span>
+        <span class="absolute left-full ml-4 px-2 py-1 bg-surface-container-high text-[8px] uppercase font-headline tracking-widest hidden group-hover:block whitespace-nowrap border border-outline-variant">Locked</span>
+    </div>
+    <div class="group relative cursor-not-allowed">
+        <span class="material-symbols-outlined text-[#1f1f26] opacity-50 text-2xl" data-icon="receipt_long">receipt_long</span>
+    </div>
+    <div class="group relative cursor-not-allowed">
+        <span class="material-symbols-outlined text-[#1f1f26] opacity-50 text-2xl" data-icon="lan">lan</span>
+    </div>
+    <div class="group relative cursor-not-allowed">
+        <span class="material-symbols-outlined text-[#1f1f26] opacity-50 text-2xl" data-icon="enhanced_encryption">enhanced_encryption</span>
+    </div>
+    <div class="mt-auto group relative cursor-not-allowed">
+        <span class="material-symbols-outlined text-[#1f1f26] opacity-50 text-2xl" data-icon="contact_support">contact_support</span>
+    </div>
+</aside>
+<!-- Footer (Shared Component) -->
+<footer class="fixed bottom-0 w-full bg-[#0e0e13] border-t border-[#19191f] flex justify-between items-center px-10 h-12 w-full z-50">
+    <p class="font-['Manrope'] text-[9px] uppercase tracking-widest text-[#1f1f26]">© 2026 SHRI SHYAM KALESHWAR RESIDENCY. ALL RIGHTS RESERVED.</p>
+    <div class="flex gap-6">
+        <a class="font-['Manrope'] text-[9px] uppercase tracking-widest text-[#1f1f26] hover:text-[#00F0FF] transition-colors" href="#">Privacy Protocol</a>
+        <a class="font-['Manrope'] text-[9px] uppercase tracking-widest text-[#1f1f26] hover:text-[#00F0FF] transition-colors" href="#">Security Policy</a>
+        <a class="font-['Manrope'] text-[9px] uppercase tracking-widest text-[#1f1f26] hover:text-[#00F0FF] transition-colors" href="#">Status</a>
+    </div>
+</footer>
+</body></html>
