@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.nio.file.AccessDeniedException;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -34,7 +36,14 @@ public class SecurityConfig {
 
 
                                 .anyRequest()
-                                .authenticated())
+                                .authenticated()
+                )
+                //This handles unauthorized cases and sends to the correct page
+                .exceptionHandling(ex ->
+                        ex
+                                .accessDeniedHandler((req, resp, exc) -> {
+                                    resp.sendRedirect("/access-denied");
+                                }))
                 .oauth2Login(oauth2 ->
                         //If not authenticated, go through the oauth2 login flow
                         oauth2
