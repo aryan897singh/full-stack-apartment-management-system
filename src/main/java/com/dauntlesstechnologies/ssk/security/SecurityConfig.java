@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.nio.file.AccessDeniedException;
+
 
 @Configuration
 @EnableWebSecurity
@@ -27,15 +27,20 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth->
                         auth
-                                /*
-                                TESTING: Dashboard.html can only be accessed by owner
-                                         Tenants.html can only be accessed by tenant
-                                 */
-                                .requestMatchers("/apartments/**").hasRole("OWNER")
-                                .requestMatchers("/tenants/**").hasRole("TENANT")
-
                                 //INFINITE LOOP ERROR ENCOUNTERED! ALLOW EVERYONE TO ACCESS UNAUTHORIZED REDIRECT
                                 .requestMatchers("/access-denied").permitAll()
+
+                                .requestMatchers("/apartments/**").hasRole("OWNER")
+                                .requestMatchers("/tenants/**").hasRole("OWNER")
+                                .requestMatchers("/configuration/**").hasRole("OWNER")
+                                .requestMatchers("/deposits/**").hasRole("OWNER")
+                                .requestMatchers("/furniture/**").hasRole("OWNER")
+                                .requestMatchers("/maintenanceRequests/**").hasRole("OWNER")
+                                .requestMatchers("/managers/**").hasRole("OWNER")
+                                .requestMatchers("/payments/**").hasRole("OWNER")
+
+
+
 
 
                                 .anyRequest()
