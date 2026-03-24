@@ -34,6 +34,9 @@ public class SecurityConfig {
                                 .requestMatchers("/apartments/**").hasRole("OWNER")
                                 .requestMatchers("/tenants/**").hasRole("TENANT")
 
+                                //INFINITE LOOP ERROR ENCOUNTERED! ALLOW EVERYONE TO ACCESS UNAUTHORIZED REDIRECT
+                                .requestMatchers("/access-denied").permitAll()
+
 
                                 .anyRequest()
                                 .authenticated()
