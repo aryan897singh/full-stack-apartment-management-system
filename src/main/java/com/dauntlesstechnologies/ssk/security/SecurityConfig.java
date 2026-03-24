@@ -27,8 +27,15 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth->
                         auth
+                                //Note: The input of requestMatchers is just the path (string) being requested
+                                //does not matter if it is an API endpoint or an HTML page
+
                                 //INFINITE LOOP ERROR ENCOUNTERED! ALLOW EVERYONE TO ACCESS UNAUTHORIZED REDIRECT
                                 .requestMatchers("/access-denied").permitAll()
+
+                                //Problem - API endpoints locked, page wide open
+                                //Solution - Lock both the HTML page and the data endpoints (Defense in depth)
+                                .requestMatchers("/OWNER_PAGES/**").hasRole("OWNER")
 
                                 .requestMatchers("/apartments/**").hasRole("OWNER")
                                 .requestMatchers("/tenants/**").hasRole("OWNER")
