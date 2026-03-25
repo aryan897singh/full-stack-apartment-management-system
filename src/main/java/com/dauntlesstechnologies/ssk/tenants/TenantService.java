@@ -1,10 +1,12 @@
 package com.dauntlesstechnologies.ssk.tenants;
 
 import com.dauntlesstechnologies.ssk.apartments.Apartment;
+import com.dauntlesstechnologies.ssk.apartments.ApartmentDto;
 import com.dauntlesstechnologies.ssk.apartments.ApartmentRepository;
 import com.dauntlesstechnologies.ssk.deposits.Deposit;
 import com.dauntlesstechnologies.ssk.deposits.DepositRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -70,7 +72,7 @@ public class TenantService {
 
     //for view all details under tenants page
     public List<TenantDto> findByFlatNumber(String flatNumber){
-        List<Tenant> tenants = tenantRepository.findByFlatNumber(flatNumber);
+        List<Tenant> tenants = tenantRepository.findByApartmentFlatNumber(flatNumber);
         List<TenantDto> tenantDtos = new ArrayList<>();
         for(Tenant tenant : tenants){
             tenantDtos.add(convertToDto(tenant));
@@ -88,13 +90,13 @@ public class TenantService {
                 tenant.getAddress(),
                 tenant.getFatherName(),
                 (tenant.getApartment() != null) ? tenant.getApartment().getId() : null,
-                tenant.getFlatNumber(),
                 tenant.getAadharCardNumber(),
                 tenant.isCriminalHistory(),
                 tenant.isAgreementSigned(),
                 tenant.getJoinDate(),
                 tenant.getLeaveDate(),
-                tenant.getExists()
+                tenant.getExists(),
+                (tenant.getApartment() != null ) ? tenant.getApartment().getFlatNumber() : null
         );
 
     }
@@ -131,28 +133,48 @@ public class TenantService {
 
     }
 
+    @Transactional
     public Tenant createTenant(UpdateTenantDto tenantDto){
         Tenant tenant = new Tenant();
         tenant.setName(tenantDto.name());
         tenant.setEmail(tenantDto.email());
-        tenant.setMainOwner(tenantDto.mainOwner());
         tenant.setPhoneNumber(tenantDto.phoneNumber());
         tenant.setAddress(tenantDto.address());
         tenant.setFatherName(tenantDto.fatherName());
         tenant.setAadharCardNumber(tenantDto.aadharCardNumber());
-        tenant.setFlatNumber(tenantDto.flatNumber());
         tenant.setCriminalHistory(tenantDto.criminalHistory());
         tenant.setAgreementSigned(tenantDto.agreementSigned());
         tenant.setJoinDate(new Date());
+        tenant.setExists(true);
 
         Optional<Apartment> apartmentOptional = apartmentRepository.findByFlatNumber(tenantDto.flatNumber());
 
+        Long aptId = 0L;
+
         if(apartmentOptional.isPresent()){
+            aptId = apartmentOptional.get().getId();
             tenant.setApartment(apartmentOptional.get());
         }
         else {
             throw new RuntimeException("NO SUCH APARTMENT FOUND WITH GIVEN APT NUMBER");
         }
+
+        //Here, if no one else exists, set it to true regardless of selection, and if main owner
+        //exists set it to false regardless of selection
+
+        //step 1. check if the flat is occupied or not
+
+        Optional<Tenant> tenantOptional = tenantRepository.findActiveMainOwnerByFlatNumber(tenantDto.flatNumber(), true, true);
+
+        if(!tenantRepository.existsByApartmentId(aptId)){
+            tenant.setMainOwner(true);
+        }else if(tenantOptional.isPresent()){
+            tenant.setMainOwner(false);
+        }else{
+            tenant.setMainOwner(tenantDto.mainOwner());
+        }
+
+
         tenantRepository.save(tenant);
         return tenant;
     }
@@ -166,13 +188,14 @@ public class TenantService {
             Apartment apartment = tenant.getApartment();
             Long aptId =  apartment.getId();
 
+            //ok so now we have the particular apt, and we soft delete the tenant
+
 
             tenant.setLeaveDate(new Date());
 
             //Soft deleting the tenant:
             tenant.setExists(false);
             tenant.setApartment(null);
-            tenant.setFlatNumber(null);
             //interview discussion - problem was that the leave date was not being set, forgot to save it to the repo
             tenantRepository.save(tenant);
 
@@ -193,6 +216,7 @@ public class TenantService {
                     deposit.setNegotiated(null);
                     deposit.setPaid(null);
                     depositRepository.save(deposit);
+
                 }else{
                     throw new RuntimeException("NO SUCH DEPOSIT FOUND ASSOCIATED WITH APARTMENT ID + " + aptId);
                 }
@@ -202,6 +226,35 @@ public class TenantService {
 
         }
         else {
+            throw new EntityNotFoundException("TENANT NOT FOUND");
+        }
+
+
+
+    }
+
+    public ContainerDto getApartmentDetails(Long tenantId){
+
+        Optional<Tenant> tenantOptional = tenantRepository.findById(tenantId);
+        if (tenantOptional.isPresent()){
+            Tenant tenant = tenantOptional.get();
+            Apartment apartment = tenant.getApartment();
+            List<TenantDto> tenantDtoList = new ArrayList<>();
+
+            List<Tenant> tenantList = tenantRepository.findByApartment(apartment);
+
+            for(Tenant tenant1 : tenantList){
+                tenantDtoList.add(convertToDto(tenant1));
+            }
+
+            return new ContainerDto(
+                    tenantDtoList,
+                    ApartmentDto.fromEntity(apartment)
+            );
+
+
+
+        }else{
             throw new EntityNotFoundException("TENANT NOT FOUND");
         }
 

@@ -7,7 +7,6 @@ import java.util.Date;
 public record UpdateTenantDto(
         String name,
         String email,
-        boolean mainOwner,
         String phoneNumber,
         String address,
         String fatherName,
@@ -15,6 +14,7 @@ public record UpdateTenantDto(
         boolean criminalHistory,
         boolean agreementSigned,
         String flatNumber,
-        Date joinDate
+        Date joinDate,
+        boolean mainOwner
 ) {
 }

@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit Payment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .content-wrapper { flex-grow: 1; }
+        .navbar { background-color: #1e1e1e !important; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); }
+        .navbar-brand { font-weight: 600; color: #f8f9fa !important; }
+        .nav-link { color: #adb5bd !important; }
+        .nav-link.active, .nav-link:hover { color: #ffffff !important; }
+        .card { background-color: #1e1e1e; border: 1px solid #343a40; border-radius: 8px; }
+        h2 { color: #f8f9fa; font-weight: 300; }
+        footer { background-color: #1e1e1e; padding: 1rem 0; text-align: center; border-top: 1px solid #343a40; margin-top: auto; }
+        footer p { margin: 0; font-size: 0.8rem; color: #6c757d; }
+        .profile-circle {
+            width: 40px; height: 40px; background-color: #007bff; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-weight: bold; color: #fff; cursor: pointer; text-decoration: none;
+        }
+        .form-label, .form-check-label { color: #ffffff; }
+        .form-control, .form-select {
+            background-color: #2c2c2c;
+            border: 1px solid #444;
+            color: #ffffff;
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: #383838;
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+        }
+        .form-control[readonly] {
+            background-color: #3a3a3a;
+            color: #adb5bd;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/OWNER_PAGES/Dashboard.html">
+            <span id="nav-brand-app-name">Loading...</span>
+        </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/OWNER_PAGES/Tenants.html">Tenants</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/OWNER_PAGES/payments.html">Payments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/OWNER_PAGES/maintenance.html">Maintenance</a>
+                </li>
+            </ul>
+            <a href="/OWNER_PAGES/configuration.html" class="profile-circle me-2" title="Profile Details">AS</a>
+        </div>
+    </div>
+</nav>
+
+<div class="content-wrapper">
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Edit Payment Record</h2>
+            <a href="/OWNER_PAGES/monthly-revenue.html" class="btn btn-outline-primary">Go Back</a>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div id="alert-message" class="alert" role="alert" style="display: none;"></div>
+
+                <div class="card p-4 mb-4">
+                    <form id="edit-payment-form">
+                        <div class="mb-3">
+                            <label for="flatNumber" class="form-label">Flat Number</label>
+                            <input type="text" class="form-control" id="flatNumber" name="flatNumber" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rentAmount" class="form-label">Rent Amount</label>
+                            <input type="number" step="0.01" class="form-control" id="rentAmount" name="rentAmount" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="maintenanceAmount" class="form-label">Maintenance Amount</label>
+                            <input type="number" step="0.01" class="form-control" id="maintenanceAmount" name="maintenanceAmount" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="electricityAmount" class="form-label">Electricity Amount</label>
+                            <input type="number" step="0.01" class="form-control" id="electricityAmount" name="electricityAmount" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="paymentMethod" class="form-label">Payment Method</label>
+                            <select class="form-select" id="paymentMethod" name="paymentMethod" required>
+                                <option value="UPI">UPI</option>
+                                <option value="CARD">CARD</option>
+                                <option value="CASH">CASH</option>
+                                <option value="BANK_TRANSFER">BANK_TRANSFER</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="paymentDate" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="paymentDate" name="paymentDate" required>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="mt-5">
+    <p>Made by Aryan Singh :)</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/config-loader.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Get settings for navbar
+        const settings = await getAppSettings();
+        document.getElementById('nav-brand-app-name').textContent = settings.APARTMENT_NAME;
+
+        // 1. Read the paymentId from the URL
+        const params = new URLSearchParams(window.location.search);
+        const paymentId = params.get('paymentId');
+        const form = document.getElementById('edit-payment-form');
+        const alertBox = document.getElementById('alert-message');
+
+        if (!paymentId) {
+            showAlert('Error: No payment ID specified. Redirecting...', 'danger');
+            setTimeout(() => window.location.href = '/OWNER_PAGES/monthly-revenue.html', 2000);
+            return;
+        }
+
+        // 2. Fetch existing payment data
+        try {
+            const response = await fetch(`/payments/${paymentId}`); // Uses your GET /payments/{id}
+            if (!response.ok) {
+                throw new Error('Failed to fetch payment details');
+            }
+            const payment = await response.json(); // This is your PaymentDto
+
+            // 3. Populate the form
+            document.getElementById('flatNumber').value = payment.flatNumber;
+            document.getElementById('rentAmount').value = payment.rentAmount;
+            document.getElementById('maintenanceAmount').value = payment.maintenanceAmount;
+            document.getElementById('electricityAmount').value = payment.electricityAmount;
+            document.getElementById('paymentMethod').value = payment.paymentMethod;
+
+            // Format the date for the date input field (yyyy-MM-dd)
+            if (payment.paymentDate) {
+                const paymentDate = new Date(payment.paymentDate);
+                document.getElementById('paymentDate').value = paymentDate.toISOString().split('T')[0];
+            }
+
+        } catch (error) {
+            console.error(error);
+            showAlert('Error loading payment data. Please go back and try again.', 'danger');
+        }
+
+        // 4. Handle the form submission
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            // Build the DTO from form values
+            const updatedPaymentDto = {
+                flatNumber: document.getElementById('flatNumber').value,
+                rentAmount: document.getElementById('rentAmount').value,
+                maintenanceAmount: document.getElementById('maintenanceAmount').value,
+                electricityAmount: document.getElementById('electricityAmount').value,
+                paymentMethod: document.getElementById('paymentMethod').value,
+                paymentDate: document.getElementById('paymentDate').value
+            };
+
+            try {
+                // Send the PUT request
+                const response = await fetch(`/payments/updatePayment/${paymentId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedPaymentDto)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to save changes.');
+                }
+
+                showAlert('Changes saved successfully! Redirecting...', 'success');
+                setTimeout(() => {
+                    window.location.href = '/OWNER_PAGES/monthly-revenue.html';
+                }, 1500);
+
+            } catch (error) {
+                console.error(error);
+                showAlert('Error saving changes. Please try again.', 'danger');
+            }
+        });
+
+        function showAlert(message, type) {
+            alertBox.textContent = message;
+            alertBox.className = 'alert alert-' + type;
+            alertBox.style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -33,7 +33,6 @@ public class Apartment {
     @Column(name = "paid_rent")
     private BigDecimal paidRent;
 
-
     @Column
     private Boolean occupied;
 
@@ -42,6 +41,7 @@ public class Apartment {
 
     @Column
     private Boolean depositCollected;
+
 
     public Boolean getOccupied() {
         return occupied;
@@ -122,6 +122,5 @@ public class Apartment {
     public void setFlatNumber(String flatNumber) {
         this.flatNumber = flatNumber;
     }
-
 
 }

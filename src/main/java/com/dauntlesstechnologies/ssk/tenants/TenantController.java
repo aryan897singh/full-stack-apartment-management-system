@@ -1,6 +1,6 @@
 package com.dauntlesstechnologies.ssk.tenants;
 
-import org.hibernate.annotations.Where;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +21,9 @@ public class TenantController {
     public List<TenantDto> getTenantByName(@RequestParam("name") String name){
         return tenantService.createAndSearchTenantRecord(name);
     }
-    @GetMapping("/{id}")
+    @GetMapping("/{tenantId}")
     //FIRST STEP IN UPDATING DATA IS TO DISPLAY THE DATA
-    public TenantDto getTenantById(@PathVariable("id") Long id){
+    public TenantDto getTenantById(@PathVariable("tenantId") Long id){
         return tenantService.findById(id);
     }
 
@@ -31,6 +31,11 @@ public class TenantController {
     public List<TenantDto> getAllUniqueTenants(){
         return tenantService.getAllUniqueTenants();
 
+    }
+
+    @GetMapping("/apartment-details/{id}")
+    public ContainerDto getApartmentDetails(@PathVariable("id") Long tenantId){
+        return tenantService.getApartmentDetails(tenantId);
     }
 
     @PutMapping("/update/{id}")

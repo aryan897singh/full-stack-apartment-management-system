@@ -1,11 +1,14 @@
 package com.dauntlesstechnologies.ssk.apartments;
 
 
+import com.dauntlesstechnologies.ssk.configuration.Configuration;
+import com.dauntlesstechnologies.ssk.configuration.ConfigurationRepository;
 import com.dauntlesstechnologies.ssk.tenants.TenantRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,10 +19,12 @@ public class ApartmentService {
 
     private final ApartmentRepository apartmentRepository;
     private final TenantRepository tenantRepository;
+    private final ConfigurationRepository configurationRepository;
 
-    public ApartmentService(ApartmentRepository apartmentRepository, TenantRepository tenantRepository){
+    public ApartmentService(ApartmentRepository apartmentRepository, TenantRepository tenantRepository, ConfigurationRepository configurationRepository) {
         this.apartmentRepository = apartmentRepository;
         this.tenantRepository = tenantRepository;
+        this.configurationRepository = configurationRepository;
     }
 
     public ApartmentDto findApartmentById(Long id){
@@ -40,7 +45,7 @@ public class ApartmentService {
 
         for(Apartment apartment : apartments){
             Long aptId = apartment.getId();
-            if(tenantRepository.existsById(aptId)){
+            if(tenantRepository.existsByApartmentId(aptId)){
                 apartmentDtos.add(convertEntitytoDTO(apartment));
             }
         }
@@ -48,18 +53,42 @@ public class ApartmentService {
     }
 
     public BigDecimal getOutstandingRentAmount(){
+        /*Note: Need to add logic here such that:
+                If today is less than the date specified by owner (from config settings)
+                Then it should directly return 0, hence we should add an && conditional
+         */
         List<Apartment> apartments = apartmentRepository.findApartmentsWithOutstandingRent();
 
         BigDecimal outstandingRent = BigDecimal.ZERO;
 
-        for(int i = 0; i < apartments.size(); i++){
+        Integer rentDueDate = 0;
 
-            if(apartments.get(i).getOccupied()){
-                BigDecimal outstandingMaintenance = apartments.get(i).getMaintenanceAmount().subtract( apartments.get(i).getPaidMaintenance());
-                BigDecimal outstandingRentPay = apartments.get(i).getRentAmount().subtract( apartments.get(i).getPaidRent());
+        //So first we need to obtain the value of days from config settings
+        Optional<Configuration> configurationOptional = configurationRepository.findByConfigKey("RENT_DUE_DAY");
 
-                BigDecimal thisOutstandingRent = outstandingMaintenance.add(outstandingRentPay);
-                outstandingRent = outstandingRent.add(thisOutstandingRent);
+        if(configurationOptional.isPresent()){
+            Configuration configuration = configurationOptional.get();
+            rentDueDate = Integer.parseInt(configuration.getConfigValue());
+
+        }else{
+            throw new RuntimeException("NO SUCH CONFIGURATION FOUND");
+        }
+
+        //Next, let's obtain today's date
+        LocalDate today = LocalDate.now();
+        int date =  today.getDayOfMonth();
+
+        if(date > rentDueDate){
+            for(int i = 0; i < apartments.size(); i++){
+
+                if(apartments.get(i).getOccupied()){
+                    BigDecimal outstandingMaintenance = apartments.get(i).getMaintenanceAmount().subtract( apartments.get(i).getPaidMaintenance());
+                    BigDecimal outstandingRentPay = apartments.get(i).getRentAmount().subtract( apartments.get(i).getPaidRent());
+
+                    BigDecimal thisOutstandingRent = outstandingMaintenance.add(outstandingRentPay);
+                    outstandingRent = outstandingRent.add(thisOutstandingRent);
+                }
+
             }
 
         }
@@ -69,18 +98,7 @@ public class ApartmentService {
     }
 
     public ApartmentDto convertEntitytoDTO(Apartment apartment){
-        return new ApartmentDto(
-                apartment.getId(),
-                apartment.getFlatNumber(),
-                apartment.getExpectedRent(),
-                apartment.getRentAmount(),
-                apartment.getMaintenanceAmount(),
-                apartment.getPaidMaintenance(),
-                apartment.getPaidRent(),
-                apartment.getOccupied(),
-                apartment.getLastOccupied(),
-                apartment.getDepositCollected()
-        );
+        return ApartmentDto.fromEntity(apartment); //This is awesome!
     }
 
     public void updateApartmentById(Long id, UpdateApartmentDto updateApartmentDto){

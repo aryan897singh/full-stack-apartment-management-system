@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit Tenant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .content-wrapper { flex-grow: 1; }
+        .navbar { background-color: #1e1e1e !important; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); }
+        .navbar-brand { font-weight: 600; color: #f8f9fa !important; }
+        .nav-link { color: #adb5bd !important; }
+        .nav-link:hover { color: #ffffff !important; }
+        .card { background-color: #1e1e1e; border: 1px solid #343a40; border-radius: 8px; }
+        h2 { color: #f8f9fa; font-weight: 300; }
+        footer { background-color: #1e1e1e; padding: 1rem 0; text-align: center; border-top: 1px solid #343a40; margin-top: auto; }
+        footer p { margin: 0; font-size: 0.8rem; color: #6c757d; }
+        .profile-circle {
+            width: 40px; height: 40px; background-color: #007bff; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-weight: bold; color: #fff; cursor: pointer; text-decoration: none;
+        }
+        .form-label, .form-check-label { color: #ffffff; }
+        .form-control, .form-select {
+            background-color: #2c2c2c;
+            border: 1px solid #444;
+            color: #ffffff;
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: #383838;
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/OWNER_PAGES/Dashboard.html">
+            <span id="nav-brand-app-name">Loading...</span>
+        </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/OWNER_PAGES/Tenants.html">Tenants</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/OWNER_PAGES/payments.html">Payments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/OWNER_PAGES/maintenance.html">Maintenance</a>
+                </li>
+            </ul>
+            <a href="/OWNER_PAGES/configuration.html" class="profile-circle me-2" title="Profile Details">AS</a>
+        </div>
+    </div>
+</nav>
+
+<div class="content-wrapper">
+    <div class="container mt-4">
+        <h2 class="mb-4">Edit Tenant Details</h2>
+
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div id="alert-message" class="alert" role="alert" style="display: none;"></div>
+
+                <div class="card p-4 mb-4">
+                    <form id="edit-tenant-form">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber">
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address" name="address" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fatherName" class="form-label">Father's Name</label>
+                            <input type="text" class="form-control" id="fatherName" name="fatherName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="aadharCardNumber" class="form-label">Aadhar Card Number</label>
+                            <input type="text" class="form-control" id="aadharCardNumber" name="aadharCardNumber" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="joinDate" class="form-label">Join Date</label>
+                            <input type="date" class="form-control" id="joinDate" name="joinDate" required>
+                        </div>
+
+                        <hr style="border-top: 1px solid #444;">
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="mainOwner" name="mainOwner">
+                            <label class="form-check-label" for="mainOwner">Is Main Owner (Primary Tenant)</label>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="mt-5">
+    <p>Made by Aryan Singh :)</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/config-loader.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Get settings for navbar
+        const settings = await getAppSettings();
+        document.getElementById('nav-brand-app-name').textContent = settings.APARTMENT_NAME;
+
+        // 1. Read the tenantId from the URL
+        const params = new URLSearchParams(window.location.search);
+        const tenantId = params.get('tenantId');
+        const form = document.getElementById('edit-tenant-form');
+        const alertBox = document.getElementById('alert-message');
+
+        if (!tenantId) {
+            showAlert('Error: No tenant ID specified. Redirecting...', 'danger');
+            setTimeout(() => window.location.href = '/OWNER_PAGES/Tenants.html', 2000);
+            return;
+        }
+
+        // 2. Fetch existing tenant data
+        try {
+            const response = await fetch(`/tenants/${tenantId}`); // Uses your GET /tenants/{id}
+            if (!response.ok) {
+                throw new Error('Failed to fetch tenant details');
+            }
+            const tenant = await response.json(); // This is your TenantDto
+
+            // 3. Populate the form
+            document.getElementById('name').value = tenant.name;
+            document.getElementById('email').value = tenant.email || '';
+            document.getElementById('phoneNumber').value = tenant.phoneNumber || '';
+            document.getElementById('address').value = tenant.address;
+            document.getElementById('fatherName').value = tenant.fatherName;
+            document.getElementById('aadharCardNumber').value = tenant.aadharCardNumber;
+            document.getElementById('mainOwner').checked = tenant.mainOwner;
+
+            // Format the date for the date input field (yyyy-MM-dd)
+            if (tenant.joinDate) {
+                const joinDate = new Date(tenant.joinDate);
+                document.getElementById('joinDate').value = joinDate.toISOString().split('T')[0];
+            }
+
+        } catch (error) {
+            console.error(error);
+            showAlert('Error loading tenant data. Please go back and try again.', 'danger');
+        }
+
+        // 4. Handle the form submission
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            // Build the DTO from form values
+            const updatedTenantDto = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phoneNumber: document.getElementById('phoneNumber').value,
+                address: document.getElementById('address').value,
+                fatherName: document.getElementById('fatherName').value,
+                aadharCardNumber: document.getElementById('aadharCardNumber').value,
+                joinDate: document.getElementById('joinDate').value,
+                mainOwner: document.getElementById('mainOwner').checked
+            };
+
+            try {
+                // Send the PUT request
+                const response = await fetch(`/tenants/update/${tenantId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedTenantDto)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to save changes.');
+                }
+
+                showAlert('Changes saved successfully! Redirecting...', 'success');
+                setTimeout(() => {
+                    // Go back to the details page, passing the original tenantId
+                    window.location.href = `/OWNER_PAGES/apartment-details.html?tenantId=${tenantId}`;
+                }, 1500);
+
+            } catch (error) {
+                console.error(error);
+                showAlert('Error saving changes. Please try again.', 'danger');
+            }
+        });
+
+        function showAlert(message, type) {
+            alertBox.textContent = message;
+            alertBox.className = 'alert alert-' + type;
+            alertBox.style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+    });
+</script>
+
+</body>
+</html>
