@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -25,16 +27,38 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth->
                         auth
-                                /*
-                                TESTING: Dashboard.html can only be accessed by owner
-                                         Tenants.html can only be accessed by tenant
-                                 */
+                                //Note: The input of requestMatchers is just the path (string) being requested
+                                //does not matter if it is an API endpoint or an HTML page
+
+                                //INFINITE LOOP ERROR ENCOUNTERED! ALLOW EVERYONE TO ACCESS UNAUTHORIZED REDIRECT
+                                .requestMatchers("/access-denied").permitAll()
+
+                                //Problem - API endpoints locked, page wide open
+                                //Solution - Lock both the HTML page and the data endpoints (Defense in depth)
+                                .requestMatchers("/OWNER_PAGES/**").hasRole("OWNER")
+
                                 .requestMatchers("/apartments/**").hasRole("OWNER")
-                                .requestMatchers("/tenants/**").hasRole("TENANT")
+                                .requestMatchers("/tenants/**").hasRole("OWNER")
+                                .requestMatchers("/configuration/**").hasRole("OWNER")
+                                .requestMatchers("/deposits/**").hasRole("OWNER")
+                                .requestMatchers("/furniture/**").hasRole("OWNER")
+                                .requestMatchers("/maintenanceRequests/**").hasRole("OWNER")
+                                .requestMatchers("/managers/**").hasRole("OWNER")
+                                .requestMatchers("/payments/**").hasRole("OWNER")
+
+
+
 
 
                                 .anyRequest()
-                                .authenticated())
+                                .authenticated()
+                )
+                //This handles unauthorized cases and sends to the correct page
+                .exceptionHandling(ex ->
+                        ex
+                                .accessDeniedHandler((req, resp, exc) -> {
+                                    resp.sendRedirect("/access-denied");
+                                }))
                 .oauth2Login(oauth2 ->
                         //If not authenticated, go through the oauth2 login flow
                         oauth2
