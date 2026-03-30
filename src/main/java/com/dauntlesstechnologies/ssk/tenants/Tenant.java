@@ -62,7 +62,7 @@ public class Tenant {
     @Column(name = "exists_flag")
     private boolean exists;
 
-    @ManyToMany(mappedBy = "tenants") // (*) this refers to the variable defined in lease class
+    @ManyToMany(mappedBy = "tenants", fetch = FetchType.LAZY) // (*) this refers to the variable defined in lease class
     private Set<Lease> leases;
 
     public Long getId() {
