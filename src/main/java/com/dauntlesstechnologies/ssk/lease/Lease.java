@@ -1,6 +1,7 @@
 package com.dauntlesstechnologies.ssk.lease;
 
 import com.dauntlesstechnologies.ssk.apartments.Apartment;
+import com.dauntlesstechnologies.ssk.payment.Payment;
 import com.dauntlesstechnologies.ssk.tenants.Tenant;
 import jakarta.persistence.*;
 
@@ -22,7 +23,7 @@ public class Lease {
 
     private Date end;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "apartment_id", nullable = false)
     private Apartment apartment;
 
@@ -36,6 +37,8 @@ public class Lease {
     private Set<Tenant> tenants; //(*) This is the variable that the tenants class annotation
                                  //is referencing
 
+    @OneToMany(mappedBy = "lease",  fetch = FetchType.LAZY)
+    private Set<Payment> payments;
 
     @Column(name = "rent_amount")
     private BigDecimal rentAmount;

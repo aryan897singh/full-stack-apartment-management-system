@@ -1,6 +1,7 @@
 package com.dauntlesstechnologies.ssk.payment;
 
 import com.dauntlesstechnologies.ssk.apartments.Apartment;
+import com.dauntlesstechnologies.ssk.lease.Lease;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -14,8 +15,8 @@ public class Payment {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "apartment_id", nullable = false)
-    private Apartment apartment;
+    @JoinColumn(name = "lease_id")
+    private Lease lease;
 
     @Column(name = "payment_type")
     @Enumerated(EnumType.STRING)
@@ -40,14 +41,6 @@ public class Payment {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Apartment getApartment() {
-        return apartment;
-    }
-
-    public void setApartment(Apartment apartment) {
-        this.apartment = apartment;
     }
 
     public PaymentMethod getPaymentMethod() {
