@@ -1,8 +1,10 @@
 package com.dauntlesstechnologies.ssk.apartments;
 
+import com.dauntlesstechnologies.ssk.lease.Lease;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "apartment_tbl")
@@ -24,6 +26,8 @@ public class Apartment {
     @Column
     private Boolean depositCollected;
 
+    @OneToMany(mappedBy = "apartment", fetch = FetchType.LAZY)
+    private Set<Lease> leases;
 
     public Boolean getOccupied() {
         return occupied;
@@ -65,4 +69,11 @@ public class Apartment {
         this.flatNumber = flatNumber;
     }
 
+    public Set<Lease> getLeases() {
+        return leases;
+    }
+
+    public void setLeases(Set<Lease> leases) {
+        this.leases = leases;
+    }
 }
