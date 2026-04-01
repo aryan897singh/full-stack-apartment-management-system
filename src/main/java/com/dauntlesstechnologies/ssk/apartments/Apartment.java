@@ -2,7 +2,6 @@ package com.dauntlesstechnologies.ssk.apartments;
 
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -15,23 +14,6 @@ public class Apartment {
 
     @Column(name = "flat_number")
     private String flatNumber;
-
-    //TO BE SET BY OWNER ONLY, AND IS FIXED
-    @Column(name = "expected_rent")
-    private BigDecimal expectedRent;
-
-    //This is the actual rent amount aka negotiated rent = negotiated deposit that needs to paid
-    @Column(name = "rent_amount")
-    private BigDecimal rentAmount;
-
-    @Column(name = "maintenance_amount")
-    private BigDecimal maintenanceAmount;
-
-    @Column(name = "paid_maintenance")
-    private BigDecimal  paidMaintenance;
-
-    @Column(name = "paid_rent")
-    private BigDecimal paidRent;
 
     @Column
     private Boolean occupied;
@@ -59,14 +41,6 @@ public class Apartment {
         this.id = id;
     }
 
-    public BigDecimal getRentAmount() {
-        return rentAmount;
-    }
-
-    public void setRentAmount(BigDecimal rentAmount) {
-        this.rentAmount = rentAmount;
-    }
-
     public Date getLastOccupied() {
         return lastOccupied;
     }
@@ -81,38 +55,6 @@ public class Apartment {
 
     public void setDepositCollected(Boolean depositCollected) {
         this.depositCollected = depositCollected;
-    }
-
-    public BigDecimal getExpectedRent() {
-        return expectedRent;
-    }
-
-    public void setExpectedRent(BigDecimal expectedRent) {
-        this.expectedRent = expectedRent;
-    }
-
-    public BigDecimal getMaintenanceAmount() {
-        return maintenanceAmount;
-    }
-
-    public void setMaintenanceAmount(BigDecimal maintenanceAmount) {
-        this.maintenanceAmount = maintenanceAmount;
-    }
-
-    public BigDecimal getPaidRent() {
-        return paidRent;
-    }
-
-    public void setPaidRent(BigDecimal paidRent) {
-        this.paidRent = paidRent;
-    }
-
-    public BigDecimal getPaidMaintenance() {
-        return paidMaintenance;
-    }
-
-    public void setPaidMaintenance(BigDecimal paidMaintenance) {
-        this.paidMaintenance = paidMaintenance;
     }
 
     public String getFlatNumber() {
