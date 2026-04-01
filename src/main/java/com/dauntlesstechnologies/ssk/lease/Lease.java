@@ -49,7 +49,83 @@ public class Lease {
     @Column(name = "deposit_amount")
     private BigDecimal depositAmount;
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public Boolean getIs_active() {
+        return is_active;
+    }
 
+    public void setIs_active(Boolean is_active) {
+        this.is_active = is_active;
+    }
+
+    public Date getStart() {
+        return start;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
+    public Apartment getApartment() {
+        return apartment;
+    }
+
+    public void setApartment(Apartment apartment) {
+        this.apartment = apartment;
+    }
+
+    public Set<Tenant> getTenants() {
+        return tenants;
+    }
+
+    public void setTenants(Set<Tenant> tenants) {
+        this.tenants = tenants;
+    }
+
+    public Set<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(Set<Payment> payments) {
+        this.payments = payments;
+    }
+
+    public BigDecimal getRentAmount() {
+        return rentAmount;
+    }
+
+    public void setRentAmount(BigDecimal rentAmount) {
+        this.rentAmount = rentAmount;
+    }
+
+    public BigDecimal getMaintenanceAmount() {
+        return maintenanceAmount;
+    }
+
+    public void setMaintenanceAmount(BigDecimal maintenanceAmount) {
+        this.maintenanceAmount = maintenanceAmount;
+    }
+
+    public BigDecimal getDepositAmount() {
+        return depositAmount;
+    }
+
+    public void setDepositAmount(BigDecimal depositAmount) {
+        this.depositAmount = depositAmount;
+    }
 }

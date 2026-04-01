@@ -82,4 +82,12 @@ public class Payment {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    public Lease getLease() {
+        return lease;
+    }
+
+    public void setLease(Lease lease) {
+        this.lease = lease;
+    }
 }
