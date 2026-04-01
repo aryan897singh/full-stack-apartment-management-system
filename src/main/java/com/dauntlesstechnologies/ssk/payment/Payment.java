@@ -17,18 +17,19 @@ public class Payment {
     @JoinColumn(name = "apartment_id", nullable = false)
     private Apartment apartment;
 
-    @Column
-    private BigDecimal rentAmount;
+    @Column(name = "payment_type")
+    @Enumerated(EnumType.STRING)
+    private PaymentType paymentType;
 
-    @Column
-    private BigDecimal maintenanceAmount;
-
-    @Column
-    private BigDecimal electricityAmount;
+    @Column(name = "payment_amount")
+    private BigDecimal paymentAmount;
 
     @Column(name = "payment_method")
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
+
+    @Column
+    private String comment;
 
     @Column
     private Date paymentDate;
@@ -65,27 +66,27 @@ public class Payment {
         this.paymentDate = paymentDate;
     }
 
-    public BigDecimal getRentAmount() {
-        return rentAmount;
+    public PaymentType getPaymentType() {
+        return paymentType;
     }
 
-    public void setRentAmount(BigDecimal rentAmount) {
-        this.rentAmount = rentAmount;
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
     }
 
-    public BigDecimal getMaintenanceAmount() {
-        return maintenanceAmount;
+    public BigDecimal getPaymentAmount() {
+        return paymentAmount;
     }
 
-    public void setMaintenanceAmount(BigDecimal maintenanceAmount) {
-        this.maintenanceAmount = maintenanceAmount;
+    public void setPaymentAmount(BigDecimal paymentAmount) {
+        this.paymentAmount = paymentAmount;
     }
 
-    public BigDecimal getElectricityAmount() {
-        return electricityAmount;
+    public String getComment() {
+        return comment;
     }
 
-    public void setElectricityAmount(BigDecimal electricityAmount) {
-        this.electricityAmount = electricityAmount;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
