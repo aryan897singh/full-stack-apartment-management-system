@@ -17,7 +17,8 @@ public class Lease {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Boolean is_active;
+    @Column(name = "is_active")
+    private Boolean isActive;
 
     private Date start;
 
@@ -49,6 +50,12 @@ public class Lease {
     @Column(name = "deposit_amount")
     private BigDecimal depositAmount;
 
+    @Column(name = "is_deposit_collected")
+    private Boolean isDepositCollected;
+
+    @Column(name = "is_deposit_returned")
+    private Boolean isDepositReturned;
+
     public Long getId() {
         return id;
     }
@@ -57,12 +64,12 @@ public class Lease {
         this.id = id;
     }
 
-    public Boolean getIs_active() {
-        return is_active;
+    public Boolean getActive() {
+        return isActive;
     }
 
-    public void setIs_active(Boolean is_active) {
-        this.is_active = is_active;
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
     public Date getStart() {
@@ -127,5 +134,21 @@ public class Lease {
 
     public void setDepositAmount(BigDecimal depositAmount) {
         this.depositAmount = depositAmount;
+    }
+
+    public Boolean getDepositCollected() {
+        return isDepositCollected;
+    }
+
+    public void setDepositCollected(Boolean depositCollected) {
+        isDepositCollected = depositCollected;
+    }
+
+    public Boolean getDepositReturned() {
+        return isDepositReturned;
+    }
+
+    public void setDepositReturned(Boolean depositReturned) {
+        isDepositReturned = depositReturned;
     }
 }

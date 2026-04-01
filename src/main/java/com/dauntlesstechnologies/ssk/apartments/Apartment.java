@@ -23,8 +23,6 @@ public class Apartment {
     @Column(name = "last_occupied")
     private Date lastOccupied;
 
-    @Column
-    private Boolean depositCollected;
 
     @OneToMany(mappedBy = "apartment", fetch = FetchType.LAZY)
     private Set<Lease> leases;
@@ -51,14 +49,6 @@ public class Apartment {
 
     public void setLastOccupied(Date lastOccupied) {
         this.lastOccupied = lastOccupied;
-    }
-
-    public Boolean getDepositCollected() {
-        return depositCollected;
-    }
-
-    public void setDepositCollected(Boolean depositCollected) {
-        this.depositCollected = depositCollected;
     }
 
     public String getFlatNumber() {
