@@ -28,27 +28,41 @@ public class LeaseService {
     }
 
     @Transactional
-    public Lease createLease(UpdateLeaseDto updateLeaseDto){
+    public Lease createLease(CreateLeaseDto createLeaseDto){
         Lease lease = new Lease();
-        lease.setStart(updateLeaseDto.start());
-        lease.setEnd(updateLeaseDto.end());
-        Optional<Apartment> apartmentOptional = apartmentRepository.findByFlatNumber(updateLeaseDto.flatNumber());
+        lease.setStart(createLeaseDto.start());
+        lease.setEnd(createLeaseDto.end());
+        Optional<Apartment> apartmentOptional = apartmentRepository.findByFlatNumber(createLeaseDto.flatNumber());
+
 
         if(apartmentOptional.isPresent()){
-            lease.setApartment(apartmentOptional.get());
+            //Now that we have found an apartment, we need to look at the current active lease and deactivate it
+            Apartment apartment =  apartmentOptional.get();
+
+            Optional<Lease> oldLease = leaseRepository.findByApartmentIdAndIsActiveTrue(apartment.getId());
+            //This ensures we load only 1 Lease entity in RAM rather than all the leases in history and looping through them
+            //to find the current active lease, we delegate the querying to SQL
+            if(oldLease.isPresent()){
+                oldLease.get().setActive(false);
+            } //Possible that this is the first time the owner is making a lease for an apt
+
+            lease.setActive(true);
+            lease.setApartment(apartment);
+
         }else{
             throw new RuntimeException("Apartment not found");
         }
 
         Set<Tenant> tenants = new HashSet<>();
-        for(Long id: updateLeaseDto.tenantIds()){
+        for(Long id: createLeaseDto.tenantIds()){
             tenants.add(getTenantFromId(id));
         }
+        lease.setTenants(tenants);
 
-        lease.setRentAmount(updateLeaseDto.rentAmount());
-        lease.setMaintenanceAmount(updateLeaseDto.maintenanceAmount());
-        lease.setDepositAmount(updateLeaseDto.depositAmount());
-        lease.setDepositCollected(updateLeaseDto.isDepositCollected());
+        lease.setRentAmount(createLeaseDto.rentAmount());
+        lease.setMaintenanceAmount(createLeaseDto.maintenanceAmount());
+        lease.setDepositAmount(createLeaseDto.depositAmount());
+        lease.setDepositCollected(createLeaseDto.isDepositCollected());
 
         leaseRepository.save(lease);
         return lease;

@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface LeaseRepository extends JpaRepository<Lease, Long> {
-    Optional<Lease> findByApartmentAndIsActiveTrue(Long apartmentId);
+    Optional<Lease> findByApartmentIdAndIsActiveTrue(Long apartmentId);
 }
