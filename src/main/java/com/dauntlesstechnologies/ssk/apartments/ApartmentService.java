@@ -22,10 +22,11 @@ public class ApartmentService {
     }
 
     @Transactional
-    public void createApartment(UpdateApartmentDto updateApartmentDto){
+    public ApartmentDto createApartment(UpdateApartmentDto updateApartmentDto){
         Apartment apartment = new Apartment();
         apartment.setFlatNumber(updateApartmentDto.flatNumber());
         apartmentRepository.save(apartment);
+        return apartmentToDTO(apartment);
     }
 
     public ApartmentDto findApartmentById(Long id){
