@@ -1,16 +1,20 @@
 package com.dauntlesstechnologies.ssk.lease;
 
+import com.dauntlesstechnologies.ssk.tenants.TenantDto;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
 public record LeaseDto(
-        Long id,
-        Boolean isActive,
         Date start,
         Date end,
-        Long apartmentId,
-        Set<Long> tenantIds,
+        String flatNumber,
+
+        //Purpose of Set of TenantDtos is for a future lease
+        // generator where tenant details are required
+        Set<TenantDto> tenantDtos,
+
         BigDecimal rentAmount,
         BigDecimal maintenanceAmount,
         BigDecimal depositAmount,

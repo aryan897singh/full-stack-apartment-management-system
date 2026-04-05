@@ -2,11 +2,8 @@ package com.dauntlesstechnologies.ssk.lease;
 
 import com.dauntlesstechnologies.ssk.apartments.Apartment;
 import com.dauntlesstechnologies.ssk.apartments.ApartmentRepository;
-import com.dauntlesstechnologies.ssk.tenants.Tenant;
-import com.dauntlesstechnologies.ssk.tenants.TenantRepository;
-import com.dauntlesstechnologies.ssk.tenants.UpdateTenantDto;
+import com.dauntlesstechnologies.ssk.tenants.*;
 import jakarta.transaction.Transactional;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -19,11 +16,13 @@ public class LeaseService {
     private final LeaseRepository leaseRepository;
     private final ApartmentRepository apartmentRepository;
     private final TenantRepository tenantRepository;
+    private final TenantService tenantService;
 
-    public LeaseService(LeaseRepository leaseRepository, ApartmentRepository apartmentRepository, TenantRepository tenantRepository ) {
+    public LeaseService(LeaseRepository leaseRepository, ApartmentRepository apartmentRepository, TenantRepository tenantRepository, TenantService tenantService ) {
         this.leaseRepository = leaseRepository;
         this.apartmentRepository = apartmentRepository;
         this.tenantRepository = tenantRepository;
+        this.tenantService = tenantService;
 
     }
 
@@ -68,6 +67,24 @@ public class LeaseService {
         return lease;
     }
 
+    public LeaseDto getCurrentLeaseFromApartment(String flatNumber){
+
+        Optional<Apartment> apartmentOptional = apartmentRepository.findByFlatNumber(flatNumber);
+
+        if(apartmentOptional.isPresent()){
+            Apartment apartment = apartmentOptional.get();
+            Optional<Lease> leaseOptional = leaseRepository.findByApartmentIdAndIsActiveTrue(apartment.getId());
+            if(leaseOptional.isPresent()){
+                return leaseToDto(leaseOptional.get());
+            } else throw new RuntimeException("Active Lease for this Apartment not found");
+
+
+        }else throw new RuntimeException("Apartment not found");
+
+
+
+    }
+
     @Transactional
     public void updateLease(UpdateLeaseDto updateLeaseDto, Long leaseId){
         Optional<Lease> leaseOptional = leaseRepository.findById(leaseId);
@@ -88,11 +105,6 @@ public class LeaseService {
             throw new RuntimeException("Apartment not found");
         }
 
-        Set<Tenant> tenants = new HashSet<>();
-        for(Long id: updateLeaseDto.tenantIds()){
-            tenants.add(getTenantFromId(id));
-        }
-
         lease.setRentAmount(updateLeaseDto.rentAmount());
         lease.setMaintenanceAmount(updateLeaseDto.maintenanceAmount());
         lease.setDepositAmount(updateLeaseDto.depositAmount());
@@ -101,7 +113,6 @@ public class LeaseService {
         leaseRepository.save(lease);
 
     }
-
 
     public Tenant getTenantFromId(Long tenantId){
         Optional<Tenant> tenantOptional = tenantRepository.findById(tenantId);
@@ -113,6 +124,35 @@ public class LeaseService {
         }
 
     }
+
+    public LeaseDto leaseToDto(Lease lease){
+
+        Set<Tenant> tenants = lease.getTenants();
+        Set<TenantDto> tenantDtos = new HashSet<>();
+
+        //Use tenant mapper instead of tenant service here
+        for(Tenant tenant : tenants){
+           tenantDtos.add(TenantMapper.tenantToDto(tenant));
+        }
+
+        return new LeaseDto(
+                lease.getStart(),
+                lease.getEnd(),
+                lease.getApartment().getFlatNumber(), //We make 2 queries here
+                tenantDtos,
+                lease.getRentAmount(),
+                lease.getMaintenanceAmount(),
+                lease.getDepositAmount(),
+                lease.getDepositCollected(),
+                lease.getDepositReturned()
+        );
+
+
+    }
+
+
+
+
 
 
 

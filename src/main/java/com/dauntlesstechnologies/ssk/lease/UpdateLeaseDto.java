@@ -7,7 +7,7 @@ import java.util.Set;
 public record UpdateLeaseDto(
         Date start,
         Date end,
-        //String flatNumber,
+        String flatNumber,
         //Set<Long> tenantIds,
         BigDecimal rentAmount,
         BigDecimal maintenanceAmount,
