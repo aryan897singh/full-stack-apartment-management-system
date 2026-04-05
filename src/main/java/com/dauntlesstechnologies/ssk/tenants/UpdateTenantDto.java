@@ -1,8 +1,5 @@
 package com.dauntlesstechnologies.ssk.tenants;
 
-import com.dauntlesstechnologies.ssk.apartments.Apartment;
-
-import java.util.Date;
 
 public record UpdateTenantDto(
         String name,
@@ -10,11 +7,7 @@ public record UpdateTenantDto(
         String phoneNumber,
         String address,
         String fatherName,
-        String aadharCardNumber,
-        boolean criminalHistory,
-        boolean agreementSigned,
-        String flatNumber,
-        Date joinDate,
-        boolean mainOwner
+        String uniqueIdentifier,
+        boolean isBackgroundChecked
 ) {
 }
