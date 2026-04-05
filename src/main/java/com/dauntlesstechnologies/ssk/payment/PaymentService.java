@@ -3,6 +3,7 @@ package com.dauntlesstechnologies.ssk.payment;
 import com.dauntlesstechnologies.ssk.apartments.Apartment;
 import com.dauntlesstechnologies.ssk.apartments.ApartmentRepository;
 import com.dauntlesstechnologies.ssk.lease.Lease;
+import com.dauntlesstechnologies.ssk.lease.LeaseRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +17,12 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final ApartmentRepository apartmentRepository;
+    private final LeaseRepository leaseRepository;
 
-    public PaymentService(PaymentRepository paymentRepository, ApartmentRepository apartmentRepository) {
+    public PaymentService(PaymentRepository paymentRepository, ApartmentRepository apartmentRepository, LeaseRepository leaseRepository) {
         this.paymentRepository = paymentRepository;
         this.apartmentRepository = apartmentRepository;
+        this.leaseRepository = leaseRepository;
     }
 
     public PaymentDto findPayment(Long id){
@@ -45,36 +48,28 @@ public class PaymentService {
             return paymentDtos;
         }
 
-        @Transactional
-        public void createPaymentAndUpdateApartmentRecord(UpdatePaymentDto updatePaymentDto){
+    @Transactional
+    public void createPayment(UpdatePaymentDto updatePaymentDto){
         Payment payment = new Payment();
+        Apartment apartment = new Apartment();
 
-        if (apartmentOptional.isPresent()){
+        Optional<Apartment> apartmentOptional = apartmentRepository.findByFlatNumber(updatePaymentDto.flatNumber());
+        if(apartmentOptional.isPresent()){
             apartment = apartmentOptional.get();
-            payment.setApartment(apartment);
+        }else{
+            throw new RuntimeException("APARTMENT WITH FLAT NUMBER " + apartment.getFlatNumber() + " NOT FOUND");
         }
-        else{
-            throw new RuntimeException("Apartment Not Found");
-        }
+        //Now we need to find the associated active lease with that apartment
+        Optional<Lease> leaseOptional = leaseRepository.findByApartmentIdAndIsActiveTrue(apartment.getId());
 
-        payment.setRentAmount(updatePaymentDto.rentAmount());
-        payment.setMaintenanceAmount(updatePaymentDto.maintenanceAmount());
-        payment.setElectricityAmount(updatePaymentDto.electricityAmount());
+        if(leaseOptional.isPresent()){payment.setLease(leaseOptional.get());} else throw new RuntimeException("LEASE NOT FOUND");
+
+        payment.setPaymentType(updatePaymentDto.paymentType());
+        payment.setPaymentAmount(updatePaymentDto.paymentAmount());
         payment.setPaymentMethod(updatePaymentDto.paymentMethod());
+        payment.setComment(updatePaymentDto.comment());
         payment.setPaymentDate(updatePaymentDto.paymentDate());
-        paymentRepository.save(payment);
-
-        //Need to add up the total rent, unlike broken payment records
-        //hence we need to add to existing rather than set new payment
-        //and the apt record will reset monthly anyway
-        apartmentRepository.addPaymentToApartment(
-                apartment.getId(),
-                updatePaymentDto.rentAmount(),
-                updatePaymentDto.maintenanceAmount()
-                );
-
-
-    }
+        }
 
     public void updatePayment(Long id, UpdatePaymentDto updatePaymentDto){
         Payment payment;
