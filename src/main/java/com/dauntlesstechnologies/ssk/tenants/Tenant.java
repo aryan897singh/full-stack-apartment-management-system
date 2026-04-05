@@ -1,11 +1,11 @@
 package com.dauntlesstechnologies.ssk.tenants;
 
-import com.dauntlesstechnologies.ssk.apartments.Apartment;
+import com.dauntlesstechnologies.ssk.lease.Lease;
 import jakarta.persistence.*;
 import org.hibernate.annotations.SQLRestriction;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "tenants_tbl")
@@ -38,10 +38,6 @@ public class Tenant {
     @Column(name = "father_name")
     private String fatherName;
 
-    @ManyToOne
-    @JoinColumn(name = "apartment_id", referencedColumnName = "id") //nullable = false, because we want to soft delete)
-    private Apartment apartment;
-
     @Column(unique = true, name = "aadhar_card_number")
     private String aadharCardNumber;
 
@@ -59,6 +55,9 @@ public class Tenant {
 
     @Column(name = "exists_flag")
     private boolean exists;
+
+    @ManyToMany(mappedBy = "tenants", fetch = FetchType.LAZY) // (*) this refers to the variable defined in lease class
+    private Set<Lease> leases;
 
     public Long getId() {
         return id;
@@ -106,14 +105,6 @@ public class Tenant {
 
     public void setFatherName(String fatherName) {
         this.fatherName = fatherName;
-    }
-
-    public Apartment getApartment() {
-        return apartment;
-    }
-
-    public void setApartment(Apartment apartment) {
-        this.apartment = apartment;
     }
 
     public String getAadharCardNumber() {
