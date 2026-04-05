@@ -23,9 +23,6 @@ public class Tenant {
     @Column(nullable = false)
     private String name;
 
-    @Column(name = "main_owner")
-    private Boolean mainOwner;
-
     @Column
     private String email;
 
@@ -38,20 +35,11 @@ public class Tenant {
     @Column(name = "father_name")
     private String fatherName;
 
-    @Column(unique = true, name = "aadhar_card_number")
-    private String aadharCardNumber;
+    @Column(unique = true, name = "unique_identifier")
+    private String uniqueIdentifier;
 
-    @Column(name = "criminal_history")
-    private boolean criminalHistory;
-
-    @Column(name = "agreement_signed")
-    private boolean agreementSigned;
-
-    @Column(name = "join_date")
-    private Date joinDate;
-
-    @Column(name = "leave_date")
-    private Date leaveDate;
+    @Column(name = "background_check")
+    private boolean isBackgroundChecked;
 
     @Column(name = "exists_flag")
     private boolean exists;
@@ -107,46 +95,6 @@ public class Tenant {
         this.fatherName = fatherName;
     }
 
-    public String getAadharCardNumber() {
-        return aadharCardNumber;
-    }
-
-    public void setAadharCardNumber(String aadharCardNumber) {
-        this.aadharCardNumber = aadharCardNumber;
-    }
-
-    public boolean isCriminalHistory() {
-        return criminalHistory;
-    }
-
-    public void setCriminalHistory(boolean criminalHistory) {
-        this.criminalHistory = criminalHistory;
-    }
-
-    public boolean isAgreementSigned() {
-        return agreementSigned;
-    }
-
-    public void setAgreementSigned(boolean agreementSigned) {
-        this.agreementSigned = agreementSigned;
-    }
-
-    public Date getJoinDate() {
-        return joinDate;
-    }
-
-    public void setJoinDate(Date joinDate) {
-        this.joinDate = joinDate;
-    }
-
-    public Date getLeaveDate() {
-        return leaveDate;
-    }
-
-    public void setLeaveDate(Date leaveDate) {
-        this.leaveDate = leaveDate;
-    }
-
     public boolean getExists() {
         return exists;
     }
@@ -155,11 +103,27 @@ public class Tenant {
         this.exists = exists;
     }
 
-    public Boolean isMainOwner() {
-        return mainOwner;
+    public String getUniqueIdentifier() {
+        return uniqueIdentifier;
     }
 
-    public void setMainOwner(Boolean mainOwner) {
-        this.mainOwner = mainOwner;
+    public void setUniqueIdentifier(String uniqueIdentifier) {
+        this.uniqueIdentifier = uniqueIdentifier;
+    }
+
+    public boolean isBackgroundChecked() {
+        return isBackgroundChecked;
+    }
+
+    public void setBackgroundChecked(boolean backgroundChecked) {
+        isBackgroundChecked = backgroundChecked;
+    }
+
+    public Set<Lease> getLeases() {
+        return leases;
+    }
+
+    public void setLeases(Set<Lease> leases) {
+        this.leases = leases;
     }
 }
