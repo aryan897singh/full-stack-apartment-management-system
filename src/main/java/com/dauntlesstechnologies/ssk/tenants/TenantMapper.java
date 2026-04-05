@@ -8,17 +8,14 @@ public class TenantMapper {
         return new TenantDto(
                 tenant.getId(),
                 tenant.getName(),
-                tenant.isMainOwner(),
                 tenant.getEmail(),
                 tenant.getPhoneNumber(),
                 tenant.getAddress(),
                 tenant.getFatherName(),
-                tenant.getAadharCardNumber(),
-                tenant.isCriminalHistory(),
-                tenant.isAgreementSigned(),
-                tenant.getJoinDate(),
-                tenant.getLeaveDate(),
-                tenant.getExists()
+                tenant.getUniqueIdentifier(),
+                tenant.isBackgroundChecked(),
+                true //Since we are mapping from an object, this has to be true
+
         );
     }
 
