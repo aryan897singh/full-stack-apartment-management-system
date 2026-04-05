@@ -6,10 +6,7 @@ import java.util.Date;
 
 public record UpdateApartmentDto(
         String flatNumber,
-        BigDecimal expectedRent,
-        BigDecimal rentAmount,
-        BigDecimal maintenanceAmount,
-        BigDecimal paidMaintenance,
-        BigDecimal paidRent
+        Boolean occupied,
+        Date lastOccupied
 ) {
 }

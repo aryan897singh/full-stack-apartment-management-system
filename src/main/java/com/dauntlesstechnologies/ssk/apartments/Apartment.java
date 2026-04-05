@@ -17,7 +17,6 @@ public class Apartment {
     @Column(name = "flat_number")
     private String flatNumber;
 
-
     @OneToMany(mappedBy = "apartment", fetch = FetchType.LAZY)
     private Set<Lease> leases;
 
@@ -37,11 +36,7 @@ public class Apartment {
         this.flatNumber = flatNumber;
     }
 
-    public Set<Lease> getLeases() {
-        return leases;
-    }
+    public Set<Lease> getLeases() {return leases;}
 
-    public void setLeases(Set<Lease> leases) {
-        this.leases = leases;
-    }
+    public void setLeases(Set<Lease> leases) {this.leases = leases;}
 }

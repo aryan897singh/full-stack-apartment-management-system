@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/leases")
-@CrossOrigin // Matching the standard you set in TenantController
+@CrossOrigin
 public class LeaseController {
 
     private final LeaseService leaseService;

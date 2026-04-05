@@ -3,16 +3,15 @@ package com.dauntlesstechnologies.ssk.apartments;
 
 import com.dauntlesstechnologies.ssk.configuration.Configuration;
 import com.dauntlesstechnologies.ssk.configuration.ConfigurationRepository;
+import com.dauntlesstechnologies.ssk.lease.Lease;
+import com.dauntlesstechnologies.ssk.lease.LeaseRepository;
 import com.dauntlesstechnologies.ssk.tenants.TenantRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ApartmentService {
@@ -20,11 +19,21 @@ public class ApartmentService {
     private final ApartmentRepository apartmentRepository;
     private final TenantRepository tenantRepository;
     private final ConfigurationRepository configurationRepository;
+    private final LeaseRepository leaseRepository;
 
-    public ApartmentService(ApartmentRepository apartmentRepository, TenantRepository tenantRepository, ConfigurationRepository configurationRepository) {
+    public ApartmentService(ApartmentRepository apartmentRepository, TenantRepository tenantRepository, ConfigurationRepository configurationRepository, LeaseRepository leaseRepository) {
         this.apartmentRepository = apartmentRepository;
         this.tenantRepository = tenantRepository;
         this.configurationRepository = configurationRepository;
+        this.leaseRepository = leaseRepository;
+    }
+
+
+    public void createApartment(UpdateApartmentDto updateApartmentDto){
+        Apartment apartment = new Apartment();
+
+        apartment.setFlatNumber(updateApartmentDto.flatNumber());
+        apartmentRepository.save(apartment);
     }
 
     public ApartmentDto findApartmentById(Long id){
@@ -52,53 +61,29 @@ public class ApartmentService {
         return apartmentDtos;
     }
 
-    public BigDecimal getOutstandingRentAmount(){
-        /*Note: Need to add logic here such that:
-                If today is less than the date specified by owner (from config settings)
-                Then it should directly return 0, hence we should add an && conditional
-         */
-        List<Apartment> apartments = apartmentRepository.findApartmentsWithOutstandingRent();
-
-        BigDecimal outstandingRent = BigDecimal.ZERO;
-
-        Integer rentDueDate = 0;
-
-        //So first we need to obtain the value of days from config settings
-        Optional<Configuration> configurationOptional = configurationRepository.findByConfigKey("RENT_DUE_DAY");
-
-        if(configurationOptional.isPresent()){
-            Configuration configuration = configurationOptional.get();
-            rentDueDate = Integer.parseInt(configuration.getConfigValue());
-
-        }else{
-            throw new RuntimeException("NO SUCH CONFIGURATION FOUND");
-        }
-
-        //Next, let's obtain today's date
-        LocalDate today = LocalDate.now();
-        int date =  today.getDayOfMonth();
-
-        if(date > rentDueDate){
-            for(int i = 0; i < apartments.size(); i++){
-
-                if(apartments.get(i).getOccupied()){
-                    BigDecimal outstandingMaintenance = apartments.get(i).getMaintenanceAmount().subtract( apartments.get(i).getPaidMaintenance());
-                    BigDecimal outstandingRentPay = apartments.get(i).getRentAmount().subtract( apartments.get(i).getPaidRent());
-
-                    BigDecimal thisOutstandingRent = outstandingMaintenance.add(outstandingRentPay);
-                    outstandingRent = outstandingRent.add(thisOutstandingRent);
-                }
-
-            }
-
-        }
-
-        return outstandingRent;
-
-    }
 
     public ApartmentDto convertEntitytoDTO(Apartment apartment){
-        return ApartmentDto.fromEntity(apartment); //This is awesome!
+        boolean occupied = false;
+        Date lastOccupied = new Date();
+
+        Optional<Lease> leaseOptional = leaseRepository.findByApartmentIdAndIsActiveTrue(apartment.getId());
+        if(leaseOptional.isPresent()){
+            occupied = true;
+        }
+
+        Optional<Date> lastOccupiedOptional = leaseRepository.findLastOccupiedDateByApartmentId(apartment.getId());
+
+        if(lastOccupiedOptional.isPresent()){
+            lastOccupied = lastOccupiedOptional.get();
+        }else{
+            lastOccupied = null;
+        }
+
+        return new ApartmentDto(
+                apartment.getFlatNumber(),
+                occupied,
+                lastOccupied
+        );
     }
 
     public void updateApartmentById(Long id, UpdateApartmentDto updateApartmentDto){
@@ -120,18 +105,6 @@ public class ApartmentService {
             throw new RuntimeException("NO SUCH APT FOUND WITH GIVEN ID");
         }
 
-    }
-
-    public void createApartment(UpdateApartmentDto updateApartmentDto){
-        Apartment apartment = new Apartment();
-
-        apartment.setFlatNumber(updateApartmentDto.flatNumber());
-        apartment.setExpectedRent(updateApartmentDto.expectedRent());
-        apartment.setRentAmount(updateApartmentDto.rentAmount());
-        apartment.setMaintenanceAmount(updateApartmentDto.maintenanceAmount());
-        apartment.setPaidMaintenance(updateApartmentDto.paidMaintenance());
-        apartment.setPaidRent(updateApartmentDto.paidRent());
-        apartmentRepository.save(apartment);
     }
 
     //Making sure no one is living before deleting
@@ -197,24 +170,6 @@ public class ApartmentService {
         }
 
         return apartmentDtos;
-    }
-
-    //THIS METHOD IS USED TO RESET THE PAYMENT AMOUNT EVERY MONTH FOR ADMIN TO ADD NEW MONTH PAYMENT
-    @Scheduled(cron = "0 0 0 1 * ?")
-    public void resetMonthlyPayments(){
-        System.out.println("BEGINNING MONTHLY PAYMENT RESET ...");
-
-        List<Apartment> apartments = apartmentRepository.findAll();
-
-        for(Apartment apartment : apartments){
-            apartment.setPaidMaintenance(BigDecimal.ZERO);
-            apartment.setPaidRent(BigDecimal.ZERO);
-
-            apartmentRepository.save(apartment);
-        }
-
-        System.out.println("MONTHLY PAYMENT RESET COMPLETE :)");
-
     }
 
 
