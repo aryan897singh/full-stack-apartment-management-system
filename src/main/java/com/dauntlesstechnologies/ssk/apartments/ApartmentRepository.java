@@ -15,5 +15,8 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
 
     public Optional<Apartment> findByFlatNumber(String flatNumber);
 
+    //Can you confirm if this is a valid method? Apartment holds the Set of Leases
+    public Optional<Apartment> findApartmentByLeaseId(Long leaseId);
+
 }
 

@@ -5,10 +5,10 @@ import java.util.Date;
 
 public record UpdatePaymentDto(
         String flatNumber,
-        BigDecimal rentAmount,
-        BigDecimal maintenanceAmount,
-        BigDecimal electricityAmount,
+        PaymentType paymentType,
+        BigDecimal paymentAmount,
         PaymentMethod paymentMethod,
+        String comment,
         Date paymentDate
 ) {
 }
