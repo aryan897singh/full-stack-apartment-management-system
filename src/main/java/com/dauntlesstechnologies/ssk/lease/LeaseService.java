@@ -4,11 +4,10 @@ import com.dauntlesstechnologies.ssk.apartments.Apartment;
 import com.dauntlesstechnologies.ssk.apartments.ApartmentRepository;
 import com.dauntlesstechnologies.ssk.tenants.*;
 import jakarta.transaction.Transactional;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class LeaseService {
@@ -16,14 +15,11 @@ public class LeaseService {
     private final LeaseRepository leaseRepository;
     private final ApartmentRepository apartmentRepository;
     private final TenantRepository tenantRepository;
-    private final TenantService tenantService;
 
-    public LeaseService(LeaseRepository leaseRepository, ApartmentRepository apartmentRepository, TenantRepository tenantRepository, TenantService tenantService ) {
+    public LeaseService(LeaseRepository leaseRepository, ApartmentRepository apartmentRepository, TenantRepository tenantRepository) {
         this.leaseRepository = leaseRepository;
         this.apartmentRepository = apartmentRepository;
         this.tenantRepository = tenantRepository;
-        this.tenantService = tenantService;
-
     }
 
     @Transactional
@@ -149,6 +145,26 @@ public class LeaseService {
 
 
     }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    @Transactional
+    public void autoExpireCompletedLeases(){
+        System.out.println("RUNNING NIGHTLY LEASE EXPIRATION BATCH JOB: ");
+
+        List<Lease> expiredLeases = leaseRepository.findAllByIsActiveTrueAndEndBefore(new Date());
+
+        if(!expiredLeases.isEmpty()){
+            for(Lease lease : expiredLeases){
+                lease.setActive(false);
+
+            }
+            //One query to update all rather than sending N queries to update each lease
+            leaseRepository.saveAll(expiredLeases);
+            System.out.println("SUCCESSFULLY DEACTIVATED " + expiredLeases.size() + " EXPIRED LEASES.");
+        }
+
+    }
+
 
 
 
