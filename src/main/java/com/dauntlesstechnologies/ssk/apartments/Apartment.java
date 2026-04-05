@@ -17,23 +17,9 @@ public class Apartment {
     @Column(name = "flat_number")
     private String flatNumber;
 
-    @Column
-    private Boolean occupied;
-
-    @Column(name = "last_occupied")
-    private Date lastOccupied;
-
 
     @OneToMany(mappedBy = "apartment", fetch = FetchType.LAZY)
     private Set<Lease> leases;
-
-    public Boolean getOccupied() {
-        return occupied;
-    }
-
-    public void setOccupied(Boolean occupied) {
-        this.occupied = occupied;
-    }
 
     public Long getId() {
         return id;
@@ -41,14 +27,6 @@ public class Apartment {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Date getLastOccupied() {
-        return lastOccupied;
-    }
-
-    public void setLastOccupied(Date lastOccupied) {
-        this.lastOccupied = lastOccupied;
     }
 
     public String getFlatNumber() {
