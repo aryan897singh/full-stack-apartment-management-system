@@ -1,5 +1,6 @@
 package com.dauntlesstechnologies.ssk.tenants;
 
+import com.dauntlesstechnologies.ssk.lease.LeaseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -11,9 +12,11 @@ import java.util.Optional;
 public class TenantService {
 
     private final TenantRepository tenantRepository;
+    private final LeaseRepository leaseRepository;
 
-    TenantService(TenantRepository tenantRepository) {
+    TenantService(TenantRepository tenantRepository, LeaseRepository leaseRepository) {
         this.tenantRepository = tenantRepository;
+        this.leaseRepository = leaseRepository;
     }
 
     public List<TenantDto> createAndSearchTenantRecord(String name) {
@@ -44,6 +47,8 @@ public class TenantService {
     }
 
     private TenantDto convertToDto(Tenant tenant) {
+        boolean hasActiveLease = leaseRepository.hasActiveLeaseByTenantId(tenant.getId());
+
         return new TenantDto(
                 tenant.getId(),
                 tenant.getName(),
@@ -53,7 +58,7 @@ public class TenantService {
                 tenant.getFatherName(),
                 tenant.getUniqueIdentifier(),
                 tenant.isBackgroundChecked(),
-                tenant.getExists()
+                hasActiveLease
         );
 
     }
@@ -88,26 +93,9 @@ public class TenantService {
         tenant.setFatherName(updateTenantDto.fatherName());
         tenant.setUniqueIdentifier(updateTenantDto.uniqueIdentifier());
         tenant.setBackgroundChecked(updateTenantDto.isBackgroundChecked());
-        tenant.setExists(true);
 
         tenantRepository.save(tenant);
         return convertToDto(tenant);
-    }
-
-    public void deleteTenant(Long id){
-        Optional<Tenant> tenantOptional = tenantRepository.findById(id);
-
-        if (tenantOptional.isPresent()){
-            Tenant tenant = tenantOptional.get();
-
-            //Soft deleting the tenant:
-            tenant.setExists(false);
-            //interview discussion - problem was that the leave date was not being set, forgot to save it to the repo
-            tenantRepository.save(tenant);
-        }
-        else {
-            throw new EntityNotFoundException("TENANT NOT FOUND");
-        }
     }
 
 

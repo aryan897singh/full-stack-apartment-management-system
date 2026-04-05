@@ -41,9 +41,6 @@ public class Tenant {
     @Column(name = "background_check")
     private boolean isBackgroundChecked;
 
-    @Column(name = "exists_flag")
-    private boolean exists;
-
     @ManyToMany(mappedBy = "tenants", fetch = FetchType.LAZY) // (*) this refers to the variable defined in lease class
     private Set<Lease> leases;
 
@@ -93,14 +90,6 @@ public class Tenant {
 
     public void setFatherName(String fatherName) {
         this.fatherName = fatherName;
-    }
-
-    public boolean getExists() {
-        return exists;
-    }
-
-    public void setExists(boolean exists) {
-        this.exists = exists;
     }
 
     public String getUniqueIdentifier() {

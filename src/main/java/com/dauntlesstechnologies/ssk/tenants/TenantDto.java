@@ -1,6 +1,5 @@
 package com.dauntlesstechnologies.ssk.tenants;
 
-import java.util.Date;
 
 public record TenantDto(
         Long id,
@@ -11,6 +10,6 @@ public record TenantDto(
         String fatherName,
         String uniqueIdentifier,
         boolean isBackgroundChecked,
-        boolean exists
+        boolean hasActiveLease
 ) {
 }
