@@ -5,8 +5,6 @@ import java.util.Date;
 
 
 public record UpdateApartmentDto(
-        String flatNumber,
-        Boolean occupied,
-        Date lastOccupied
+        String flatNumber
 ) {
 }
