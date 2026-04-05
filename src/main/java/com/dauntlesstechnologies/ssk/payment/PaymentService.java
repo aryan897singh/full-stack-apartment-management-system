@@ -2,6 +2,7 @@ package com.dauntlesstechnologies.ssk.payment;
 
 import com.dauntlesstechnologies.ssk.apartments.Apartment;
 import com.dauntlesstechnologies.ssk.apartments.ApartmentRepository;
+import com.dauntlesstechnologies.ssk.lease.Lease;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,8 @@ import java.util.Optional;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
-    private final ApartmentRepository  apartmentRepository;
-    //injecting the repo layer into the service layer
+    private final ApartmentRepository apartmentRepository;
+
     public PaymentService(PaymentRepository paymentRepository, ApartmentRepository apartmentRepository) {
         this.paymentRepository = paymentRepository;
         this.apartmentRepository = apartmentRepository;
@@ -47,9 +48,6 @@ public class PaymentService {
         @Transactional
         public void createPaymentAndUpdateApartmentRecord(UpdatePaymentDto updatePaymentDto){
         Payment payment = new Payment();
-        Apartment apartment;
-
-        Optional<Apartment> apartmentOptional =  apartmentRepository.findByFlatNumber(updatePaymentDto.flatNumber());
 
         if (apartmentOptional.isPresent()){
             apartment = apartmentOptional.get();
@@ -126,13 +124,16 @@ public class PaymentService {
     }
 
     public PaymentDto entityToDto(Payment payment){
+        Lease lease = payment.getLease();
+        Optional<Apartment> apartmentOptional = apartmentRepository.findApartmentByLeaseId(lease.getId());
+
         return new PaymentDto(
                 payment.getId(),
-                payment.getApartment().getFlatNumber(),
-                payment.getRentAmount(),
-                payment.getMaintenanceAmount(),
-                payment.getElectricityAmount(),
+                apartmentOptional.get().getFlatNumber(),
+                payment.getPaymentType(),
+                payment.getPaymentAmount(),
                 payment.getPaymentMethod(),
+                payment.getComment(),
                 payment.getPaymentDate()
         );
 
