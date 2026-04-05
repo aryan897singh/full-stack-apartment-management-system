@@ -49,7 +49,7 @@ public class PaymentService {
         }
 
     @Transactional
-    public void createPayment(UpdatePaymentDto updatePaymentDto){
+    public PaymentDto createPayment(UpdatePaymentDto updatePaymentDto){
         Payment payment = new Payment();
         Apartment apartment = new Apartment();
 
@@ -57,7 +57,7 @@ public class PaymentService {
         if(apartmentOptional.isPresent()){
             apartment = apartmentOptional.get();
         }else{
-            throw new RuntimeException("APARTMENT WITH FLAT NUMBER " + apartment.getFlatNumber() + " NOT FOUND");
+            throw new RuntimeException("APARTMENT WITH FLAT NUMBER " + updatePaymentDto.flatNumber() + " NOT FOUND");
         }
         //Now we need to find the associated active lease with that apartment
         Optional<Lease> leaseOptional = leaseRepository.findByApartmentIdAndIsActiveTrue(apartment.getId());
@@ -71,6 +71,7 @@ public class PaymentService {
         payment.setPaymentDate(updatePaymentDto.paymentDate());
 
         paymentRepository.save(payment);
+        return entityToDto(payment);
         }
 
     public void updatePayment(Long id, UpdatePaymentDto updatePaymentDto){
