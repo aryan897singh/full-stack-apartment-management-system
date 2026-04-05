@@ -16,9 +16,9 @@ public class LeaseController {
     }
 
     @PostMapping
-    public ResponseEntity<Lease> createLease(@RequestBody CreateLeaseDto createLeaseDto) {
-        Lease newLease = leaseService.createLease(createLeaseDto);
-        return new ResponseEntity<>(newLease, HttpStatus.CREATED);
+    public ResponseEntity<LeaseDto> createLease(@RequestBody CreateLeaseDto createLeaseDto) {
+        LeaseDto newLeaseDto = leaseService.createLease(createLeaseDto);
+        return new ResponseEntity<>(newLeaseDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/apartment/{flatNumber}")

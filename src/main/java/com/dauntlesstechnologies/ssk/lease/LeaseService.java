@@ -27,7 +27,7 @@ public class LeaseService {
     }
 
     @Transactional
-    public Lease createLease(CreateLeaseDto createLeaseDto){
+    public LeaseDto createLease(CreateLeaseDto createLeaseDto){
         Lease lease = new Lease();
         lease.setStart(createLeaseDto.start());
         lease.setEnd(createLeaseDto.end());
@@ -64,7 +64,7 @@ public class LeaseService {
         lease.setDepositCollected(createLeaseDto.isDepositCollected());
 
         leaseRepository.save(lease);
-        return lease;
+        return leaseToDto(lease);
     }
 
     public LeaseDto getCurrentLeaseFromApartment(String flatNumber){
