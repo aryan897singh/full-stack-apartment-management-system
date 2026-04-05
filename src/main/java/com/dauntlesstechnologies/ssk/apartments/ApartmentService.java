@@ -1,16 +1,12 @@
 package com.dauntlesstechnologies.ssk.apartments;
 
 
-import com.dauntlesstechnologies.ssk.configuration.Configuration;
 import com.dauntlesstechnologies.ssk.configuration.ConfigurationRepository;
 import com.dauntlesstechnologies.ssk.lease.Lease;
 import com.dauntlesstechnologies.ssk.lease.LeaseRepository;
 import com.dauntlesstechnologies.ssk.tenants.TenantRepository;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -28,10 +24,8 @@ public class ApartmentService {
         this.leaseRepository = leaseRepository;
     }
 
-
     public void createApartment(UpdateApartmentDto updateApartmentDto){
         Apartment apartment = new Apartment();
-
         apartment.setFlatNumber(updateApartmentDto.flatNumber());
         apartmentRepository.save(apartment);
     }
@@ -40,7 +34,7 @@ public class ApartmentService {
         Optional<Apartment> apartmentOptional = apartmentRepository.findById(id);
 
         if(apartmentOptional.isPresent()){
-             return convertEntitytoDTO(apartmentOptional.get());
+             return apartmentToDTO(apartmentOptional.get());
         }
         else {
             throw new RuntimeException("NO SUCH APARTMENT FOUND WITH THIS ID");
@@ -48,21 +42,11 @@ public class ApartmentService {
 
     }
 
-    public List<ApartmentDto> getAllOutstandingRentAparmtents(){
-        List<Apartment> apartments = apartmentRepository.findApartmentsWithOutstandingRent();
-        List<ApartmentDto> apartmentDtos = new ArrayList<>();
+//    public List<ApartmentDto> getAllOutstandingRentAparmtents(){
+//
+//    }
 
-        for(Apartment apartment : apartments){
-            Long aptId = apartment.getId();
-            if(tenantRepository.existsByApartmentId(aptId)){
-                apartmentDtos.add(convertEntitytoDTO(apartment));
-            }
-        }
-        return apartmentDtos;
-    }
-
-
-    public ApartmentDto convertEntitytoDTO(Apartment apartment){
+    public ApartmentDto apartmentToDTO(Apartment apartment){
         boolean occupied = false;
         Date lastOccupied = new Date();
 
@@ -92,13 +76,8 @@ public class ApartmentService {
         Optional<Apartment> apartmentOptional = apartmentRepository.findById(id);
 
         if(apartmentOptional.isPresent()){
-             apartment = apartmentOptional.get();
+            apartment = apartmentOptional.get();
             apartment.setFlatNumber(updateApartmentDto.flatNumber());
-            apartment.setExpectedRent(updateApartmentDto.expectedRent());
-            apartment.setRentAmount(updateApartmentDto.rentAmount());
-            apartment.setMaintenanceAmount(updateApartmentDto.maintenanceAmount());
-            apartment.setPaidMaintenance(updateApartmentDto.paidMaintenance());
-            apartment.setPaidRent(updateApartmentDto.paidRent());
             apartmentRepository.save(apartment);
         }
         else {
@@ -166,7 +145,7 @@ public class ApartmentService {
         List<ApartmentDto> apartmentDtos = new ArrayList<>();
 
         for(Apartment apartment: apartments){
-            apartmentDtos.add(convertEntitytoDTO(apartment));
+            apartmentDtos.add(apartmentToDTO(apartment));
         }
 
         return apartmentDtos;
