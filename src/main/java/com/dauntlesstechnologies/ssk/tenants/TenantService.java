@@ -74,6 +74,8 @@ public class TenantService {
             tenant.setPhoneNumber(updateTenantDto.phoneNumber());
             tenant.setAddress(updateTenantDto.address());
             tenant.setFatherName(updateTenantDto.fatherName());
+            tenant.setUniqueIdentifier(updateTenantDto.uniqueIdentifier());
+            tenant.setBackgroundChecked(updateTenantDto.isBackgroundChecked());
 
             tenantRepository.save(tenant);
         }
