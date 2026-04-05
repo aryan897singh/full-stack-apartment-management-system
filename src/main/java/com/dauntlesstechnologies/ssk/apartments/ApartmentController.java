@@ -20,31 +20,6 @@ public class ApartmentController {
         return ResponseEntity.ok(apartmentService.findApartmentById(id));
     }
 
-//    @GetMapping("/getAllVacantApartments")
-//    public List<ApartmentDto> getAllVacantApartments(){
-//        return apartmentService.getAllVacantApartments();
-//    }
-
-//    //Note: we are using map so that it can be converted to JSON format and sent, ex. "count" : 5
-//    @GetMapping("/occupied")
-//    public Map<String, Integer> getOccupied(){
-//        return Collections.singletonMap("occupied", apartmentService.occupiedOrVacantCount().get(0));
-//    }
-//
-//    @GetMapping("/vacant")
-//    public Map<String, Integer> getVacant(){
-//        return Collections.singletonMap("vacant", apartmentService.occupiedOrVacantCount().get(1));
-//    }
-//
-//    @GetMapping("/getAllOutstandingRentApartments")
-//    public List<ApartmentDto> getAllOutstandingRentAparmtents(){
-//        return apartmentService.getAllOutstandingRentAparmtents();
-//    }
-//
-//    @GetMapping("/getOutstandingRentAmount")
-//    public Map<String, BigDecimal> getOutstandingRentAmount(){
-//        return Collections.singletonMap("value", apartmentService.getOutstandingRentAmount());
-//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateApartment(@PathVariable("id") Long id, @RequestBody UpdateApartmentDto updateApartmentDto){

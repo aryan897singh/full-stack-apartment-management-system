@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/tenants")
+@RequestMapping(path = "/api/tenants")
 @CrossOrigin
 public class TenantController {
 
@@ -18,48 +18,28 @@ public class TenantController {
     }
 
     @GetMapping
-    public List<TenantDto> getTenantByName(@RequestParam("name") String name){
-        return tenantService.createAndSearchTenantRecord(name);
+    public ResponseEntity<List<TenantDto>> getTenantByName(@RequestParam("name") String name){
+        return ResponseEntity.ok(tenantService.createAndSearchTenantRecord(name));
     }
+
     @GetMapping("/{tenantId}")
     //FIRST STEP IN UPDATING DATA IS TO DISPLAY THE DATA
-    public TenantDto getTenantById(@PathVariable("tenantId") Long id){
-        return tenantService.findById(id);
+    public ResponseEntity<TenantDto> getTenantById(@PathVariable("tenantId") Long id){
+        return ResponseEntity.ok(tenantService.findById(id));
     }
 
-    @GetMapping("/getAllUniqueTenants")
-    public List<TenantDto> getAllUniqueTenants(){
-        return tenantService.getAllUniqueTenants();
 
-    }
-
-    @GetMapping("/apartment-details/{id}")
-    public ContainerDto getApartmentDetails(@PathVariable("id") Long tenantId){
-        return tenantService.getApartmentDetails(tenantId);
-    }
-
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     //SECOND STEP IN UPDATING DATA IS TAKING MODIFIED DATA AND UPDATING IT
-    public void update(@PathVariable Long id, @RequestBody UpdateTenantDto updateTenantDto){
+    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody UpdateTenantDto updateTenantDto){
         tenantService.updateTenant(updateTenantDto, id);
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Tenant> create(@RequestBody UpdateTenantDto updateTenantDto){
-        Tenant newTenant = tenantService.createTenant(updateTenantDto);
-        return new ResponseEntity<>(newTenant, HttpStatus.CREATED);
+    @PostMapping
+    public ResponseEntity<TenantDto> create(@RequestBody UpdateTenantDto updateTenantDto){
+        TenantDto newTenantDto = tenantService.createTenant(updateTenantDto);
+        return new ResponseEntity<>(newTenantDto, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") Long id){
-        tenantService.deleteTenant(id);
-
-    }
-
-    /*
-    C - DONE
-    R - DONE
-    U - DONE
-    D - DONE
-     */
 }
