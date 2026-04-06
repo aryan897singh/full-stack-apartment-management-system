@@ -14,7 +14,7 @@ public class MaintenanceRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "apartment_id", referencedColumnName = "id",  nullable = false)
     private Apartment apartment;
 

@@ -2,6 +2,8 @@ package com.dauntlesstechnologies.ssk.maintenance_requests;
 
 import com.dauntlesstechnologies.ssk.apartments.Apartment;
 import com.dauntlesstechnologies.ssk.apartments.ApartmentRepository;
+import com.dauntlesstechnologies.ssk.lease.Lease;
+import com.dauntlesstechnologies.ssk.lease.LeaseRepository;
 import com.dauntlesstechnologies.ssk.manager.Manager;
 import com.dauntlesstechnologies.ssk.manager.ManagerRepository;
 import com.dauntlesstechnologies.ssk.tenants.Tenant;
@@ -19,9 +21,10 @@ public class MaintenanceRequestService {
     private final ApartmentRepository apartmentRepository;
     private final ManagerRepository managerRepository;
     private final TenantRepository tenantRepository;
+    private final LeaseRepository leaseRepository;
 
     //injecting the repo in cause service talks to repo
-    public MaintenanceRequestService(MaintenanceRequestRepository maintenanceRequestRepository, ApartmentRepository apartmentRepository , ManagerRepository managerRepository, TenantRepository tenantRepository) {
+    public MaintenanceRequestService(MaintenanceRequestRepository maintenanceRequestRepository, ApartmentRepository apartmentRepository , ManagerRepository managerRepository, TenantRepository tenantRepository, LeaseRepository leaseRepository) {
         this.tenantRepository = tenantRepository;
         this.maintenanceRequestRepository = maintenanceRequestRepository;
         this.apartmentRepository = apartmentRepository;
@@ -29,6 +32,7 @@ public class MaintenanceRequestService {
         this.managerRepository = managerRepository; //INTERVIEW PROBLEM SOLUTION - We need to obtain the manager by the MaintenanceType
                                                     //because obv the user doesnt know the manager, but the manager should be set so that
                                                     //they are immediately sent a notification of the maintenance request :) (next version feature)
+        this.leaseRepository = leaseRepository;
     }
 
     public MaintenanceRequestDto findMaintenanceRequestById(Long id){
@@ -99,19 +103,20 @@ public class MaintenanceRequestService {
 
     }
 
-    public MaintenanceRequest createNewMaintenanceRequest(Long tenantId, TenantUpdateMaintenanceRequestDto tenantUpdateMaintenanceRequestDto){
+    public MaintenanceRequestDto createNewMaintenanceRequest(Long tenantId, TenantUpdateMaintenanceRequestDto tenantUpdateMaintenanceRequestDto){
         MaintenanceRequest maintenanceRequest = new MaintenanceRequest();
 
-//        Optional<Apartment> apartmentOptional = apartmentRepository.findById(tenantUpdateMaintenanceRequestDto.tenantId());
+        if(!tenantRepository.existsById(tenantId)){
+            throw new EntityNotFoundException("Tenant with id " + tenantId + " not found");
+        }
 
-        Optional<Tenant>  optionalTenant = tenantRepository.findById(tenantId);
-        if(optionalTenant.isEmpty()){
-            throw new RuntimeException("Tenant with id " + tenantId + " not found");
+
+        Optional<Lease> activeLeaseOptional = leaseRepository.findActiveLeaseByTenantId(tenantId);
+        if(activeLeaseOptional.isPresent()){
+            Lease activeLease = activeLeaseOptional.get();
+            maintenanceRequest.setApartment(activeLease.getApartment());
         }else{
-            Tenant tenant =  optionalTenant.get();
-            Apartment apartment = tenant.getApartment();
-
-            maintenanceRequest.setApartment(apartment);
+            throw new EntityNotFoundException("Actove Lease with tenant id " + tenantId + " not found");
         }
 
 
@@ -126,10 +131,12 @@ public class MaintenanceRequestService {
 
         maintenanceRequest.setMaintenanceType(tenantUpdateMaintenanceRequestDto.maintenanceType());
         maintenanceRequest.setTitle(tenantUpdateMaintenanceRequestDto.title());
+        maintenanceRequest.setStatus(Status.PENDING);
         maintenanceRequest.setDescription(tenantUpdateMaintenanceRequestDto.description());
         maintenanceRequest.setDateSubmitted(new Date());
 
-        return maintenanceRequestRepository.save(maintenanceRequest);
+        maintenanceRequestRepository.save(maintenanceRequest);
+        return entityToDto(maintenanceRequest);
     }
 
     public void deleteMaintenanceRequest(Long id){
