@@ -1,326 +1,348 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Owner's Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>EstateMonolith | Property Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#d8e2ff",
+                        "surface-bright": "#31394d",
+                        "on-secondary": "#003824",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-error-container": "#ffdad6",
+                        "background": "#0b1326",
+                        "on-primary-fixed": "#001a42",
+                        "error": "#ffb4ab",
+                        "outline": "#8c909f",
+                        "surface-container-low": "#131b2e",
+                        "surface": "#0b1326",
+                        "secondary-fixed-dim": "#4edea3",
+                        "secondary": "#4edea3",
+                        "surface-container-lowest": "#060e20",
+                        "inverse-primary": "#005ac2",
+                        "secondary-container": "#00a572",
+                        "error-container": "#93000a",
+                        "surface-tint": "#adc6ff",
+                        "outline-variant": "#424754",
+                        "tertiary-fixed": "#ffdcc6",
+                        "on-primary": "#002e6a",
+                        "on-tertiary-fixed": "#311400",
+                        "tertiary": "#ffb786",
+                        "on-secondary-container": "#00311f",
+                        "on-secondary-fixed-variant": "#005236",
+                        "inverse-on-surface": "#283044",
+                        "primary": "#adc6ff",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "surface-container-high": "#222a3d",
+                        "on-surface": "#dae2fd",
+                        "on-tertiary": "#502400",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-primary-container": "#00285d",
+                        "surface-dim": "#0b1326",
+                        "inverse-surface": "#dae2fd",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-error": "#690005",
+                        "tertiary-container": "#df7412",
+                        "on-tertiary-container": "#461f00",
+                        "surface-container-highest": "#2d3449",
+                        "surface-container": "#171f33",
+                        "on-secondary-fixed": "#002113",
+                        "on-surface-variant": "#c2c6d6",
+                        "secondary-fixed": "#6ffbbe",
+                        "surface-variant": "#2d3449",
+                        "primary-container": "#4d8eff",
+                        "on-background": "#dae2fd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
     <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
         body {
-            background-color: #121212;
-            color: #e0e0e0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            background-color: #0b1326;
+            color: #dae2fd;
+            font-family: 'Inter', sans-serif;
         }
-        .content-wrapper {
-            flex-grow: 1;
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
         }
-        .navbar {
-            background-color: #1e1e1e !important;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        .editorial-header {
+            font-family: 'Manrope', sans-serif;
         }
-        .navbar-brand {
-            font-weight: 600;
-            color: #f8f9fa !important;
-        }
-        .nav-link {
-            color: #adb5bd !important;
-        }
-        .nav-link.active, .nav-link:hover {
-            color: #ffffff !important;
-            border-bottom: 2px solid #007bff;
-        }
-        .card {
-            background-color: #1e1e1e;
-            border: 1px solid #343a40;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-        .card-title {
-            color: #f8f9fa;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-        .card-text {
-            font-size: 2rem;
-            font-weight: 700;
-        }
-        .overview-card.bg-primary {
-            background-color: #004d99 !important;
-            border-color: #003366;
-        }
-        .overview-card.bg-success {
-            background-color: #155724 !important;
-            border-color: #0d3617;
-        }
-        .overview-card.bg-warning {
-            background-color: #7b6d16 !important;
-            border-color: #5d5311;
-        }
-        .table-dark-custom {
-            background-color: #1e1e1e !important;
-            color: #e0e0e0 !important;
-        }
-        .table-dark-custom thead th {
-            border-bottom: 1px solid #343a40 !important;
-            color: #adb5bd !important;
-        }
-        .table-dark-custom tbody td {
-            border-bottom: 1px solid #2d2d2d !important;
-        }
-        .table-dark-custom.table-hover tbody tr:hover {
-            background-color: #2a2a2a !important;
-        }
-        h2 {
-            font-weight: 300;
-            color: #f8f9fa;
-        }
-        footer {
-            background-color: #1e1e1e;
-            padding: 1rem 0;
-            text-align: center;
-            border-top: 1px solid #343a40;
-            margin-top: auto;
-        }
-        footer p {
-            margin: 0;
-            font-size: 0.8rem;
-            color: #6c757d;
-        }
-        footer .small-text {
-            display: block;
-            margin-top: 0.25rem;
-            font-size: 0.7rem;
-            color: #495057;
-        }
-        .profile-circle {
-            width: 40px;
-            height: 40px;
-            background-color: #007bff;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            color: #fff;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .navbar-collapse {
-            display: flex;
-            flex-grow: 1;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .card-link {
-            text-decoration: none;
-            color: inherit;
-        }
-        .card-link:hover .card {
-            background-color: #2e2e2e;
-            transition: background-color 0.3s ease;
-        }
-        .card-link:hover .overview-card {
-            background-color: #2a2a2a !important;
-            border-color: #495057 !important;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
+        .glass-panel {
+            background: rgba(23, 31, 51, 0.8);
+            backdrop-filter: blur(24px);
         }
     </style>
 </head>
-<body>
-
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/OWNER_PAGES/Dashboard.html">
-            <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-            <span id = "nav-brand-app-name">Loading...</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/OWNER_PAGES/Dashboard.html">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/Tenants.html">Tenants</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/payments.html">Payments</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/maintenance.html">Maintenance</a>
-                </li>
-            </ul>
-            <a href="/OWNER_PAGES/configuration.html" class="profile-circle ms-3" title="Profile Details">AS</a>
+<body class="min-h-screen">
+<!-- TopNavBar -->
+<header class="w-full sticky top-0 z-50 bg-[#131b2e]/80 backdrop-blur-md shadow-xl shadow-blue-900/20">
+    <div class="flex justify-between items-center px-6 py-3">
+        <div class="flex items-center gap-8">
+            <span class="text-xl font-bold tracking-tighter text-[#dae2fd] font-manrope">EstateMonolith</span>
+            <div class="hidden md:flex items-center bg-[#222a3d] rounded-full px-4 py-1.5 gap-2 group">
+                <span class="material-symbols-outlined text-[#dae2fd]/50 text-sm">search</span>
+                <input class="bg-transparent border-none focus:ring-0 text-sm text-[#dae2fd] w-64 placeholder-[#dae2fd]/30" placeholder="Quick search..." type="text"/>
+            </div>
         </div>
-    </div>
-</nav>
-
-<div class="content-wrapper">
-    <div class="container mt-4">
-        <h2 class="mb-4">Dashboard Overview</h2>
-        <div class="row g-4 mb-4">
-            <div class="col-md-4">
-                <a href="/OWNER_PAGES/Tenants.html" id="occupied-link" class="card-link">
-                    <div class="card overview-card bg-primary p-3 h-100 text-white">
-                        <div class="card-body">
-                            <h5 class="card-title">Occupied Apartments</h5>
-                            <p class="card-text" id = "occupiedValue">50</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="/OWNER_PAGES/vacant-flats.html" id="vacant-link" class="card-link">
-                    <div class="card overview-card bg-success p-3 h-100 text-white">
-                        <div class="card-body">
-                            <h5 class="card-title">Vacant Apartments</h5>
-                            <p class="card-text" id = "vacantValue">5</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="/OWNER_PAGES/outstanding-rent.html" id="outstanding-rent-link" class="card-link">
-                <div class="card overview-card bg-warning p-3 h-100 text-white">
-                    <div class="card-body">
-                        <h5 class="card-title">Outstanding Rent</h5>
-                        <p class="card-text" id = "outstandingRentAmount"> </p>
-                    </div>
+        <div class="flex items-center gap-4">
+            <button class="material-symbols-outlined text-[#dae2fd]/70 hover:text-[#dae2fd] transition-colors p-2 rounded-full hover:bg-[#222a3d]">notifications</button>
+            <div class="flex items-center gap-3 pl-4 border-l border-white/10">
+                <div class="text-right hidden sm:block">
+                    <p class="text-xs font-bold text-[#dae2fd]">Admin User</p>
+                    <p class="text-[10px] text-[#dae2fd]/50 uppercase tracking-widest">Portfolio Manager</p>
                 </div>
-                </a>
-            </div>
-        </div>
-        <div class="card p-4">
-            <h5 class="card-title mb-3">Last 10 Payments</h5>
-            <div class="table-responsive">
-                <table class="table table-dark table-hover mb-0">
-                    <thead>
-                    <tr>
-                        <th scope="col">Flat Number</th>
-                        <th scope="col">Total Amount</th>
-                        <th scope="col">Date</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                <span class="material-symbols-outlined text-3xl text-[#3b82f6]">account_circle</span>
             </div>
         </div>
     </div>
-</div>
-<footer>
-    <p>Made by Aryan Singh</p>
-    <small class="small-text">purelydauntless</small>
+</header>
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#0b1326] border-r border-white/5 z-40 hidden md:flex flex-col">
+    <div class="pt-8 px-6">
+        <div class="flex items-center gap-3 mb-10">
+            <div class="w-8 h-8 bg-[#3b82f6] rounded-lg flex items-center justify-center">
+                <span class="material-symbols-outlined text-white text-xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">domain</span>
+            </div>
+            <div>
+                <h1 class="text-[#dae2fd] font-black font-manrope text-sm tracking-tight">Property Admin</h1>
+                <p class="text-[10px] font-bold uppercase tracking-widest text-[#dae2fd]/40">Managing Assets</p>
+            </div>
+        </div>
+        <nav class="flex flex-col gap-2">
+            <a class="bg-gradient-to-r from-[#3b82f6]/20 to-transparent text-[#3b82f6] border-l-4 border-[#3b82f6] px-4 py-3 flex items-center gap-3 group" href="#">
+                <span class="material-symbols-outlined transition-transform group-hover:translate-x-1 duration-300">dashboard</span>
+                <span class="font-manrope uppercase tracking-widest text-[10px] font-bold">Dashboard</span>
+            </a>
+            <a class="text-[#dae2fd]/50 px-4 py-3 flex items-center gap-3 hover:bg-[#131b2e] hover:text-[#dae2fd] transition-all group" href="#">
+                <span class="material-symbols-outlined transition-transform group-hover:translate-x-1 duration-300">group</span>
+                <span class="font-manrope uppercase tracking-widest text-[10px] font-bold">Tenants</span>
+            </a>
+            <a class="text-[#dae2fd]/50 px-4 py-3 flex items-center gap-3 hover:bg-[#131b2e] hover:text-[#dae2fd] transition-all group" href="#">
+                <span class="material-symbols-outlined transition-transform group-hover:translate-x-1 duration-300">payments</span>
+                <span class="font-manrope uppercase tracking-widest text-[10px] font-bold">Payments</span>
+            </a>
+            <a class="text-[#dae2fd]/50 px-4 py-3 flex items-center gap-3 hover:bg-[#131b2e] hover:text-[#dae2fd] transition-all group" href="#">
+                <span class="material-symbols-outlined transition-transform group-hover:translate-x-1 duration-300">build</span>
+                <span class="font-manrope uppercase tracking-widest text-[10px] font-bold">Maintenance</span>
+            </a>
+            <a class="text-[#dae2fd]/50 px-4 py-3 flex items-center gap-3 hover:bg-[#131b2e] hover:text-[#dae2fd] transition-all group" href="#">
+                <span class="material-symbols-outlined transition-transform group-hover:translate-x-1 duration-300">settings</span>
+                <span class="font-manrope uppercase tracking-widest text-[10px] font-bold">Settings</span>
+            </a>
+        </nav>
+    </div>
+    <div class="mt-auto p-6">
+        <button class="w-full bg-[#3b82f6] text-white rounded-lg py-3 px-4 font-manrope text-[10px] font-bold uppercase tracking-widest active:scale-95 transition-transform">
+            Add New Property
+        </button>
+    </div>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-64 p-8">
+    <!-- Header Section -->
+    <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <span class="text-on-surface-variant uppercase tracking-[0.2em] text-[10px] font-bold block mb-1">Portfolio Overview</span>
+            <h2 class="text-4xl font-extrabold text-on-surface editorial-header tracking-tight">Executive Dashboard</h2>
+        </div>
+        <div class="flex items-center gap-4 bg-surface-container-low p-2 rounded-xl">
+            <div class="px-4 py-2 text-center border-r border-white/5">
+                <p class="text-[10px] uppercase text-on-surface-variant font-bold tracking-widest mb-1">Date</p>
+                <p class="text-xs font-semibold">Oct 24, 2024</p>
+            </div>
+            <div class="px-4 py-2 text-center">
+                <p class="text-[10px] uppercase text-on-surface-variant font-bold tracking-widest mb-1">Status</p>
+                <p class="text-xs font-semibold text-secondary flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span> System Live
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- Metric Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <!-- Metric Card 1 -->
+        <div class="bg-surface-container-low p-6 rounded-xl relative overflow-hidden group">
+            <div class="relative z-10">
+                <span class="material-symbols-outlined text-primary mb-4 block">location_city</span>
+                <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Total Units</p>
+                <h3 class="text-3xl font-extrabold text-on-surface editorial-header" id="total-units">142</h3>
+            </div>
+            <div class="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                <span class="material-symbols-outlined text-[100px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">location_city</span>
+            </div>
+        </div>
+        <!-- Metric Card 2 -->
+        <div class="bg-surface-container-low p-6 rounded-xl relative overflow-hidden group">
+            <div class="relative z-10">
+                <span class="material-symbols-outlined text-secondary mb-4 block">person_check</span>
+                <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Occupied</p>
+                <div class="flex items-baseline gap-2">
+                    <h3 class="text-3xl font-extrabold text-on-surface editorial-header" id="occupied-units">128</h3>
+                    <span class="text-[10px] font-bold text-secondary-container bg-on-secondary/30 px-1.5 rounded uppercase tracking-tighter" id="occupied-percentage">90%</span>
+                </div>
+            </div>
+        </div>
+        <!-- Metric Card 3 -->
+        <div class="bg-surface-container-low p-6 rounded-xl relative overflow-hidden group">
+            <div class="relative z-10">
+                <span class="material-symbols-outlined text-tertiary mb-4 block">key_off</span>
+                <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Vacant</p>
+                <h3 class="text-3xl font-extrabold text-on-surface editorial-header" id="vacant-units">14</h3>
+            </div>
+        </div>
+        <!-- Metric Card 4 -->
+        <div class="bg-surface-container-low p-6 rounded-xl relative overflow-hidden group">
+            <div class="relative z-10">
+                <span class="material-symbols-outlined text-primary-container mb-4 block">engineering</span>
+                <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Maintenance</p>
+                <div class="flex items-baseline gap-2">
+                    <h3 class="text-3xl font-extrabold text-on-surface editorial-header">8</h3>
+                    <span class="text-[10px] text-on-surface-variant">Pending</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Grid Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Table Section -->
+        <div class="lg:col-span-2 flex flex-col gap-6">
+            <div class="bg-surface-container-low rounded-xl overflow-hidden">
+                <div class="p-6 flex justify-between items-center border-b border-white/5">
+                    <div>
+                        <h4 class="text-lg font-bold editorial-header text-on-surface">Recent Payments</h4>
+                        <p class="text-[10px] text-on-surface-variant uppercase tracking-widest font-semibold">Last 10 Transactions</p>
+                    </div>
+                    <button class="text-primary text-[10px] font-bold uppercase tracking-widest hover:underline">View All Records</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                        <tr class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold border-b border-white/5 bg-surface-container-lowest/50">
+                            <th class="px-6 py-4">Tenant</th>
+                            <th class="px-6 py-4">Property / Unit</th>
+                            <th class="px-6 py-4 text-right">Amount</th>
+                            <th class="px-6 py-4">Date</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                        <tr class="hover:bg-surface-container-high/50 transition-colors border-b border-white/5">
+                            <td class="px-6 py-4 font-semibold text-on-surface">Sarah Johnson</td>
+                            <td class="px-6 py-4 text-on-surface-variant">Skyline Heights #402</td>
+                            <td class="px-6 py-4 text-right font-mono text-secondary">$2,450.00</td>
+                            <td class="px-6 py-4 text-on-surface-variant text-xs">Oct 22, 2024</td>
+                        </tr>
+                        <tr class="hover:bg-surface-container-high/50 transition-colors border-b border-white/5">
+                            <td class="px-6 py-4 font-semibold text-on-surface">Michael Chen</td>
+                            <td class="px-6 py-4 text-on-surface-variant">Oakwood Villas #12B</td>
+                            <td class="px-6 py-4 text-right font-mono text-secondary">$1,800.00</td>
+                            <td class="px-6 py-4 text-on-surface-variant text-xs">Oct 21, 2024</td>
+                        </tr>
+                        <tr class="hover:bg-surface-container-high/50 transition-colors border-b border-white/5">
+                            <td class="px-6 py-4 font-semibold text-on-surface">Elena Rodriguez</td>
+                            <td class="px-6 py-4 text-on-surface-variant">Marina Bay #705</td>
+                            <td class="px-6 py-4 text-right font-mono text-tertiary">$3,100.00</td>
+                            <td class="px-6 py-4 text-on-surface-variant text-xs">Oct 21, 2024</td>
+                        </tr>
+                        <tr class="hover:bg-surface-container-high/50 transition-colors border-b border-white/5">
+                            <td class="px-6 py-4 font-semibold text-on-surface">Robert Wilson</td>
+                            <td class="px-6 py-4 text-on-surface-variant">Skyline Heights #104</td>
+                            <td class="px-6 py-4 text-right font-mono text-secondary">$2,200.00</td>
+                            <td class="px-6 py-4 text-on-surface-variant text-xs">Oct 20, 2024</td>
+                        </tr>
+                        <tr class="hover:bg-surface-container-high/50 transition-colors">
+                            <td class="px-6 py-4 font-semibold text-on-surface">James Cooper</td>
+                            <td class="px-6 py-4 text-on-surface-variant">The Monolith #001</td>
+                            <td class="px-6 py-4 text-right font-mono text-error">$4,500.00</td>
+                            <td class="px-6 py-4 text-on-surface-variant text-xs">Oct 18, 2024</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Side Bento Column -->
+        <div class="flex flex-col gap-6">
+            <!-- Quick Actions -->
+            <div class="bg-surface-container-low p-6 rounded-xl">
+                <h4 class="text-sm font-bold text-on-surface uppercase tracking-widest mb-6">Quick Actions</h4>
+                <div class="flex flex-col gap-3">
+                    <button class="flex items-center gap-4 p-4 rounded-lg bg-surface-container-high hover:bg-surface-container-highest transition-colors group">
+                        <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 transition-transform">person_add</span>
+                        <div class="text-left">
+                            <p class="text-xs font-bold text-on-surface">Add New Tenant</p>
+                            <p class="text-[10px] text-on-surface-variant">Onboard resident to unit</p>
+                        </div>
+                    </button>
+                    <button class="flex items-center gap-4 p-4 rounded-lg bg-surface-container-high hover:bg-surface-container-highest transition-colors group">
+                        <span class="material-symbols-outlined text-secondary bg-secondary/10 p-2 rounded-lg group-hover:scale-110 transition-transform">receipt_long</span>
+                        <div class="text-left">
+                            <p class="text-xs font-bold text-on-surface">Log Payment</p>
+                            <p class="text-[10px] text-on-surface-variant">Manual rent entry</p>
+                        </div>
+                    </button>
+                    <button class="flex items-center gap-4 p-4 rounded-lg bg-surface-container-high hover:bg-surface-container-highest transition-colors group">
+                        <span class="material-symbols-outlined text-tertiary bg-tertiary/10 p-2 rounded-lg group-hover:scale-110 transition-transform">assignment_add</span>
+                        <div class="text-left">
+                            <p class="text-xs font-bold text-on-surface">Maintenance Request</p>
+                            <p class="text-[10px] text-on-surface-variant">Open new work order</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-8 mt-auto bg-[#0b1326] border-t border-white/5 px-12 md:ml-64 flex flex-col md:flex-row justify-between items-center gap-4">
+    <p class="font-inter text-xs text-[#dae2fd]/40">Designed and developed by Aryan Singh</p>
 </footer>
-<script src="../js/bootstrap.bundle.min.js"></script>
-
-<script src ="../js/config-loader.js"></script>
-
 <script>
- //<!-- WHERE MY CODE STARTS -->
-    const fetchOccupied = fetch('/apartments/occupied')
-     .then(function(response) {
-         if (!response.ok) {
-             throw new Error('Something went wrong with the occupied request');
-         }
-         return response.json();
-     });
+    async function fetchStatistics() {
+        try {
+            const response = await fetch('/api/apartments/statistics');
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById('total-units').textContent = data.total || 0;
+                document.getElementById('occupied-units').textContent = data.occupied || 0;
+                document.getElementById('vacant-units').textContent = data.vacant || 0;
 
- const fetchVacant = fetch('/apartments/vacant')
-     .then(function(response) {
-         if (!response.ok) {
-             throw new Error('Something went wrong with the vacant request');
-         }
-         return response.json();
-     });
+                if (data.total > 0) {
+                    const percentage = Math.round((data.occupied / data.total) * 100);
+                    document.getElementById('occupied-percentage').textContent = `${percentage}%`;
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching statistics:', error);
+        }
+    }
 
- const fetchPayments = fetch('/payments/getAllPayments')
-     .then(function(response) {
-         if (!response.ok) {
-             throw new Error('Something went wrong with the payments request');
-         }
-         return response.json();
-     });
-
- const fetchOutstandingRent = fetch('/apartments/getOutstandingRentAmount')
-     .then(function(response) {
-         if (!response.ok) {
-             throw new Error('Something went wrong with the outstanding rent request');
-         }
-         return response.json();
-     });
-
- const fetchSettings = getAppSettings();
-
-
- Promise.all([fetchOccupied, fetchVacant, fetchPayments, fetchOutstandingRent, fetchSettings])
-     .then(function(data) {
-
-         var occupiedData = data[0];
-         var occupiedValueElement = document.getElementById('occupiedValue');
-         occupiedValueElement.textContent = occupiedData.occupied;
-
-         // Vacant Apartments
-         var vacantData = data[1];
-         var vacantCountElement = document.getElementById('vacantValue');
-         vacantCountElement.textContent = vacantData.vacant;
-
-         var settings = data[4];
-
-         const CURRENCY_SYMBOL = settings.CURRENCY_SYMBOL || '₹' //in case we need a fallback
-
-         document.getElementById('nav-brand-app-name').textContent = settings.APARTMENT_NAME;
-
-         // Last 10 Payments Table
-         var paymentsData = data[2];
-         var tableBody = document.querySelector('tbody');
-         var htmlString = '';
-         var loopCount = paymentsData.length >= 10 ? 10 : paymentsData.length;
-
-         for (var i = paymentsData.length - 1; i >= paymentsData.length - loopCount; i--) {
-             var payment = paymentsData[i];
-             const totalAmount = (payment.rentAmount || 0) + (payment.maintenanceAmount || 0) + (payment.electricityAmount || 0);
-             var formattedAmount = new Intl.NumberFormat('en-IN').format(totalAmount);
-             var paymentDate = new Date(payment.paymentDate);
-             var year = paymentDate.getFullYear();
-             var month = String(paymentDate.getMonth() + 1).padStart(2, '0');
-             var day = String(paymentDate.getDate()).padStart(2, '0');
-             var formattedDate = day + '-' + month + '-' + year;
-
-             var row = '<tr>';
-             row += '<td>' + payment.flatNumber + '</td>';
-             row += '<td>' + CURRENCY_SYMBOL + formattedAmount + '</td>';
-             row += '<td>' + formattedDate + '</td>';
-             row += '</tr>';
-             htmlString += row;
-         }
-         tableBody.innerHTML = htmlString;
-
-         // --- Handle Outstanding Rent ---
-         var outstandingRentData = data[3];
-
-
-         const outstandingRentElement = document.getElementById('outstandingRentAmount');
-         const formattedNewAmount = new Intl.NumberFormat('en-IN').format(outstandingRentData.value);
-         outstandingRentElement.textContent = CURRENCY_SYMBOL + formattedNewAmount;
-
-     })
-     .catch(function(error) {
-         console.log(error);
-         alert('Failed to load all dashboard data, please try again later :(');
-     });
-
-
+    // Initial fetch
+    fetchStatistics();
+    // Refresh every 5 minutes
+    setInterval(fetchStatistics, 300000);
 </script>
-
-
-
-
-
-</body>
-</html>
+</body></html>
