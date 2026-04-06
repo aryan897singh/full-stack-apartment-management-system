@@ -1,11 +1,13 @@
 package com.dauntlesstechnologies.ssk.manager;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/managers")
+@RequestMapping(path = "/api/managers")
 @CrossOrigin
 public class ManagerController {
 
@@ -16,34 +18,29 @@ public class ManagerController {
     }
 
     @GetMapping(path = "/{id}")
-    public ManagerDto getTenantById(@PathVariable("id") Long id){
-       return managerService.findManagerById(id);
+    public ResponseEntity<ManagerDto> getManagerById(@PathVariable("id") Long id){ // Fixed typo here
+        return ResponseEntity.ok(managerService.findManagerById(id));
     }
 
-    @GetMapping(path = "/getAll")
-    public List<ManagerDto> getAll(){
-        return managerService.findAllManagers();
+    @GetMapping
+    public ResponseEntity<List<ManagerDto>> getAllManagers(){
+        return ResponseEntity.ok(managerService.findAllManagers());
     }
 
-    @PostMapping(path = "/create")
-    public void createManager(@RequestBody UpdateManagerDto updateManagerDto){
-        managerService.createManager(updateManagerDto);
+    @PostMapping
+    public ResponseEntity<ManagerDto> createManager(@RequestBody UpdateManagerDto updateManagerDto){
+        return new ResponseEntity<>(managerService.createManager(updateManagerDto), HttpStatus.CREATED);
     }
 
-    @PutMapping(path = "/update/{id}")
-    public void updateManager(@PathVariable("id") Long id, @RequestBody UpdateManagerDto updateManagerDto){
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Void> updateManager(@PathVariable("id") Long id, @RequestBody UpdateManagerDto updateManagerDto){
         managerService.updateManager(id, updateManagerDto);
+        return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(path = "/delete/{id}")
-    public void deleteManager(@PathVariable("id") Long id){
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> deleteManager(@PathVariable("id") Long id){
         managerService.deleteManager(id);
+        return ResponseEntity.noContent().build();
     }
-
-    /*
-    C
-    R - 1.Single Record -  DONE  2. All Records - DONE
-    U
-    D
-     */
 }
