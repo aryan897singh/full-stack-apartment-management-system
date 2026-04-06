@@ -3,7 +3,7 @@
 <html class="dark" lang="en"><head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>EstateMonolith | Property Admin Dashboard</title>
+    <title>Shri Shyam Kaleshwar Residency | Property Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -102,7 +102,7 @@
 <header class="w-full sticky top-0 z-50 bg-[#131b2e]/80 backdrop-blur-md shadow-xl shadow-blue-900/20">
     <div class="flex justify-between items-center px-6 py-3">
         <div class="flex items-center gap-8">
-            <span class="text-xl font-bold tracking-tighter text-[#dae2fd] font-manrope">EstateMonolith</span>
+            <span class="text-xl font-bold tracking-tighter text-[#dae2fd] font-manrope">Shri Shyam Kaleshwar Residency</span>
             <div class="hidden md:flex items-center bg-[#222a3d] rounded-full px-4 py-1.5 gap-2 group">
                 <span class="material-symbols-outlined text-[#dae2fd]/50 text-sm">search</span>
                 <input class="bg-transparent border-none focus:ring-0 text-sm text-[#dae2fd] w-64 placeholder-[#dae2fd]/30" placeholder="Quick search..." type="text"/>
@@ -220,7 +220,7 @@
                 <span class="material-symbols-outlined text-primary-container mb-4 block">engineering</span>
                 <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Maintenance</p>
                 <div class="flex items-baseline gap-2">
-                    <h3 class="text-3xl font-extrabold text-on-surface editorial-header">8</h3>
+                    <h3 class="text-3xl font-extrabold text-on-surface editorial-header" id="pending-maintenance-count">-</h3>
                     <span class="text-[10px] text-on-surface-variant">Pending</span>
                 </div>
             </div>
@@ -248,37 +248,7 @@
                             <th class="px-6 py-4">Date</th>
                         </tr>
                         </thead>
-                        <tbody class="text-sm">
-                        <tr class="hover:bg-surface-container-high/50 transition-colors border-b border-white/5">
-                            <td class="px-6 py-4 font-semibold text-on-surface">Sarah Johnson</td>
-                            <td class="px-6 py-4 text-on-surface-variant">Skyline Heights #402</td>
-                            <td class="px-6 py-4 text-right font-mono text-secondary">$2,450.00</td>
-                            <td class="px-6 py-4 text-on-surface-variant text-xs">Oct 22, 2024</td>
-                        </tr>
-                        <tr class="hover:bg-surface-container-high/50 transition-colors border-b border-white/5">
-                            <td class="px-6 py-4 font-semibold text-on-surface">Michael Chen</td>
-                            <td class="px-6 py-4 text-on-surface-variant">Oakwood Villas #12B</td>
-                            <td class="px-6 py-4 text-right font-mono text-secondary">$1,800.00</td>
-                            <td class="px-6 py-4 text-on-surface-variant text-xs">Oct 21, 2024</td>
-                        </tr>
-                        <tr class="hover:bg-surface-container-high/50 transition-colors border-b border-white/5">
-                            <td class="px-6 py-4 font-semibold text-on-surface">Elena Rodriguez</td>
-                            <td class="px-6 py-4 text-on-surface-variant">Marina Bay #705</td>
-                            <td class="px-6 py-4 text-right font-mono text-tertiary">$3,100.00</td>
-                            <td class="px-6 py-4 text-on-surface-variant text-xs">Oct 21, 2024</td>
-                        </tr>
-                        <tr class="hover:bg-surface-container-high/50 transition-colors border-b border-white/5">
-                            <td class="px-6 py-4 font-semibold text-on-surface">Robert Wilson</td>
-                            <td class="px-6 py-4 text-on-surface-variant">Skyline Heights #104</td>
-                            <td class="px-6 py-4 text-right font-mono text-secondary">$2,200.00</td>
-                            <td class="px-6 py-4 text-on-surface-variant text-xs">Oct 20, 2024</td>
-                        </tr>
-                        <tr class="hover:bg-surface-container-high/50 transition-colors">
-                            <td class="px-6 py-4 font-semibold text-on-surface">James Cooper</td>
-                            <td class="px-6 py-4 text-on-surface-variant">The Monolith #001</td>
-                            <td class="px-6 py-4 text-right font-mono text-error">$4,500.00</td>
-                            <td class="px-6 py-4 text-on-surface-variant text-xs">Oct 18, 2024</td>
-                        </tr>
+                        <tbody class="text-sm" id="recent-payments-body">
                         </tbody>
                     </table>
                 </div>
@@ -339,6 +309,59 @@
             console.error('Error fetching statistics:', error);
         }
     }
+    // Fetch Pending Maintenance Count
+    async function fetchMaintenanceCount() {
+        try {
+            // Using the exact endpoint you built yesterday!
+            const response = await fetch('/api/maintenanceRequests/countPendingRequests');
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById('pending-maintenance-count').textContent = data.count || 0;
+            }
+        } catch (error) {
+            console.error('Error fetching maintenance count:', error);
+        }
+    }
+
+    // Fetch and populate Recent Payments Table
+    async function fetchRecentPayments() {
+        try {
+            const response = await fetch('/api/payments');
+            if (response.ok) {
+                const payments = await response.json();
+                const tbody = document.getElementById('recent-payments-body');
+                tbody.innerHTML = ''; // Clear loading state
+
+                // Grab the 5 most recent payments
+                const recentPayments = payments.slice(-5).reverse();
+
+                recentPayments.forEach(payment => {
+                    // Format the date
+                    const dateObj = new Date(payment.paymentDate);
+                    const formattedDate = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+                    // Format currency
+                    const formattedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(payment.paymentAmount);
+
+                    const row = `
+                        <tr class="hover:bg-surface-container-high/50 transition-colors border-b border-white/5">
+                            <td class="px-6 py-4 font-semibold text-on-surface">${payment.paymentType}</td>
+                            <td class="px-6 py-4 text-on-surface-variant">Flat ${payment.flatNumber}</td>
+                            <td class="px-6 py-4 text-right font-mono text-secondary">${formattedAmount}</td>
+                            <td class="px-6 py-4 text-on-surface-variant text-xs">${formattedDate}</td>
+                        </tr>
+                    `;
+                    tbody.insertAdjacentHTML('beforeend', row);
+                });
+            }
+        } catch (error) {
+            console.error('Error fetching payments:', error);
+        }
+    }
+
+
+    fetchMaintenanceCount();
+    fetchRecentPayments();
 
     // Initial fetch
     fetchStatistics();
