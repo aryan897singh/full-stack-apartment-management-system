@@ -6,13 +6,12 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public record PaymentDto(
-
         Long id,
         String flatNumber,
-        BigDecimal rentAmount,
-        BigDecimal maintenanceAmount,
-        BigDecimal electricityAmount,
+        PaymentType paymentType,
+        BigDecimal paymentAmount,
         PaymentMethod paymentMethod,
+        String comment,
         Date paymentDate
 ) {
 }

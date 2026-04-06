@@ -1,11 +1,13 @@
 package com.dauntlesstechnologies.ssk.payment;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController()
-@RequestMapping(path = "/payments")
+@RequestMapping(path = "/api/payments")
 @CrossOrigin
 public class PaymentController {
 
@@ -15,39 +17,31 @@ public class PaymentController {
     }
 
     @GetMapping(path = "/{id}")
-    public PaymentDto getPaymentById(@PathVariable("id") Long id){
-        return paymentService.findPayment(id);
+    public ResponseEntity<PaymentDto> getPaymentById(@PathVariable("id") Long id){
+        return ResponseEntity.ok(paymentService.findPayment(id));
     }
 
-    @GetMapping(path = "/getAllPayments")
-    public List<PaymentDto> getAllPayments(){
-        return paymentService.findAllPayments();
+    @GetMapping
+    public ResponseEntity<List<PaymentDto>> getAllPayments(){
+        return ResponseEntity.ok(paymentService.findAllPayments());
     }
 
-    //IMP NOTE: I want the admin to enter the Apartment Number AND NOT THE Apt ID since
-    //the admin DOES NOT KNOW THE apt id, so I AM SUPPOSED TO TAKE THE Number and fetch the ID!!!
-    @PostMapping(path = "/createPayment")
-    public void createPayment(@RequestBody UpdatePaymentDto updatePaymentDto){
-         paymentService.createPaymentAndUpdateApartmentRecord(updatePaymentDto);
+    @PostMapping
+    public ResponseEntity<PaymentDto> createPayment(@RequestBody UpdatePaymentDto updatePaymentDto){
+        return new ResponseEntity<>(paymentService.createPayment(updatePaymentDto), HttpStatus.CREATED);
     }
 
-    @PutMapping(path = "/updatePayment/{id}")
-    public void updatePayment(@PathVariable("id") Long id,@RequestBody UpdatePaymentDto updatePaymentDto){
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Void> updatePayment(@PathVariable("id") Long id,@RequestBody UpdatePaymentDto updatePaymentDto){
         paymentService.updatePayment(id, updatePaymentDto);
+        return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(path = "/deletePayment/{id}")
-    public void deletePayment(@PathVariable("id") Long id){
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> deletePayment(@PathVariable("id") Long id){
         paymentService.deletePayment(id);
+        return ResponseEntity.noContent().build();
     }
 
-
-
-    /*
-    C - DONE
-    R - single - DONE    All - DONE
-    U - DONE
-    D - DONE
-     */
 
 }

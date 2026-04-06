@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/maintenanceRequests")
+@RequestMapping(path = "/api/maintenanceRequests")
 @CrossOrigin
 public class MaintenanceRequestController {
 
@@ -25,7 +25,7 @@ public class MaintenanceRequestController {
     }
 
     //Need a Get mapping to return all the maintenance requests to display in tabular form
-    @GetMapping(path = "/getAllMaintenanceRequests")
+    @GetMapping
     public List<MaintenanceRequestDto> getAllMaintenanceRequests(){
         return maintenanceRequestService.getAllMaintenanceRequests();
     }
@@ -51,37 +51,25 @@ public class MaintenanceRequestController {
     }
 
 
-    // SYSTEM DETERMINES THE PERSON LOGGED IN (TEMP SOLN, PASS TENANT ID IN URL) FIND APT AND ASSIGN TO REQUEST
-    @PutMapping(path = "/update/{id}")
+    @PutMapping(path = "/{id}")
     public void update(@PathVariable Long id, @RequestBody TenantUpdateMaintenanceRequestDto tenantUpdateMaintenanceRequestDto){
         maintenanceRequestService.updateMaintenanceRequest(id, tenantUpdateMaintenanceRequestDto);
     }
 
-    @PostMapping(path = "/create/{tenantId}")
-    public ResponseEntity<MaintenanceRequest> createNewMaintenanceRequest(@PathVariable("tenantId") Long tenantId, @RequestBody TenantUpdateMaintenanceRequestDto tenantUpdateMaintenanceRequestDto){
-        MaintenanceRequest maintenanceRequest = maintenanceRequestService.createNewMaintenanceRequest(tenantId, tenantUpdateMaintenanceRequestDto);
-        return new ResponseEntity<>(maintenanceRequest, HttpStatus.CREATED);
+    @PostMapping(path = "/{tenantId}")
+    public ResponseEntity<MaintenanceRequestDto> createNewMaintenanceRequest(@PathVariable("tenantId") Long tenantId, @RequestBody TenantUpdateMaintenanceRequestDto tenantUpdateMaintenanceRequestDto){
+        MaintenanceRequestDto maintenanceRequestDto = maintenanceRequestService.createNewMaintenanceRequest(tenantId, tenantUpdateMaintenanceRequestDto);
+        return new ResponseEntity<>(maintenanceRequestDto, HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path = "/delete/{id}")
+    @DeleteMapping(path = "/{id}")
     public void deleteMaintenanceRequest(@PathVariable("id") Long id){
         maintenanceRequestService.deleteMaintenanceRequest(id);
     }
 
-    @PatchMapping(path = "/updateStatus/{id}")
+    @PatchMapping(path = "/{id}")
     public void updateMaintenanceRequestStatus(@PathVariable("id") Long id, @RequestBody UpdateStatusDto updateStatusDto){
         maintenanceRequestService.updateMaintenanceRequestStatus(id, updateStatusDto);
     }
-
-
-
-     /*
-    C - DONE
-    R - DONE (both single and all records)
-    U - DONE (with date correctly automatically entered, yay!)
-    D - DONE
-     */
-
-
 
 }
