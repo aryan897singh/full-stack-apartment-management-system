@@ -1,10 +1,262 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+
+<html class="dark" lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Add New Apartment - Shri Shyam Kaleshwar Residency</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#dae2fd",
+                        "secondary-container": "#00a572",
+                        "surface-variant": "#2d3449",
+                        "on-tertiary-fixed": "#311400",
+                        "on-secondary-fixed": "#002113",
+                        "outline": "#8c909f",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#df7412",
+                        "error-container": "#93000a",
+                        "on-primary": "#002e6a",
+                        "surface-bright": "#31394d",
+                        "surface-tint": "#adc6ff",
+                        "on-tertiary": "#502400",
+                        "on-error": "#690005",
+                        "on-secondary-fixed-variant": "#005236",
+                        "background": "#0b1326",
+                        "surface-container": "#171f33",
+                        "inverse-surface": "#dae2fd",
+                        "tertiary": "#ffb786",
+                        "secondary": "#4edea3",
+                        "on-primary-container": "#00285d",
+                        "surface-dim": "#0b1326",
+                        "surface-container-high": "#222a3d",
+                        "inverse-on-surface": "#283044",
+                        "on-secondary": "#003824",
+                        "tertiary-fixed": "#ffdcc6",
+                        "inverse-primary": "#005ac2",
+                        "surface-container-highest": "#2d3449",
+                        "outline-variant": "#424754",
+                        "on-tertiary-container": "#461f00",
+                        "on-surface-variant": "#c2c6d6",
+                        "surface": "#0b1326",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "surface-container-lowest": "#060e20",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-secondary-container": "#00311f",
+                        "on-primary-fixed": "#001a42",
+                        "on-primary-fixed-variant": "#004395",
+                        "secondary-fixed-dim": "#4edea3",
+                        "surface-container-low": "#131b2e",
+                        "primary-fixed-dim": "#adc6ff",
+                        "primary": "#adc6ff",
+                        "primary-fixed": "#d8e2ff",
+                        "on-background": "#dae2fd",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "primary-container": "#4d8eff",
+                        "on-error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-manrope { font-family: 'Manrope', sans-serif; }
+    </style>
 </head>
-<body>
-$END$
-</body>
-</html>
+<body class="bg-background text-on-surface min-h-screen">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 z-50 bg-[#131b2e] flex flex-col border-r border-[#222a3d]">
+    <div class="p-8">
+        <h1 class="font-manrope font-black text-[#adc6ff] text-xl tracking-tighter">Shri Shyam Kaleshwar Residency</h1>
+        <p class="font-manrope uppercase tracking-wider text-[10px] font-semibold text-on-surface-variant mt-1">Admin Console</p>
+    </div>
+    <nav class="flex-1 mt-4">
+        <a class="text-on-surface-variant px-6 py-4 flex items-center gap-4 hover:bg-[#222a3d] hover:text-[#adc6ff] transition-colors duration-200" href="#">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="font-manrope uppercase tracking-wider text-xs font-semibold">Dashboard</span>
+        </a>
+        <a class="text-[#3b82f6] border-r-4 border-[#3b82f6] bg-[#222a3d] px-6 py-4 flex items-center gap-4 transition-colors duration-200" href="#">
+            <span class="material-symbols-outlined">domain</span>
+            <span class="font-manrope uppercase tracking-wider text-xs font-semibold">Apartments</span>
+        </a>
+        <a class="text-on-surface-variant px-6 py-4 flex items-center gap-4 hover:bg-[#222a3d] hover:text-[#adc6ff] transition-colors duration-200" href="#">
+            <span class="material-symbols-outlined">payments</span>
+            <span class="font-manrope uppercase tracking-wider text-xs font-semibold">Payments</span>
+        </a>
+        <a class="text-on-surface-variant px-6 py-4 flex items-center gap-4 hover:bg-[#222a3d] hover:text-[#adc6ff] transition-colors duration-200" href="#">
+            <span class="material-symbols-outlined">build</span>
+            <span class="font-manrope uppercase tracking-wider text-xs font-semibold">Maintenance</span>
+        </a>
+        <a class="text-on-surface-variant px-6 py-4 flex items-center gap-4 hover:bg-[#222a3d] hover:text-[#adc6ff] transition-colors duration-200" href="#">
+            <span class="material-symbols-outlined">settings</span>
+            <span class="font-manrope uppercase tracking-wider text-xs font-semibold">Settings</span>
+        </a>
+    </nav>
+    <div class="p-6 border-t border-[#222a3d]">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden">
+                <img alt="Property Manager Profile" data-alt="minimalist avatar of a professional property manager with a friendly expression on a clean blue background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8pd6NQvMj8zsZ-H8qnJ0xchbdq8n9iCY2qWTsG9dAU6YAd0TP_nGoKxFJd7ma-0o7sHOMiheUFl9R_6HYrMikHOYZKj5yatWUla5qC6I9nTBytmJLqH5IvWXqlf5G8ji0Tw-5P2jH0lNKcRiTV-SZGoDUPFyDgUavrIMs2C1QFM-bPw5Bo4l1ws-yWTDYrLBqe4MJhDiEO-UBQs-YIBUTg77lO5TQZP8EgMtNXVxJa7i9a76VeekJVbWTY5HgdP1s1dTV7VQpAw"/>
+            </div>
+            <div>
+                <p class="text-xs font-bold text-on-surface">Admin User</p>
+                <p class="text-[10px] text-on-surface-variant">Shri Shyam Kaleshwar Residency</p>
+            </div>
+        </div>
+    </div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 flex flex-col min-h-screen">
+    <!-- TopNavBar -->
+    <header class="w-full sticky top-0 z-40 bg-[#0b1326]/80 backdrop-blur-xl shadow-2xl shadow-blue-900/20 flex justify-between items-center px-8 h-20">
+        <div class="flex items-center gap-4">
+            <a class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">
+                <span class="material-symbols-outlined">arrow_back</span>
+                <span class="text-sm font-medium">Go Back</span>
+            </a>
+        </div>
+        <div class="flex-1 max-w-xl mx-8">
+            <div class="relative group">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                <input class="w-full bg-[#131b2e] border-none rounded-xl py-2.5 pl-12 pr-4 text-sm text-on-surface focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Search portfolio..." type="text"/>
+            </div>
+        </div>
+        <div class="flex items-center gap-6">
+            <button class="relative text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined">notifications</span>
+                <span class="absolute top-0 right-0 w-2 h-2 bg-secondary rounded-full"></span>
+            </button>
+            <button class="text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined">account_circle</span>
+            </button>
+        </div>
+    </header>
+    <!-- Page Canvas -->
+    <div class="flex-1 p-10 max-w-6xl mx-auto w-full">
+        <!-- System Note -->
+        <div class="mb-10">
+            <p class="text-on-surface-variant uppercase tracking-[0.2em] text-xs font-bold mb-2">Portfolio Management</p>
+            <h2 class="text-4xl font-extrabold text-on-surface font-manrope tracking-tight">Add New Apartment</h2>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Form Section -->
+            <div class="lg:col-span-2 space-y-8">
+                <div class="bg-surface-container-low p-8 rounded-xl relative overflow-hidden">
+                    <!-- Subtle Background Glow -->
+                    <div class="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+                    <form id="add-apartment-form" class="space-y-6 relative z-10">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1">Flat Number</label>
+                            <input id="flatNumber" class="w-full bg-surface-container-lowest border-none rounded-lg p-4 text-on-surface focus:ring-2 focus:ring-primary transition-all outline-none" placeholder="e.g. A-402" required="" type="text"/>
+                        </div>
+                        <div class="flex items-center justify-end gap-4 pt-6">
+                            <a href="/owner-pages/Dashboard.html"
+                               class="px-8 py-3 text-on-surface font-semibold hover:bg-surface-container-highest rounded-lg transition-colors duration-200 inline-block">
+                                Cancel
+                            </a>
+                            <button class="px-10 py-3 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold rounded-lg shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all duration-200" type="submit">
+                                Save Apartment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Guidance/Context Section -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-surface-container-high rounded-xl overflow-hidden shadow-xl">
+                    <div class="h-40 relative">
+                        <img class="w-full h-full object-cover" data-alt="luxury modern apartment building exterior at twilight with warm window lights and deep blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARxCLSu9zFLcB6029IRaaaY32N3lK1yEmHkXNRvQz_XKiVQ7JE7-RKsDMzXdqy726sU0pye0uZgzt7LdLvwi3wSZtvodiKOM5EAlk833cVyjME8l9-fW2Yaqz89SMSFJ0HcF4wLJe3lH6do00O-g-JIMDMmM-Y7DWdU9TeAY4cHQ2a_lDeINxm-7PlO-EzWd0Q3EPap_CmXFqZCXDda4OexJJYQbwzAVnbAOplOUrjPTBqddxUxBsY0L-3EK9NOY2lkdqiJ6b-aQ"/>
+                        <div class="absolute inset-0 bg-gradient-to-t from-surface-container-high to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold font-manrope text-primary mb-2">Unit Best Practices</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-secondary text-sm mt-1">check_circle</span>
+                                <p class="text-sm text-on-surface-variant">Ensure the <span class="text-on-surface font-semibold">Flat Number</span> matches the physical signage exactly.</p>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-secondary text-sm mt-1">check_circle</span>
+                                <p class="text-sm text-on-surface-variant">Apartments are automatically set to 'Available' upon creation.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="mt-auto py-8 px-10 border-t border-[#222a3d] flex justify-between items-center text-on-surface-variant">
+        <p class="text-sm font-medium tracking-tight">© 2024 Shri Shyam Kaleshwar Residency</p>
+        <div class="flex items-center gap-2">
+            <span class="text-[10px] uppercase tracking-widest font-bold">Engineered for Performance</span>
+            <div class="w-px h-4 bg-outline-variant/30"></div>
+            <p class="text-xs">Designed and developed by <span class="text-primary font-semibold">Aryan Singh</span></p>
+        </div>
+    </footer>
+</main>
+<script>
+    document.getElementById('add-apartment-form').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Stop the default form submission (page reload)
+
+        // 1. Grab the value from the input field
+        const flatNumberValue = document.getElementById('flatNumber').value;
+        const submitBtn = this.querySelector('button[type="submit"]');
+
+        // Optional UX: Update button state so the user knows it's working
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Saving...';
+        submitBtn.disabled = true;
+
+        try {
+            // 2. Fire the POST request to your endpoint
+            const response = await fetch('/api/apartments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                // 3. This perfectly matches your UpdateApartmentDto from BackendDocumentation.md
+                body: JSON.stringify({
+                    flatNumber: flatNumberValue
+                })
+            });
+
+            if (response.ok) {
+                // Success! Redirect the user back to the dashboard
+                window.location.href = '/owner-pages/Dashboard.html';
+            } else {
+                // Handle 400/500 errors
+                alert('Failed to add apartment. Please check the server logs.');
+            }
+        } catch (error) {
+            console.error('Network or Server Error:', error);
+            alert('A network error occurred. Is the Spring Boot server running?');
+        } finally {
+            // Reset button state
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+</script>
+
+</body></html>

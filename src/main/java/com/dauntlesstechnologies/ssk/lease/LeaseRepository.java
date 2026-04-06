@@ -28,7 +28,7 @@ public interface LeaseRepository extends JpaRepository<Lease, Long> {
     @Query("SELECT l from Lease l JOIN l.tenants t WHERE t.id = :tenantid AND l.isActive = true")
     Optional<Lease> findActiveLeaseByTenantId(@Param("tenantId") Long tenantId);
 
-    @Query("SELECT COUNT(DISTINCT l.apartment.id) FROM lease l WHERE l.isActive = true")
+    @Query("SELECT COUNT(DISTINCT l.apartment.id) FROM Lease l WHERE l.isActive = true")
     long countOccupiedApartments();
 
 }

@@ -15,8 +15,6 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
 
     public Optional<Apartment> findByFlatNumber(String flatNumber);
 
-    public Optional<Apartment> findApartmentByLeaseId(Long leaseId);
-
     @Query("SELECT DISTINCT a FROM Apartment a JOIN a.leases l WHERE l.isActive = true")
     List<Apartment> findAllOccupiedApartments();
 
