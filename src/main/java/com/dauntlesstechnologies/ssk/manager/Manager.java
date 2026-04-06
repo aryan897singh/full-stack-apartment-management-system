@@ -14,7 +14,7 @@ public class Manager {
     private Long id;
 
     @Column(unique = true)
-    private String Name; //REFACTOR: MAKE SMALL
+    private String name;
 
     @Column
     private Long number;
@@ -51,10 +51,10 @@ public class Manager {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 }

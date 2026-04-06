@@ -1,5 +1,6 @@
 package com.dauntlesstechnologies.ssk.manager;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,17 +27,18 @@ public class ManagerService {
         }
     }
 
+
     public List<ManagerDto> findAllManagers(){
         List<Manager> managers = managerRepository.findAll();
         List<ManagerDto> managerDtos = new ArrayList<>();
         for(Manager manager : managers){
-            entityToDto(manager);
             managerDtos.add(entityToDto(manager));
         }
         return managerDtos;
     }
 
-    public void createManager(UpdateManagerDto updateManagerDto){
+    @Transactional
+    public ManagerDto createManager(UpdateManagerDto updateManagerDto){
         Manager manager = new Manager();
 
         manager.setName(updateManagerDto.name());
@@ -44,8 +46,10 @@ public class ManagerService {
         manager.setMaintenanceTypes(updateManagerDto.maintenanceTypes());
 
         managerRepository.save(manager);
+        return entityToDto(manager);
     }
 
+    @Transactional
     public void updateManager(Long id, UpdateManagerDto updateManagerDto){
 
         Optional<Manager> managerOptional = managerRepository.findById(id);
@@ -61,6 +65,7 @@ public class ManagerService {
         }
     }
 
+    @Transactional
     public void deleteManager(Long id){
         Optional<Manager> managerOptional = managerRepository.findById(id);
 
