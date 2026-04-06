@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -25,6 +26,11 @@ public class ApartmentController {
     @GetMapping("/statistics")
     public ResponseEntity<Map<String, Long>> getApartmentStatistics() {
         return ResponseEntity.ok(apartmentService.getApartmentStatistics());
+    }
+
+    @GetMapping("/getAllOccupied")
+    public ResponseEntity<List<ApartmentDto>> getAllOccupiedApartments() {
+        return ResponseEntity.ok(apartmentService.findAllOccupiedApartments());
     }
 
 
