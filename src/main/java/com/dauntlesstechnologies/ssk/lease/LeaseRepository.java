@@ -24,4 +24,7 @@ public interface LeaseRepository extends JpaRepository<Lease, Long> {
     //This custom JPQL query will generate a MySQL inner join to count the number of active leases that a tenant has
     @Query("SELECT COUNT(l) > 0 FROM Lease l JOIN l.tenants t WHERE t.id = :tenantId AND l.isActive = true")
     boolean hasActiveLeaseByTenantId(@Param("tenantId") Long tenantId);
+
+    @Query("SELECT l from Lease l JOIN l.tenants t WHERE t.id = :tenantid AND l.isActive = true")
+    Optional<Lease> findActiveLeaseByTenantId(@Param("tenantId") Long tenantId);
 }
