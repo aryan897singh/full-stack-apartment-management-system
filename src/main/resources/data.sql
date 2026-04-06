@@ -1,116 +1,46 @@
-INSERT INTO apartment_tbl (flat_number, expected_rent, rent_amount, maintenance_amount, paid_rent, paid_maintenance, occupied, last_occupied, deposit_collected) VALUES
-                                                                                                                                                                     ('101', 16000.00, 15000.00, 1000.00, 0.00, 0.00, TRUE, NOW(), TRUE),
-                                                                                                                                                                     ('102', 17000.00, 16000.00, 1000.00, 0.00, 0.00, TRUE, NOW(), FALSE),
-                                                                                                                                                                     ('103', 15500.00, 14500.00, 1000.00, 0.00, 0.00, TRUE, NOW(), TRUE),
-                                                                                                                                                                     ('104', 16500.00, 15500.00, 1000.00, 0.00, 0.00, TRUE, NOW(), TRUE),
-                                                                                                                                                                     ('105', 18000.00, 17000.00, 1000.00, 0.00, 0.00, TRUE, NOW(), FALSE),
-                                                                                                                                                                     ('201', 19000.00, 18000.00, 1000.00, 0.00, 0.00, TRUE, NOW(), TRUE),
-                                                                                                                                                                     ('202', 20000.00, 19000.00, 1000.00, 0.00, 0.00, FALSE, NOW() - INTERVAL 10 DAY, FALSE),
-                                                                                                                                                                     ('203', 18500.00, 17500.00, 1000.00, 0.00, 0.00, FALSE, NOW() - INTERVAL 20 DAY, FALSE),
-                                                                                                                                                                     ('204', 19500.00, 18500.00, 1000.00, 0.00, 0.00, FALSE, NOW() - INTERVAL 5 DAY, FALSE),
-                                                                                                                                                                     ('205', 21000.00, 20000.00, 1000.00, 0.00, 0.00, FALSE, NOW() - INTERVAL 30 DAY, FALSE);
+-- 1. Insert independent entities
+INSERT INTO apartment_tbl (flat_number) VALUES
+                                            ('101A'),
+                                            ('102B'),
+                                            ('201A');
 
-INSERT INTO tenants_tbl (name, email, phone_number, address, father_name, apartment_id, aadhar_card_number, criminal_history, agreement_signed, main_owner, join_date, exists_flag) VALUES
-                                                                                                                                                                                        ('Aryan Singh', 'arjun.sharma@email.com', '9876543210', '123 MG Road, Mumbai', 'Rajesh Sharma', (SELECT id FROM apartment_tbl WHERE flat_number = '101'), '123456789012', FALSE, TRUE, TRUE, NOW(), TRUE),
-                                                                                                                                                                                        ('Yashpal Singh', 'priya.patel@email.com', '9876543211', '456 Park Street, Delhi', 'Suresh Patel', (SELECT id FROM apartment_tbl WHERE flat_number = '102'), '234567890123', FALSE, TRUE, TRUE, NOW(), TRUE),
-                                                                                                                                                                                        ('Aradhya Singh', 'rohit.kumar@email.com', '9876543212', '789 Brigade Road, Bangalore', 'Mahesh Kumar', (SELECT id FROM apartment_tbl WHERE flat_number = '103'), '345678901234', FALSE, FALSE, TRUE, NOW(), TRUE),
-                                                                                                                                                                                        ('Anamika Singh', 'sneha.gupta@email.com', '9876543213', '321 Commercial Street, Chennai', 'Ramesh Gupta', (SELECT id FROM apartment_tbl WHERE flat_number = '104'), '456789012345', FALSE, TRUE, TRUE, NOW(), TRUE),
-                                                                                                                                                                                        ('Manvendra Singh', 'vikram.singh@email.com', '9876543214', '654 Connaught Place, Delhi', 'Harpreet Singh', (SELECT id FROM apartment_tbl WHERE flat_number = '105'), '567890123456', FALSE, TRUE, TRUE, NOW(), TRUE),
-                                                                                                                                                                                        ('Anita Reddy', 'anita.reddy@email.com', '9876543215', '987 Jubilee Hills, Hyderabad', 'Venkat Reddy', (SELECT id FROM apartment_tbl WHERE flat_number = '201'), '678901234567', FALSE, TRUE, TRUE, NOW(), TRUE);
-
-INSERT INTO deposits_tbl (apartment_id, expected, negotiated, paid) VALUES
-                                                                        ((SELECT id FROM apartment_tbl WHERE flat_number = '101'), 15000.00, 15000.00, 15000.00),
-                                                                        ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 16000.00, 15500.00, 15500.00),
-                                                                        ((SELECT id FROM apartment_tbl WHERE flat_number = '103'), 14500.00, 14500.00, 14500.00),
-                                                                        ((SELECT id FROM apartment_tbl WHERE flat_number = '104'), 15500.00, 15500.00, 15500.00),
-                                                                        ((SELECT id FROM apartment_tbl WHERE flat_number = '105'), 17000.00, 16000.00, 15000.00),
-                                                                        ((SELECT id FROM apartment_tbl WHERE flat_number = '201'), 18000.00, 17500.00, 17500.00),
-                                                                        ((SELECT id FROM apartment_tbl WHERE flat_number = '202'), 19000.00, 18500.00, 18000.00),
-                                                                        ((SELECT id FROM apartment_tbl WHERE flat_number = '203'), 17500.00, 17500.00, 17000.00),
-                                                                        ((SELECT id FROM apartment_tbl WHERE flat_number = '204'), 18500.00, 18000.00, 18000.00),
-                                                                        ((SELECT id FROM apartment_tbl WHERE flat_number = '205'), 20000.00, 20000.00, 20000.00);
-
+INSERT INTO config_tbl (config_key, config_value) VALUES
+                                                      ('LATE_FEE_AMOUNT', '50.00'),
+                                                      ('MAINTENANCE_EMAIL', 'admin@example.com');
 
 INSERT INTO managers_tbl (name, number) VALUES
-                                            ('Kuldeep', 9876543210),
-                                            ('Tiwari', 9876543211),
-                                            ('Raju', 9876543212),
-                                            ('Mukesh', 9876543213),
-                                            ('Kamla', 9876543214),
-                                            ('Keshav', 9876543215);
+                                            ('Bob Builder', 1234567890),
+                                            ('Fixit Felix', 9876543210);
 
+-- Insert into ElementCollection table for Managers
 INSERT INTO manager_maintenance_types (manager_id, maintenance_type) VALUES
                                                                          (1, 'PLUMBING'),
-                                                                         (2, 'FLOORING'),
-                                                                         (2, 'APPLIANCE_REPAIR'),
-                                                                         (2, 'BUILDING_INTERIOR'),
-                                                                         (2, 'BUILDING_EXTERIOR'),
-                                                                         (2, 'MISCELLANEOUS'),
-                                                                         (3, 'ELECTRICAL'),
-                                                                         (4, 'PAINTING'),
-                                                                         (5, 'CLEANING'),
-                                                                         (6, 'WOODWORK');
+                                                                         (1, 'HVAC'),
+                                                                         (2, 'ELECTRICAL');
+
+INSERT INTO tenants_tbl (name, email, phone_number, address, father_name, unique_identifier, background_check, exists_flag) VALUES
+                                                                                                                                ('Alice Smith', 'alice@email.com', '555-0101', '123 Main St', 'John Smith', 'ID-12345', TRUE, TRUE),
+                                                                                                                                ('Charlie Brown', 'charlie@email.com', '555-0202', '456 Oak St', 'David Brown', 'ID-67890', TRUE, TRUE);
+
+-- 2. Insert entities with Foreign Keys
+INSERT INTO furniture (apartment_id, furniture_type, quantity) VALUES
+                                                                   (1, 'BED', 2),
+                                                                   (1, 'SOFA', 1),
+                                                                   (2, 'DINING_TABLE', 1);
+
+INSERT INTO lease_tbl (is_active, start, end, apartment_id, rent_amount, maintenance_amount, deposit_amount, is_deposit_collected, is_deposit_returned) VALUES
+                                                                                                                                                            (TRUE, '2025-01-01', '2025-12-31', 1, 1500.00, 100.00, 1500.00, TRUE, FALSE),
+                                                                                                                                                            (FALSE, '2024-01-01', '2024-12-31', 2, 1400.00, 100.00, 1400.00, TRUE, TRUE);
+
+-- Insert into Join Table for Lease <-> Tenants
+INSERT INTO lease_tenants_tbl (lease_id, tenant_id) VALUES
+                                                        (1, 1),
+                                                        (2, 2);
+
+INSERT INTO payments_tbl (lease_id, payment_type, payment_amount, payment_method, comment, payment_date) VALUES
+                                                                                                             (1, 'RENT', 1500.00, 'CREDIT_CARD', 'January Rent', '2025-01-05 10:00:00'),
+                                                                                                             (2, 'RENT', 1400.00, 'BANK_TRANSFER', 'December Rent', '2024-12-01 09:30:00');
 
 INSERT INTO maintenance_requests_tbl (apartment_id, maintenance_type, title, description, status, date_submitted, manager_id) VALUES
-                                                                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '101'), 'PLUMBING', 'Leaky Faucet', 'The kitchen faucet is constantly dripping.', 'PENDING', NOW(), 1),
-                                                                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '103'), 'ELECTRICAL', 'Broken Light Fixture', 'The light fixture in the living room is not working.', 'PENDING', NOW(), 3),
-                                                                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '105'), 'APPLIANCE_REPAIR', 'Faulty Refrigerator', 'The refrigerator is making a strange humming noise.', 'IN_PROGRESS', NOW(), 2),
-                                                                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '201'), 'PAINTING', 'Scratched Wall', 'There are a few scratches on the living room wall.', 'IN_PROGRESS', NOW(), 4),
-                                                                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 'CLEANING', 'Ants in the Kitchen', 'There are a lot of ants in the kitchen and pantry.', 'COMPLETED', NOW(), 5),
-                                                                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '104'), 'WOODWORK', 'Squeaky Floorboards', 'The floorboards in the bedroom are very squeaky.', 'COMPLETED', NOW(), 6),
-                                                                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 'CLEANING', 'Ants in the Kitchen', 'There are a lot of ants in the kitchen and pantry.', 'CANCELLED', NOW(), 5),
-                                                                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 'PLUMBING', 'Clogged Sink', 'The bathroom sink is not draining.', 'PENDING', NOW() - INTERVAL 1 DAY, 1),
-                                                                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '104'), 'PAINTING', 'Repaint Bedroom', 'Requesting a repaint of the master bedroom walls.', 'PENDING', NOW() - INTERVAL 2 DAY, 4),
-                                                                                                                                  ((SELECT id FROM apartment_tbl WHERE flat_number = '201'), 'WOODWORK', 'Broken Chair Leg', 'A dining chair leg has snapped.', 'PENDING', NOW(), 6);
-
-
-INSERT INTO payments_tbl (apartment_id, rent_amount, maintenance_amount, electricity_amount, payment_method, payment_date) VALUES
-                                                                                                                               ((SELECT id FROM apartment_tbl WHERE flat_number = '101'), 15000.00, 1000.00, 800.00, 'CASH', NOW() - INTERVAL 1 MONTH),
-                                                                                                                               ((SELECT id FROM apartment_tbl WHERE flat_number = '101'), 15000.00, 1000.00, 950.00, 'BANK_TRANSFER', NOW()),
-                                                                                                                               ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 16000.00, 1000.00, 1100.00, 'CARD', NOW());
-
-INSERT INTO furniture (apartment_id, furniture_type, quantity) VALUES
-                                                                   ((SELECT id FROM apartment_tbl WHERE flat_number = '101'), 'LIGHT_BULBS', 5),
-                                                                   ((SELECT id FROM apartment_tbl WHERE flat_number = '101'), 'COTS', 2),
-                                                                   ((SELECT id FROM apartment_tbl WHERE flat_number = '101'), 'CURTAINS', 4),
-                                                                   ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 'FANS', 2),
-                                                                   ((SELECT id FROM apartment_tbl WHERE flat_number = '102'), 'TUBELIGHTS', 2);
-
--- --------------------------------------------------
--- CONFIGURATION SETTINGS
--- --------------------------------------------------
--- Clear old config data for a clean seed
-DELETE FROM config_tbl;
-
--- Seed all 15 configuration settings from the new plan
-INSERT INTO config_tbl (config_key, config_value) VALUES
--- Financial & Billing
-('RENT_DUE_DAY', '5'),
-('CURRENCY_SYMBOL', '₹'),
-('LATE_FEE_Enabled', 'TRUE'),
-('LATE_FEE_TYPE', 'FLAT'),
-('LATE_FEE_VALUE', '500'),
-('DEFAULT_MAINTENANCE_ENFABLED', 'TRUE'),
-('DEFAULT_MAINTENANCE_FEE', '1000'),
-('ELECTRICITY_RATE', '8.5'),
--- Tenant & System Rules
-('ADMIN_ACCESS_ENABLED', 'FALSE'),
-('REQUIRE_POLICE_VERIFICATION', 'TRUE'),
-('REQUIRE_AGREEMENT_SIGNED', 'TRUE'),
-('MAX_OCCUPANTS', '4'),
--- Maintenance & Notifications
-('MAINTENANCE_APPROVAL_REQUEST', 'TRUE'),
-('OWNER_NOTIFICATION_EMAIL', 'owner@example.com'),
--- Branding & Personalization
-('APARTMENT_NAME', 'Apartment Manager');
-
--- 1. Rename the old Police Verification setting to Background Check
-DELETE FROM config_tbl WHERE config_key = 'REQUIRE_POLICE_VERIFICATION';
-INSERT INTO config_tbl (config_key, config_value) VALUES ('REQUIRE_BACKGROUND_CHECK', 'TRUE');
-
--- 2. Add Phone Numbering System (Options: 'INDIAN', 'INTERNATIONAL')
-INSERT INTO config_tbl (config_key, config_value) VALUES ('PHONE_NUMBERING_SYSTEM', 'INDIAN');
-
--- 3. Add Identification Rules
-INSERT INTO config_tbl (config_key, config_value) VALUES ('IDENTIFICATION_REQUIRED', 'TRUE');
-INSERT INTO config_tbl (config_key, config_value) VALUES ('IDENTIFICATION_EXACT_LENGTH', '12'); -- e.g. 12 for Aadhar
+                                                                                                                                  (1, 'PLUMBING', 'Leaky Faucet', 'The kitchen sink is leaking continuously', 'PENDING', '2025-02-15 14:00:00', 1),
+                                                                                                                                  (2, 'ELECTRICAL', 'Broken Light', 'Living room ceiling light will not turn on', 'RESOLVED', '2024-10-10 08:00:00', 2);
