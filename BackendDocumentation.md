@@ -1,6 +1,6 @@
 # Backend API Endpoints Documentation
 
-**Base URL:** `http://<your-backend-host>`
+# NOTE: ALWAYS CODE IN VANILLA HTML, CSS AND JS
 
 ---
 
@@ -10,11 +10,47 @@
 | Method | Endpoint | Params/Variables | Request Body | Response Type |
 | :--- | :--- | :--- | :--- | :--- |
 | **GET** | `/{id}` | `Path: id (Long)` | - | `ApartmentDto` |
-| **POST** | `/` | - | `UpdateApartmentDto` | `ApartmentDto` (201) |
+| **POST** | `/` | - | `UpdateApartmentDto` | `ApartmentDto` (201 Created) |
 | **PUT** | `/{id}` | `Path: id (Long)` | `UpdateApartmentDto` | `200 OK` (Void) |
 | **DELETE** | `/{id}` | `Path: id (Long)` | - | `204 No Content` |
+| **GET** | `/statistics` | - | - | `Map<String, Long>` |
 
 ---
+
+### 📊 GET `/statistics`
+Returns aggregated apartment statistics for dashboard or analytics use.
+
+#### Response Fields
+The response is a JSON object with the following structure:
+
+```json
+{
+  "total": number,
+  "occupied": number,
+  "vacant": number
+}
+```
+
+#### Field Descriptions
+- **total** → Total number of apartments in the system
+- **occupied** → Number of apartments currently occupied (based on active leases)
+- **vacant** → Number of apartments currently vacant
+
+#### Example Response
+```json
+{
+  "total": 120,
+  "occupied": 95,
+  "vacant": 25
+}
+```
+
+#### Notes for Frontend
+- All values are of type `Long` (integer).
+- `vacant` is derived as: `total - occupied`.
+- Keys are fixed (`total`, `occupied`, `vacant`) and should be used as-is in the UI.
+
+----
 
 ## 2. Configuration API
 **Base Path:** `/configuration`

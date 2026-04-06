@@ -21,6 +21,19 @@ public class ApartmentService {
         this.leaseRepository = leaseRepository;
     }
 
+    public Map<String, Long> getApartmentStatistics() {
+        long totalApartments = apartmentRepository.count();
+        long occupiedApartments = leaseRepository.countOccupiedApartments();
+        long vacantApartments = totalApartments - occupiedApartments;
+
+        Map<String, Long> stats = new HashMap<>();
+        stats.put("occupied", occupiedApartments);
+        stats.put("vacant", vacantApartments);
+        stats.put("total", totalApartments);
+
+        return stats;
+    }
+
     @Transactional
     public ApartmentDto createApartment(UpdateApartmentDto updateApartmentDto){
         Apartment apartment = new Apartment();
