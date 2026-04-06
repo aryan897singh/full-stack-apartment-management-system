@@ -217,43 +217,36 @@
 </main>
 <script>
     document.getElementById('add-apartment-form').addEventListener('submit', async function(event) {
-        event.preventDefault(); // Stop the default form submission (page reload)
+        event.preventDefault(); // This stops the annoying page refresh!
 
-        // 1. Grab the value from the input field
         const flatNumberValue = document.getElementById('flatNumber').value;
         const submitBtn = this.querySelector('button[type="submit"]');
 
-        // Optional UX: Update button state so the user knows it's working
-        const originalText = submitBtn.textContent;
         submitBtn.textContent = 'Saving...';
         submitBtn.disabled = true;
 
         try {
-            // 2. Fire the POST request to your endpoint
+
             const response = await fetch('/api/apartments', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                // 3. This perfectly matches your UpdateApartmentDto from BackendDocumentation.md
                 body: JSON.stringify({
                     flatNumber: flatNumberValue
                 })
             });
 
             if (response.ok) {
-                // Success! Redirect the user back to the dashboard
-                window.location.href = '/owner-pages/Dashboard.html';
+                window.location.href = 'Dashboard.html'; // Snap back to dashboard!
             } else {
-                // Handle 400/500 errors
-                alert('Failed to add apartment. Please check the server logs.');
+                alert('Failed to save to database. Check console.');
             }
         } catch (error) {
-            console.error('Network or Server Error:', error);
-            alert('A network error occurred. Is the Spring Boot server running?');
+            console.error('Error:', error);
+            alert('Could not connect to Spring Boot. Is it running?');
         } finally {
-            // Reset button state
-            submitBtn.textContent = originalText;
+            submitBtn.textContent = 'Save Apartment';
             submitBtn.disabled = false;
         }
     });

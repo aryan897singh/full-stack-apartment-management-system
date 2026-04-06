@@ -38,7 +38,7 @@ INSERT INTO lease_tenants_tbl (lease_id, tenant_id) VALUES
                                                         (2, 2);
 
 INSERT INTO payments_tbl (lease_id, payment_type, payment_amount, payment_method, comment, payment_date) VALUES
-                                                                                                             (1, 'RENT', 1500.00, 'CREDIT_CARD', 'January Rent', '2025-01-05 10:00:00'),
+                                                                                                             (1, 'RENT', 1500.00, 'CARD', 'January Rent', '2025-01-05 10:00:00'),
                                                                                                              (2, 'RENT', 1400.00, 'BANK_TRANSFER', 'December Rent', '2024-12-01 09:30:00');
 
 INSERT INTO maintenance_requests_tbl (apartment_id, maintenance_type, title, description, status, date_submitted, manager_id) VALUES
