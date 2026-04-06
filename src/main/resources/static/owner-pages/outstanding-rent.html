@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Vacant Apartment Details</title>
+    <title>Apartments with Outstanding Rent</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -61,22 +61,6 @@
         .table-dark-custom.table-hover tbody tr:hover {
             background-color: #2a2a2a !important;
         }
-        .status-badge {
-            padding: 0.35em 0.65em;
-            font-weight: 700;
-            line-height: 1;
-            color: #fff;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: baseline;
-            border-radius: 0.25rem;
-        }
-        .status-yes {
-            background-color: #198754; /* Green */
-        }
-        .status-no {
-            background-color: #dc3545; /* Red */
-        }
         footer {
             background-color: #1e1e1e;
             padding: 1rem 0;
@@ -108,17 +92,6 @@
             cursor: pointer;
             text-decoration: none;
         }
-        .form-control {
-            background-color: #2a2a2a;
-            border: 1px solid #495057;
-            color: #e0e0e0;
-        }
-        .form-control:focus {
-            background-color: #3a3a3a;
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
-            color: #e0e0e0;
-        }
     </style>
 </head>
 <body>
@@ -138,10 +111,10 @@
                     <a class="nav-link" href="/OWNER_PAGES/Dashboard.html">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/Tenants.html">Tenants</a>
+                    <a class="nav-link" href="/OWNER_PAGES/apartments.html">Tenants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/payments.html">Payments</a>
+                    <a class="nav-link active" aria-current="page" href="/OWNER_PAGES/payments.html">Payments</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/OWNER_PAGES/maintenance.html">Maintenance</a>
@@ -155,7 +128,7 @@
 <div class="content-wrapper">
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="mb-0">Vacant Apartment Details</h2>
+            <h2 class="mb-0">Apartments with Outstanding Rent</h2>
             <a href="/OWNER_PAGES/Dashboard.html" class="btn btn-primary">Go Back</a>
         </div>
 
@@ -164,9 +137,11 @@
                 <table class="table table-dark table-hover table-borderless table-dark-custom">
                     <thead>
                     <tr>
-                        <th scope="col">Flat Number</th>
-                        <th scope="col">Last Occupied</th>
-                        <th scope="col">No. of days vacant</th>
+                        <th scope="col">Flat No.</th>
+                        <th scope="col">Rent Expected</th>
+                        <th scope="col">Rent Paid</th>
+                        <th scope="col">Rent Outstanding</th>
+                        <th scope="col">Days Late</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -182,59 +157,77 @@
     <small class="small-text">purelydauntless</small>
 </footer>
 
-<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../js/config-loader.js"></script>
 
 <script>
-    const fetchVacant = fetch('/apartments/getAllVacantApartments')
-        .then(function(response){
-            if(!response.ok){
-                throw new Error('Something went wrong with the response')
+    const fetchOutstanding = fetch('/apartments/getAllOutstandingRentApartments')
+        .then(function(response) {
+            if(!response.ok) {
+                throw Error(response.statusText);
             }
             return response.json();
         });
 
     const fetchSettings = getAppSettings();
 
-    Promise.all([fetchVacant, fetchSettings])
-        .then(function(results){
+    Promise.all([fetchOutstanding, fetchSettings])
+        .then(function(results) {
 
             const data = results[0];
             const settings = results[1];
+            const CURRENCY_SYMBOL = settings.CURRENCY_SYMBOL || '₹';
+
+            // 1. Get the RENT_DUE_DAY from settings.
+            // We use parseInt() because it comes from the DB as a string.
+            // We set a fallback of '5' just in case.
+            const rentDueDay = parseInt(settings.RENT_DUE_DAY, 10) || 5;
 
             document.getElementById('nav-brand-app-name').textContent = settings.APARTMENT_NAME;
 
             var tableBody = document.querySelector('tbody');
-            var htmlString = '';
+            htmlString = '';
 
-            for(var i = 0; i < data.length ; i++){
+            for(var i = 0; i < data.length; ++i) {
                 const apartment = data[i];
 
-                const lastOccupiedDate = new Date(apartment.lastOccupied);
-
-                const year = lastOccupiedDate.getFullYear();
-                const month = String(lastOccupiedDate.getMonth() + 1).padStart(2, '0'); // getMonth() is 0-indexed
-                const day = String(lastOccupiedDate.getDate()).padStart(2, '0');
-                const formattedDate = `${day}-${month}-${year}`;
+                const rentExpected = (apartment.rentAmount || 0) + (apartment.maintenanceAmount || 0);
+                const rentPaid = (apartment.paidRent || 0) + (apartment.paidMaintenance || 0);
+                const outstanding = rentExpected - rentPaid;
 
                 const today = new Date();
-                const timeDifference = today.getTime() - lastOccupiedDate.getTime();
-                const vacancyDays = Math.floor(timeDifference / (1000 * 3600 * 24));
+
+                // 2. Use the new 'rentDueDay' variable instead of the hardcoded 5
+                const dueDate = new Date(today.getFullYear(), today.getMonth(), rentDueDay);
+
+                const timeDifference = today.getTime() - dueDate.getTime();
+                //Note Math.max basically returns the larger value, so if the difference is negative
+                //it will select 0 and display 0 since we havent hit the due date yet
+                const daysLate = Math.max(0, Math.floor(timeDifference / (1000 * 3600 * 24)));
+
+                const formattedExpected = new Intl.NumberFormat('en-IN').format(rentExpected);
+                const formattedPaid = new Intl.NumberFormat('en-IN').format(rentPaid);
+                const formattedOutstanding = new Intl.NumberFormat('en-IN').format(outstanding);
 
                 htmlString += `
                     <tr>
                         <td>${apartment.flatNumber}</td>
-                        <td>${formattedDate}</td>
-                        <td>${vacancyDays}</td>
+                        <td>${CURRENCY_SYMBOL}${formattedExpected}</td>
+                        <td>${CURRENCY_SYMBOL}${formattedPaid}</td>
+                         <td>${CURRENCY_SYMBOL}${formattedOutstanding}</td>
+                         <td>${daysLate}</td>
                     </tr>
                 `;
             }
+
             tableBody.innerHTML = htmlString;
+
         })
-        .catch(function(error){
-            console.log(error)
-            alert('Something went wrong in obtaining the data, please try again later')
-        });
+        .catch(function(error) {
+            console.log(error);
+            alert('Failed to load data, please try again :(')
+        })
 </script>
+
 </body>
 </html>

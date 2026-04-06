@@ -45,25 +45,25 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/OWNER_PAGES/Dashboard.html">
+        <a class="navbar-brand" href="/owner-pages/Dashboard.html">
             <span id="nav-brand-app-name">Loading...</span>
         </a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                    <a class="nav-link" href="/owner-pages/Dashboard.html">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/OWNER_PAGES/Tenants.html">Tenants</a>
+                    <a class="nav-link active" aria-current="page" href="/owner-pages/apartments.html">Tenants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/payments.html">Payments</a>
+                    <a class="nav-link" href="/owner-pages/payments.html">Payments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/maintenance.html">Maintenance</a>
+                    <a class="nav-link" href="/owner-pages/maintenance.html">Maintenance</a>
                 </li>
             </ul>
-            <a href="/OWNER_PAGES/configuration.html" class="profile-circle me-2" title="Profile Details">AS</a>
+            <a href="/owner-pages/configuration.html" class="profile-circle me-2" title="Profile Details">AS</a>
         </div>
     </div>
 </nav>
@@ -145,7 +145,7 @@
 
         if (!tenantId) {
             showAlert('Error: No tenant ID specified. Redirecting...', 'danger');
-            setTimeout(() => window.location.href = '/OWNER_PAGES/Tenants.html', 2000);
+            setTimeout(() => window.location.href = 'apartments.html', 2000);
             return;
         }
 
@@ -208,7 +208,7 @@
                 showAlert('Changes saved successfully! Redirecting...', 'success');
                 setTimeout(() => {
                     // Go back to the details page, passing the original tenantId
-                    window.location.href = `/OWNER_PAGES/apartment-details.html?tenantId=${tenantId}`;
+                    window.location.href = `/apartment-details.html?tenantId=${tenantId}`;
                 }, 1500);
 
             } catch (error) {

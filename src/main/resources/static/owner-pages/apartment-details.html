@@ -70,7 +70,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/OWNER_PAGES/Dashboard.html">
+        <a class="navbar-brand" href="/owner-pages/Dashboard.html">
             <span id="nav-brand-app-name">Loading...</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,19 +79,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                    <a class="nav-link" href="/owner-pages/Dashboard.html">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/OWNER_PAGES/Tenants.html">Tenants</a>
+                    <a class="nav-link active" aria-current="page" href="/owner-pages/apartments.html">Tenants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/payments.html">Payments</a>
+                    <a class="nav-link" href="/owner-pages/payments.html">Payments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/maintenance.html">Maintenance</a>
+                    <a class="nav-link" href="/owner-pages/maintenance.html">Maintenance</a>
                 </li>
             </ul>
-            <a href="/OWNER_PAGES/configuration.html" class="profile-circle me-2" title="Profile Details">AS</a>
+            <a href="/owner-pages/configuration.html" class="profile-circle me-2" title="Profile Details">AS</a>
         </div>
     </div>
 </nav>
@@ -100,7 +100,7 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0" id="flat-number-display">Flat [Loading...]</h2>
-            <a href="/OWNER_PAGES/Tenants.html" class="btn btn-primary">Go Back</a>
+            <a href="/owner-pages/apartments.html" class="btn btn-primary">Go Back</a>
         </div>
 
         <div class="card mb-4">
@@ -159,7 +159,7 @@
 
         if (!tenantId) {
             alert('Error: No tenant ID specified.');
-            window.location.href = '/OWNER_PAGES/Tenants.html'; // Go back
+            window.location.href = 'apartments.html'; // Go back
             return;
         }
 

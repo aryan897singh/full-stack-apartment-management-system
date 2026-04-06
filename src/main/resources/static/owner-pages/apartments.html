@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Occupied Apartments | SHRI SHYAM KALESHWAR RESIDENCY</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-secondary-fixed-variant": "#005236",
+                        "tertiary-fixed": "#ffdcc6",
+                        "secondary-container": "#00a572",
+                        "primary": "#adc6ff",
+                        "tertiary-container": "#df7412",
+                        "on-primary": "#002e6a",
+                        "surface-container-high": "#222a3d",
+                        "primary-fixed": "#d8e2ff",
+                        "outline": "#8c909f",
+                        "on-secondary": "#003824",
+                        "outline-variant": "#424754",
+                        "on-error": "#690005",
+                        "surface": "#0b1326",
+                        "on-background": "#dae2fd",
+                        "background": "#0b1326",
+                        "surface-container": "#171f33",
+                        "secondary-fixed-dim": "#4edea3",
+                        "secondary": "#4edea3",
+                        "error": "#ffb4ab",
+                        "on-surface-variant": "#c2c6d6",
+                        "inverse-on-surface": "#283044",
+                        "on-secondary-fixed": "#002113",
+                        "on-secondary-container": "#00311f",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "surface-variant": "#2d3449",
+                        "surface-dim": "#0b1326",
+                        "primary-container": "#4d8eff",
+                        "surface-bright": "#31394d",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "inverse-surface": "#dae2fd",
+                        "on-primary-fixed": "#001a42",
+                        "on-primary-fixed-variant": "#004395",
+                        "surface-container-lowest": "#060e20",
+                        "on-tertiary-fixed": "#311400",
+                        "on-primary-container": "#00285d",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-surface": "#dae2fd",
+                        "on-tertiary": "#502400",
+                        "error-container": "#93000a",
+                        "surface-container-low": "#131b2e",
+                        "inverse-primary": "#005ac2",
+                        "tertiary": "#ffb786",
+                        "surface-container-highest": "#2d3449",
+                        "surface-tint": "#adc6ff",
+                        "on-tertiary-container": "#461f00",
+                        "on-error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .headline { font-family: 'Manrope', sans-serif; }
+        .glass-panel {
+            background: rgba(23, 31, 51, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar Integration -->
+<aside class="fixed left-0 top-0 bottom-0 z-40 flex flex-col p-6 h-screen w-64 border-r-0 bg-slate-900/80 dark:bg-[#131b2e] backdrop-blur-3xl shadow-2xl shadow-blue-900/20">
+    <div class="mb-10">
+        <span class="text-lg font-bold text-[#adc6ff] tracking-tighter leading-tight uppercase block">SHRI SHYAM KALESHWAR RESIDENCY</span>
+        <p class="text-[10px] font-manrope tracking-widest text-slate-500 mt-1 uppercase">Estate Management</p>
+    </div>
+    <nav class="flex-1 space-y-2">
+        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group" href="#">
+            <span class="material-symbols-outlined mr-3">dashboard</span>
+            <span class="font-manrope tracking-tight font-semibold">Dashboard</span>
+        </a>
+        <!-- Active State: Apartments -->
+        <a class="flex items-center px-4 py-3 text-[#adc6ff] bg-[#222a3d] rounded-lg font-bold group scale-[0.98] active:duration-75" href="#">
+            <span class="material-symbols-outlined mr-3">domain</span>
+            <span class="font-manrope tracking-tight font-semibold">Apartments</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group" href="#">
+            <span class="material-symbols-outlined mr-3">payments</span>
+            <span class="font-manrope tracking-tight font-semibold">Payments</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group" href="#">
+            <span class="material-symbols-outlined mr-3">build</span>
+            <span class="font-manrope tracking-tight font-semibold">Maintenance</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group" href="#">
+            <span class="material-symbols-outlined mr-3">settings</span>
+            <span class="font-manrope tracking-tight font-semibold">Settings</span>
+        </a>
+    </nav>
+    <div class="mt-auto pt-6 border-t border-white/5">
+        <button class="w-full bg-primary text-on-primary py-3 rounded-xl font-bold font-manrope tracking-tight flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(173,198,255,0.3)] transition-all">
+            <span class="material-symbols-outlined text-sm">add</span>
+            New Property
+        </button>
+    </div>
+</aside>
+<!-- TopNavBar Integration -->
+<header class="fixed top-0 right-0 left-64 z-30 flex items-center justify-between px-8 full-width h-16 backdrop-blur-2xl bg-slate-950/80 dark:bg-[#0b1326]/80 border-b border-white/5">
+    <div class="flex items-center gap-4 flex-1">
+        <div class="relative w-96 group">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm">search</span>
+            <input class="w-full bg-surface-container-lowest border-none rounded-full pl-10 pr-4 py-1.5 text-xs text-on-surface focus:ring-1 ring-[#3b82f6] placeholder:text-slate-600 transition-all" placeholder="Search units or tenants..." type="text"/>
+        </div>
+    </div>
+    <div class="flex items-center gap-6">
+        <button class="text-slate-400 hover:text-white transition-all relative">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="absolute top-0 right-0 w-2 h-2 bg-secondary rounded-full"></span>
+        </button>
+        <button class="text-slate-400 hover:text-white transition-all">
+            <span class="material-symbols-outlined">help_outline</span>
+        </button>
+        <div class="h-8 w-[1px] bg-white/5 mx-2"></div>
+        <span class="font-manrope uppercase text-[10px] tracking-widest text-on-surface-variant font-bold">Admin Panel</span>
+    </div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 min-h-screen">
+    <div class="p-10 max-w-7xl mx-auto">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+            <div>
+                <p class="font-label uppercase text-[11px] tracking-[0.2em] text-secondary font-bold mb-2">Property Management</p>
+                <h1 class="text-5xl font-extrabold tracking-tighter text-on-surface leading-tight">SHRI SHYAM KALESHWAR RESIDENCY</h1>
+            </div>
+            <div class="flex gap-4">
+                <button class="px-6 py-3 bg-surface-container-high hover:bg-surface-container-highest text-on-surface rounded-xl font-bold text-sm transition-all flex items-center gap-2 border border-outline-variant/10">
+                    <span class="material-symbols-outlined text-lg">download</span>
+                    Export List
+                </button>
+                <button class="px-6 py-3 bg-primary text-on-primary rounded-xl font-bold text-sm transition-all flex items-center gap-2 shadow-[0_4px_20px_rgba(173,198,255,0.2)]">
+                    <span class="material-symbols-outlined text-lg">add_home</span>
+                    Add New Apartment
+                </button>
+            </div>
+        </div>
+        <!-- View Navigation Tabs -->
+        <div class="flex items-center gap-1 bg-surface-container-low p-1 rounded-xl w-fit mb-8 border border-outline-variant/5">
+            <button class="px-8 py-2.5 rounded-lg text-sm font-bold transition-all bg-primary text-on-primary shadow-lg">
+                Occupied
+            </button>
+            <button class="px-8 py-2.5 rounded-lg text-sm font-bold transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest" onclick="return false;">
+                Vacant
+            </button>
+        </div>
+        <!-- Dashboard Logic: Filter Bar -->
+        <div class="bg-surface-container-low rounded-2xl p-4 mb-8 flex items-center justify-between gap-4 border border-outline-variant/5">
+            <div class="flex items-center gap-3">
+                <span class="text-sm font-bold text-on-surface ml-2">Apartment Inventory</span>
+            </div>
+            <div class="flex items-center gap-2 text-on-surface-variant">
+                <span class="text-xs font-medium italic">Showing all 32 residential units</span>
+                <span class="material-symbols-outlined text-lg opacity-50 ml-2">sort</span>
+            </div>
+        </div>
+        <!-- API Notification -->
+        <!-- Data Table -->
+        <div class="bg-surface-container-low rounded-3xl overflow-hidden border border-outline-variant/5">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                <tr class="border-b border-outline-variant/10">
+                    <th class="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant">Unit / Flat</th>
+                    <th class="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant">Status</th>
+                    <th class="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant">Lease Expiry</th>
+                    <th class="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody class="divide-y divide-outline-variant/5">
+                <!-- Item 1 -->
+                <tr class="hover:bg-surface-container-highest transition-colors group">
+                    <td class="px-8 py-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary font-bold">101</div>
+                            <div>
+                                <p class="text-sm font-bold text-on-surface">Floor 01 • Studio</p>
+                                <p class="text-[10px] text-on-surface-variant">West Wing</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-8 py-6">
+                        <span class="px-3 py-1 bg-secondary/10 text-secondary text-[10px] font-bold uppercase tracking-wider rounded-full border border-secondary/20">Occupied</span>
+                    </td>
+                    <td class="px-8 py-6">
+                        <span class="text-sm font-medium text-on-surface">Oct 24, 2024</span>
+                        <p class="text-[10px] text-secondary font-semibold">Renewing</p>
+                    </td>
+                    <td class="px-8 py-6">
+                        <div class="flex items-center justify-center gap-3">
+                            <button class="p-2 hover:bg-surface-container-lowest rounded-lg transition-all text-on-surface-variant flex items-center justify-center" title="Edit Unit">
+                                <span class="material-symbols-outlined text-lg">edit</span>
+                            </button>
+                            <button class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</button>
+                        </div>
+                    </td>
+                </tr>
+                <!-- Item 2 -->
+                <tr class="hover:bg-surface-container-highest transition-colors group">
+                    <td class="px-8 py-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary font-bold">202</div>
+                            <div>
+                                <p class="text-sm font-bold text-on-surface">Floor 02 • 2BR</p>
+                                <p class="text-[10px] text-on-surface-variant">West Wing</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-8 py-6">
+                        <span class="px-3 py-1 bg-secondary/10 text-secondary text-[10px] font-bold uppercase tracking-wider rounded-full border border-secondary/20">Occupied</span>
+                    </td>
+                    <td class="px-8 py-6">
+                        <span class="text-sm font-medium text-on-surface">Mar 15, 2025</span>
+                        <p class="text-[10px] text-on-surface-variant">Standard</p>
+                    </td>
+                    <td class="px-8 py-6">
+                        <div class="flex items-center justify-center gap-3">
+                            <button class="p-2 hover:bg-surface-container-lowest rounded-lg transition-all text-on-surface-variant flex items-center justify-center" title="Edit Unit">
+                                <span class="material-symbols-outlined text-lg">edit</span>
+                            </button>
+                            <button class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</button>
+                        </div>
+                    </td>
+                </tr>
+                <!-- Item 3 -->
+                <tr class="hover:bg-surface-container-highest transition-colors group">
+                    <td class="px-8 py-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary font-bold">305</div>
+                            <div>
+                                <p class="text-sm font-bold text-on-surface">Floor 03 • Penthouse</p>
+                                <p class="text-[10px] text-on-surface-variant">Sky Level</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-8 py-6">
+                        <span class="px-3 py-1 bg-secondary/10 text-secondary text-[10px] font-bold uppercase tracking-wider rounded-full border border-secondary/20">Occupied</span>
+                    </td>
+                    <td class="px-8 py-6">
+                        <span class="text-sm font-medium text-on-surface">Dec 12, 2025</span>
+                        <p class="text-[10px] text-on-surface-variant">Locked</p>
+                    </td>
+                    <td class="px-8 py-6">
+                        <div class="flex items-center justify-center gap-3">
+                            <button class="p-2 hover:bg-surface-container-lowest rounded-lg transition-all text-on-surface-variant flex items-center justify-center" title="Edit Unit">
+                                <span class="material-symbols-outlined text-lg">edit</span>
+                            </button>
+                            <button class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</button>
+                        </div>
+                    </td>
+                </tr>
+                <!-- Item 4 -->
+                <tr class="hover:bg-surface-container-highest transition-colors group">
+                    <td class="px-8 py-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary font-bold">204</div>
+                            <div>
+                                <p class="text-sm font-bold text-on-surface">Floor 02 • 1BR</p>
+                                <p class="text-[10px] text-on-surface-variant">East Wing</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-8 py-6">
+                        <span class="px-3 py-1 bg-secondary/10 text-secondary text-[10px] font-bold uppercase tracking-wider rounded-full border border-secondary/20">Occupied</span>
+                    </td>
+                    <td class="px-8 py-6">
+                        <span class="text-sm font-medium text-error">Jan 15, 2024</span>
+                        <p class="text-[10px] text-error font-bold">Overdue</p>
+                    </td>
+                    <td class="px-8 py-6">
+                        <div class="flex items-center justify-center gap-3">
+                            <button class="p-2 hover:bg-surface-container-lowest rounded-lg transition-all text-on-surface-variant flex items-center justify-center" title="Edit Unit">
+                                <span class="material-symbols-outlined text-lg">edit</span>
+                            </button>
+                            <button class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- Pagination -->
+            <div class="px-8 py-4 bg-surface-container-lowest/50 flex items-center justify-between">
+                <div class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Page 1 of 3</div>
+                <div class="flex gap-2">
+                    <button class="p-2 bg-surface-container-high rounded-lg text-on-surface-variant disabled:opacity-30" disabled="">
+                        <span class="material-symbols-outlined text-sm">chevron_left</span>
+                    </button>
+                    <button class="p-2 bg-surface-container-high rounded-lg text-on-surface hover:text-primary transition-all">
+                        <span class="material-symbols-outlined text-sm">chevron_right</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Global Footer -->
+        <footer class="mt-20 pb-10 border-t border-white/5 pt-10 text-center">
+            <div class="flex items-center justify-center gap-2 mb-4">
+                <span class="w-2 h-2 bg-primary rounded-full"></span>
+                <span class="font-headline font-bold text-sm tracking-widest text-on-surface">SHRI SHYAM KALESHWAR RESIDENCY</span>
+            </div>
+            <p class="text-xs text-on-surface-variant font-medium tracking-wide">
+                Designed and developed by <span class="text-on-surface">Aryan Singh</span>
+            </p>
+            <p class="text-[10px] text-slate-600 mt-2 uppercase tracking-widest">© 2024 Shri Shyam Kaleshwar Residency Management.</p>
+        </footer>
+    </div>
+</main>
+</body></html>
