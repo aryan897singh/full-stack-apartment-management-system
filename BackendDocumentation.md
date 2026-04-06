@@ -1,6 +1,6 @@
 # Backend API Endpoints Documentation
 
-**Base URL:** `http://<your-backend-host>`
+# NOTE: ALWAYS CODE IN VANILLA HTML, CSS AND JS
 
 ---
 
