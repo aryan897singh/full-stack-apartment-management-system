@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/furniture")
+@RequestMapping(path = "/api/furniture")
 @CrossOrigin
 public class FurnitureController {
 
@@ -20,33 +20,24 @@ public class FurnitureController {
         return furnitureService.getFurniture(id);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public List<FurnitureDto> getAllFurniture() {
         return furnitureService.getAllFurniture();
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public void createFurniture(@RequestBody UpdateFurnitureDto updateFurnitureDto){
         furnitureService.createFurniture(updateFurnitureDto);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public void updateFurniture(@PathVariable("id") Long id, @RequestBody UpdateFurnitureDto updateFurnitureDto){
         furnitureService.updateFurniture(id, updateFurnitureDto);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteFurniture(@PathVariable("id") Long id){
         furnitureService.deleteFurniture(id);
     }
 
-
-
-
-    /*
-    C - DONE
-    R - Single: DONE  - All: DONE
-    U - DONE
-    D - DONE
-     */
 }
