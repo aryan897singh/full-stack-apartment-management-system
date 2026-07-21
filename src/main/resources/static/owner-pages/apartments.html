@@ -96,34 +96,34 @@
         <p class="text-[10px] font-manrope tracking-widest text-slate-500 mt-1 uppercase">Estate Management</p>
     </div>
     <nav class="flex-1 space-y-2">
-        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group" href="/owner-pages/Dashboard.html">
+        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group" href="/owner-pages/dashboard.html">
             <span class="material-symbols-outlined mr-3">dashboard</span>
             <span class="font-manrope tracking-tight font-semibold">Dashboard</span>
 
         </a>
         <!-- Active State: Apartments -->
-        <a class="flex items-center px-4 py-3 text-[#adc6ff] bg-[#222a3d] rounded-lg font-bold group scale-[0.98] active:duration-75" href="#">
+        <a class="flex items-center px-4 py-3 text-[#adc6ff] bg-[#222a3d] rounded-lg font-bold group scale-[0.98] active:duration-75" href="/owner-pages/apartments.html">
             <span class="material-symbols-outlined mr-3">domain</span>
             <span class="font-manrope tracking-tight font-semibold">Apartments</span>
         </a>
-        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group" href="#">
+        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group" href="/owner-pages/payments.html">
             <span class="material-symbols-outlined mr-3">payments</span>
             <span class="font-manrope tracking-tight font-semibold">Payments</span>
         </a>
-        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group" href="#">
+        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group" href="/owner-pages/maintenance.html">
             <span class="material-symbols-outlined mr-3">build</span>
             <span class="font-manrope tracking-tight font-semibold">Maintenance</span>
         </a>
-        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group" href="#">
+        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group" href="/owner-pages/configuration.html">
             <span class="material-symbols-outlined mr-3">settings</span>
             <span class="font-manrope tracking-tight font-semibold">Settings</span>
         </a>
     </nav>
     <div class="mt-auto pt-6 border-t border-white/5">
-        <button class="w-full bg-primary text-on-primary py-3 rounded-xl font-bold font-manrope tracking-tight flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(173,198,255,0.3)] transition-all">
+        <a href="/owner-pages/add-new-flat.html" class="w-full bg-primary text-on-primary py-3 rounded-xl font-bold font-manrope tracking-tight flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(173,198,255,0.3)] transition-all">
             <span class="material-symbols-outlined text-sm">add</span>
             New Property
-        </button>
+        </a>
     </div>
 </aside>
 <!-- TopNavBar Integration -->
@@ -160,20 +160,20 @@
                     <span class="material-symbols-outlined text-lg">download</span>
                     Export List
                 </button>
-                <button class="px-6 py-3 bg-primary text-on-primary rounded-xl font-bold text-sm transition-all flex items-center gap-2 shadow-[0_4px_20px_rgba(173,198,255,0.2)]">
+                <a href="/owner-pages/add-new-flat.html" class="px-6 py-3 bg-primary text-on-primary rounded-xl font-bold text-sm transition-all flex items-center gap-2 shadow-[0_4px_20px_rgba(173,198,255,0.2)]">
                     <span class="material-symbols-outlined text-lg">add_home</span>
                     Add New Apartment
-                </button>
+                </a>
             </div>
         </div>
         <!-- View Navigation Tabs -->
         <div class="flex items-center gap-1 bg-surface-container-low p-1 rounded-xl w-fit mb-8 border border-outline-variant/5">
-            <button class="px-8 py-2.5 rounded-lg text-sm font-bold transition-all bg-primary text-on-primary shadow-lg">
+            <a href="/owner-pages/apartments.html" class="px-8 py-2.5 rounded-lg text-sm font-bold transition-all bg-primary text-on-primary shadow-lg">
                 Occupied
-            </button>
-            <button class="px-8 py-2.5 rounded-lg text-sm font-bold transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest" onclick="return false;">
+            </a>
+            <a href="/owner-pages/vacant-flats.html" class="px-8 py-2.5 rounded-lg text-sm font-bold transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest">
                 Vacant
-            </button>
+            </a>
         </div>
         <!-- Dashboard Logic: Filter Bar -->
         <div class="bg-surface-container-low rounded-2xl p-4 mb-8 flex items-center justify-between gap-4 border border-outline-variant/5">
@@ -218,10 +218,10 @@
                     </td>
                     <td class="px-8 py-6">
                         <div class="flex items-center justify-center gap-3">
-                            <button class="p-2 hover:bg-surface-container-lowest rounded-lg transition-all text-on-surface-variant flex items-center justify-center" title="Edit Unit">
+                            <a href="/owner-pages/edit-apartment.html" class="p-2 hover:bg-surface-container-lowest rounded-lg transition-all text-on-surface-variant flex items-center justify-center" title="Edit Unit">
                                 <span class="material-symbols-outlined text-lg">edit</span>
-                            </button>
-                            <button class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</button>
+                            </a>
+                            <a href="/owner-pages/apartment-details.html" class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</a>
                         </div>
                     </td>
                 </tr>
@@ -245,10 +245,10 @@
                     </td>
                     <td class="px-8 py-6">
                         <div class="flex items-center justify-center gap-3">
-                            <button class="p-2 hover:bg-surface-container-lowest rounded-lg transition-all text-on-surface-variant flex items-center justify-center" title="Edit Unit">
+                            <a href="/owner-pages/edit-apartment.html" class="p-2 hover:bg-surface-container-lowest rounded-lg transition-all text-on-surface-variant flex items-center justify-center" title="Edit Unit">
                                 <span class="material-symbols-outlined text-lg">edit</span>
-                            </button>
-                            <button class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</button>
+                            </a>
+                            <a href="/owner-pages/apartment-details.html" class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</a>
                         </div>
                     </td>
                 </tr>
@@ -272,10 +272,10 @@
                     </td>
                     <td class="px-8 py-6">
                         <div class="flex items-center justify-center gap-3">
-                            <button class="p-2 hover:bg-surface-container-lowest rounded-lg transition-all text-on-surface-variant flex items-center justify-center" title="Edit Unit">
+                            <a href="/owner-pages/edit-apartment.html" class="p-2 hover:bg-surface-container-lowest rounded-lg transition-all text-on-surface-variant flex items-center justify-center" title="Edit Unit">
                                 <span class="material-symbols-outlined text-lg">edit</span>
-                            </button>
-                            <button class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</button>
+                            </a>
+                            <a href="/owner-pages/apartment-details.html" class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</a>
                         </div>
                     </td>
                 </tr>
@@ -299,10 +299,10 @@
                     </td>
                     <td class="px-8 py-6">
                         <div class="flex items-center justify-center gap-3">
-                            <button class="p-2 hover:bg-surface-container-lowest rounded-lg transition-all text-on-surface-variant flex items-center justify-center" title="Edit Unit">
+                            <a href="/owner-pages/edit-apartment.html" class="p-2 hover:bg-surface-container-lowest rounded-lg transition-all text-on-surface-variant flex items-center justify-center" title="Edit Unit">
                                 <span class="material-symbols-outlined text-lg">edit</span>
-                            </button>
-                            <button class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</button>
+                            </a>
+                            <a href="/owner-pages/apartment-details.html" class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</a>
                         </div>
                     </td>
                 </tr>
@@ -328,9 +328,9 @@
                 <span class="font-headline font-bold text-sm tracking-widest text-on-surface">Shri Shyam Kaleshwar Residency</span>
             </div>
             <p class="text-xs text-on-surface-variant font-medium tracking-wide">
-                Designed and developed by <span class="text-on-surface">Aryan Singh</span>
+                Developed and designed by <span class="text-on-surface">Aryan Singh</span>
             </p>
-            <p class="text-[10px] text-slate-600 mt-2 uppercase tracking-widest">© 2024 Shri Shyam Kaleshwar Residency Management.</p>
+            <p class="text-[10px] text-slate-600 mt-2 uppercase tracking-widest">© 2026 Shri Shyam Kaleshwar Residency Management.</p>
         </footer>
     </div>
 </main>
