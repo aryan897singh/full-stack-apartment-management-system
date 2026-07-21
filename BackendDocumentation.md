@@ -17,7 +17,7 @@
 
 ---
 
-### 📊 GET `/statistics`
+### GET `/statistics`
 Returns aggregated apartment statistics for dashboard or analytics use.
 
 #### Response Fields
