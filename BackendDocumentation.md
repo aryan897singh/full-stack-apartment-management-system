@@ -14,6 +14,8 @@
 | **PUT** | `/{id}` | `Path: id (Long)` | `UpdateApartmentDto` | `200 OK` (Void) |
 | **DELETE** | `/{id}` | `Path: id (Long)` | - | `204 No Content` |
 | **GET** | `/statistics` | - | - | `Map<String, Long>` |
+| **GET** | `/vacant` | - | - | `List<ApartmentDto>` |
+| **GET** | `/getAllOccupied` | - | - | `List<ApartmentDto>` |
 
 ---
 
@@ -58,7 +60,7 @@ The response is a JSON object with the following structure:
 | Method | Endpoint | Params/Variables | Request Body | Response Type |
 | :--- | :--- | :--- | :--- | :--- |
 | **GET** | `/` | - | - | `List<ConfigurationDto>` |
-| **PUT** | `/update` | - | `UpdateConfigurationDto` | `200 OK` (Void) |
+| **PUT** | `/configuration/update` | - | `UpdateConfigurationDto` | `200 OK` (Void) |
 
 ---
 
