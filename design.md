@@ -148,7 +148,7 @@ Every interior page follows this exact three-region layout:
     - Default state: `text-slate-400 hover:text-slate-200 transition-colors group`
     - **Active state:** `text-primary bg-surface-container-high rounded-lg font-bold group scale-[0.98] active:duration-75` — this is the pattern for whichever page is current.
 - **Bottom Actions** (`mt-auto pt-6 border-t border-white/5 flex flex-col gap-3`):
-    - **Create New Lease (Primary CTA):** Full-width button, `bg-primary text-on-primary py-3 rounded-xl font-bold font-manrope tracking-tight flex items-center justify-center gap-2`, icon `add_card`, hover adds glow shadow `hover:shadow-[0_0_20px_rgba(173,198,255,0.3)] transition-all`. Link points to `/owner-pages/create-lease.html`.
+    - **Create New Lease (Primary CTA):** Full-width button, `bg-primary text-on-primary py-3 rounded-xl font-bold font-manrope tracking-tight flex items-center justify-center gap-2`, icon `add_card`, hover adds glow shadow `hover:shadow-[0_0_20px_rgba(173,198,255,0.3)] transition-all`. Link points to `/owner-pages/add-new-lease.html`.
     - **Add New Property (Secondary CTA):** Full-width button, `bg-surface-container-high text-on-surface hover:bg-surface-container-highest py-3 rounded-xl font-bold font-manrope tracking-tight flex items-center justify-center gap-2 border border-outline-variant/10 transition-all`, icon `add_home`. Link points to `/owner-pages/add-new-flat.html`.
 ### 4.2 Header (`<header>`)
 - Fixed: `fixed top-0 right-0 left-64 z-30`
@@ -184,7 +184,7 @@ Every interior page follows this exact three-region layout:
 - `<thead>` row: `border-b border-outline-variant/10`, header cells `px-8 py-5` with the column-header type style (§3.2).
 - `<tbody>`: `divide-y divide-outline-variant/5`
 - Row: `hover:bg-surface-container-highest transition-colors group`
-- Cell padding: `px-8 py-6`
+- Cell padding: `px-8 py-6` (body), `px-8 py-5` (header).
 - **Primary entity cell pattern:** icon/number chip (`w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary font-bold`) + stacked text (bold primary line + muted small line below).
 - **Status badge pattern:** `px-3 py-1 rounded-full border` with color-matched background/text/border at low opacity, e.g. success: `bg-secondary/10 text-secondary border-secondary/20`; use `bg-error/10 text-error border-error/20` for negative states.
 - **Date/value + tag pattern:** bold value line, then a small bold/medium colored sub-label underneath (color reflects status: `text-secondary` for good, `text-error` for overdue, `text-on-surface-variant` for neutral).
