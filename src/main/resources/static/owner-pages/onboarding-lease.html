@@ -37,24 +37,43 @@
 </head>
 <body class="bg-surface text-on-surface min-h-screen overflow-x-hidden font-body-primary">
 <!-- SideNavBar -->
-<aside class="fixed left-0 top-0 h-screen w-64 bg-surface-container/80 backdrop-blur-3xl flex flex-col p-6 space-y-4 z-50">
-    <div class="flex items-center space-x-3 mb-8">
+<aside class="fixed left-0 top-0 bottom-0 z-40 w-64 h-screen bg-slate-900/80 dark:bg-surface-container backdrop-blur-3xl shadow-2xl shadow-blue-900/20 flex flex-col p-6">
+    <div class="mb-10 flex items-center space-x-3">
         <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
             <span class="material-symbols-outlined text-on-primary">domain</span>
         </div>
         <div>
-            <h2 class="font-sidebar-brand text-lg font-bold text-primary">Aetheris Admin</h2>
-            <p class="text-[10px] uppercase tracking-widest text-on-surface-variant">Management Portal</p>
+            <h2 class="font-sidebar-brand text-lg font-bold text-primary tracking-tighter uppercase leading-tight">Aetheris Admin</h2>
+            <p class="text-[10px] font-manrope tracking-widest text-slate-500 mt-1 uppercase">Management Portal</p>
         </div>
     </div>
+
     <nav class="flex-1 space-y-2">
-        <a class="flex items-center px-4 py-3 text-on-surface-variant font-medium hover:bg-surface-container-high rounded-xl transition-colors" href="/owner-pages/dashboard.html">
+        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-manrope tracking-tight font-semibold" href="/owner-pages/dashboard.html">
             <span class="material-symbols-outlined mr-3">dashboard</span><span>Dashboard</span>
         </a>
-        <a class="flex items-center px-4 py-3 text-primary font-bold bg-primary/10 rounded-xl" href="/owner-pages/apartments.html">
+        <a class="flex items-center px-4 py-3 text-primary bg-surface-container-high rounded-lg font-bold group scale-[0.98] active:duration-75 font-manrope tracking-tight" href="/owner-pages/apartments.html">
             <span class="material-symbols-outlined mr-3">domain</span><span>Apartments</span>
         </a>
+        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-manrope tracking-tight font-semibold" href="/owner-pages/payments.html">
+            <span class="material-symbols-outlined mr-3">payments</span><span>Payments</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-manrope tracking-tight font-semibold" href="/owner-pages/maintenance.html">
+            <span class="material-symbols-outlined mr-3">build</span><span>Maintenance</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-manrope tracking-tight font-semibold" href="/owner-pages/configuration.html">
+            <span class="material-symbols-outlined mr-3">settings</span><span>Settings</span>
+        </a>
     </nav>
+
+    <div class="mt-auto pt-6 border-t border-white/5 flex flex-col gap-3">
+        <a href="/owner-pages/add-new-lease.html" class="bg-primary text-on-primary py-3 rounded-xl font-bold font-manrope tracking-tight flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(173,198,255,0.3)] transition-all">
+            <span class="material-symbols-outlined">add_card</span><span>Create New Lease</span>
+        </a>
+        <a href="/owner-pages/add-new-flat.html" class="bg-surface-container-high text-on-surface hover:bg-surface-container-highest py-3 rounded-xl font-bold font-manrope tracking-tight flex items-center justify-center gap-2 border border-outline-variant/10 transition-all">
+            <span class="material-symbols-outlined">add_home</span><span>Add New Property</span>
+        </a>
+    </div>
 </aside>
 
 <!-- TopNavBar -->
@@ -136,12 +155,8 @@
                         <div class="flex flex-col space-y-2">
                             <label class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant ml-4">Flat Number</label>
                             <div class="relative">
-                                <select class="input-pill appearance-none cursor-pointer pr-10 [color-scheme:dark]" name="flatNumber" required>
-                                    <option value="" disabled selected>Select available unit</option>
-                                    <option value="A-101">A-101 (Executive Suite)</option>
-                                    <option value="A-102">A-102 (Standard Loft)</option>
-                                    <option value="B-205">B-205 (Premium Garden)</option>
-                                    <option value="C-501">C-501 (Penthouse)</option>
+                                <select id="flatNumberSelect" class="input-pill appearance-none cursor-pointer pr-10 [color-scheme:dark]" name="flatNumber" required>
+                                    <option value="" disabled selected>Loading vacant units...</option>
                                 </select>
                                 <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
                             </div>
@@ -206,31 +221,56 @@
 <script>
     let tenantsMap = {};
 
-    // 1. Fetch tenants on load and filter out those with active leases
+    // 1. Fetch unassigned tenants (GET /api/tenants, filtered client-side on hasActiveLease)
+    //    and vacant apartments (GET /api/apartments/vacant) in parallel on load.
     document.addEventListener('DOMContentLoaded', async () => {
         const tenantSelect = document.getElementById('tenantSelect');
-        try {
-            const response = await fetch('/api/tenants');
-            if (!response.ok) throw new Error('Failed to fetch tenant records');
+        const flatSelect = document.getElementById('flatNumberSelect');
 
-            const tenants = await response.json();
-            const unassignedTenants = tenants.filter(t => !t.hasActiveLease);
+        const [tenantsResult, apartmentsResult] = await Promise.allSettled([
+            fetch('/api/tenants').then(res => {
+                if (!res.ok) throw new Error('Failed to fetch tenant records');
+                return res.json();
+            }),
+            fetch('/api/apartments/vacant').then(res => {
+                if (!res.ok) throw new Error('Failed to fetch vacant apartments');
+                return res.json();
+            })
+        ]);
 
-            tenantSelect.innerHTML = '<option value="" disabled selected>Select an unassigned tenant...</option>';
+        // Populate tenant dropdown
+        if (tenantsResult.status === 'fulfilled') {
+            const unassignedTenants = tenantsResult.value.filter(t => !t.hasActiveLease);
 
             if (unassignedTenants.length === 0) {
-                tenantSelect.innerHTML = '<option value="" disabled>No unassigned tenants found. Create one first!</option>';
-                return;
+                tenantSelect.innerHTML = '<option value="" disabled selected>No unassigned tenants found. Create one first!</option>';
+            } else {
+                tenantSelect.innerHTML = '<option value="" disabled selected>Select an unassigned tenant...</option>';
+                unassignedTenants.forEach(tenant => {
+                    tenantsMap[tenant.id] = tenant;
+                    tenantSelect.innerHTML += `<option value="${tenant.id}">${tenant.name} (${tenant.email})</option>`;
+                });
             }
+        } else {
+            console.error('Error loading tenants:', tenantsResult.reason);
+            tenantSelect.innerHTML = '<option value="" disabled selected>Error loading tenant records</option>';
+        }
 
-            unassignedTenants.forEach(tenant => {
-                tenantsMap[tenant.id] = tenant;
-                tenantSelect.innerHTML += `<option value="${tenant.id}">${tenant.name} (${tenant.email})</option>`;
-            });
+        // Populate vacant unit dropdown
+        if (apartmentsResult.status === 'fulfilled') {
+            const vacantApartments = apartmentsResult.value;
 
-        } catch (error) {
-            console.error('Error loading tenants:', error);
-            tenantSelect.innerHTML = '<option value="" disabled>Error loading records</option>';
+            if (vacantApartments.length === 0) {
+                flatSelect.innerHTML = '<option value="" disabled selected>No vacant units available</option>';
+            } else {
+                flatSelect.innerHTML = '<option value="" disabled selected>Select available unit</option>';
+                vacantApartments.forEach(apartment => {
+                    flatSelect.innerHTML += `<option value="${apartment.flatNumber}">${apartment.flatNumber}</option>`;
+                });
+            }
+        } else {
+            console.error('Error loading vacant apartments:', apartmentsResult.reason);
+            flatSelect.innerHTML = '<option value="" disabled selected>Error loading vacant units</option>';
         }
     });
 
