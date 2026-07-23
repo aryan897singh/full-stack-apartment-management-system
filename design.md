@@ -147,8 +147,9 @@ Every interior page follows this exact three-region layout:
 - **Nav** (`flex-1 space-y-2`): Each link is `flex items-center px-4 py-3` with a Material Symbol icon (`mr-3`) and label.
     - Default state: `text-slate-400 hover:text-slate-200 transition-colors group`
     - **Active state:** `text-primary bg-surface-container-high rounded-lg font-bold group scale-[0.98] active:duration-75` — this is the pattern for whichever page is current.
-- **Bottom CTA** (`mt-auto pt-6 border-t border-white/5`): Full-width primary button, `bg-primary text-on-primary py-3 rounded-xl font-bold font-manrope tracking-tight`, centered icon + label, hover adds glow shadow `hover:shadow-[0_0_20px_rgba(173,198,255,0.3)]`.
-
+- **Bottom Actions** (`mt-auto pt-6 border-t border-white/5 flex flex-col gap-3`):
+    - **Create New Lease (Primary CTA):** Full-width button, `bg-primary text-on-primary py-3 rounded-xl font-bold font-manrope tracking-tight flex items-center justify-center gap-2`, icon `add_card`, hover adds glow shadow `hover:shadow-[0_0_20px_rgba(173,198,255,0.3)] transition-all`. Link points to `/owner-pages/create-lease.html`.
+    - **Add New Property (Secondary CTA):** Full-width button, `bg-surface-container-high text-on-surface hover:bg-surface-container-highest py-3 rounded-xl font-bold font-manrope tracking-tight flex items-center justify-center gap-2 border border-outline-variant/10 transition-all`, icon `add_home`. Link points to `/owner-pages/add-new-flat.html`.
 ### 4.2 Header (`<header>`)
 - Fixed: `fixed top-0 right-0 left-64 z-30`
 - Height: `h-16`, padding `px-8`
