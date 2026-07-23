@@ -18,5 +18,7 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
     @Query("SELECT DISTINCT a FROM Apartment a JOIN a.leases l WHERE l.isActive = true")
     List<Apartment> findAllOccupiedApartments();
 
+	@Query("SELECT DISTINCT a FROM Apartment a JOIN a.leases l WHERE l.isActive = false")
+	List<Apartment> findAllVacantApartments();
 }
 

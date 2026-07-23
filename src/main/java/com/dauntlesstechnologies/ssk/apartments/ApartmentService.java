@@ -69,6 +69,20 @@ public class ApartmentService {
         return apartmentDtoList;
     }
 
+	public List<ApartmentDto> findAllVacantApartments(){
+		List<Apartment> apartmentList = apartmentRepository.findAllVacantApartments();
+		List<ApartmentDto> apartmentDtoList = new ArrayList<>();
+
+		for(Apartment apartment : apartmentList){
+			apartmentDtoList.add(
+					new ApartmentDto(
+							apartment.getFlatNumber(),
+							false,
+							null));
+	}
+		return apartmentDtoList;
+	}
+
     @Transactional
     public void updateApartmentById(Long id, UpdateApartmentDto updateApartmentDto){
         Apartment apartment;

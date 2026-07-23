@@ -33,6 +33,10 @@ public class ApartmentController {
         return ResponseEntity.ok(apartmentService.findAllOccupiedApartments());
     }
 
+	@GetMapping("/vacant")
+	public ResponseEntity<List<ApartmentDto>> getAllVacantApartments() {
+		return ResponseEntity.ok(apartmentService.findAllVacantApartments());
+	}
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateApartment(@PathVariable("id") Long id, @RequestBody UpdateApartmentDto updateApartmentDto){
