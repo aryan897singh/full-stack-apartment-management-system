@@ -121,70 +121,79 @@
                 </tr>
                 </thead>
                 <tbody id="apartments-table-body" class="divide-y divide-outline-variant/5">
-                <!-- Item 1 -->
-                <tr class="hover:bg-surface-container-highest transition-colors group">
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary text-lg font-bold">101</div>
-                            <p class="text-base font-bold text-on-surface">Flat 101</p>
-                        </div>
-                    </td>
-                    <td class="px-8 py-6 text-sm font-medium text-on-surface-variant">Work in Progress</td>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center justify-center gap-3">
-                            <a href="/owner-pages/apartment-details.html?flatNumber=101" class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</a>
-                        </div>
-                    </td>
-                </tr>
-                <!-- Item 2 -->
-                <tr class="hover:bg-surface-container-highest transition-colors group">
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary text-lg font-bold">202</div>
-                            <p class="text-base font-bold text-on-surface">Flat 202</p>
-                        </div>
-                    </td>
-                    <td class="px-8 py-6 text-sm font-medium text-on-surface-variant">Work in Progress</td>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center justify-center gap-3">
-                            <a href="/owner-pages/apartment-details.html?flatNumber=202" class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</a>
-                        </div>
-                    </td>
-                </tr>
-                <!-- Item 3 -->
-                <tr class="hover:bg-surface-container-highest transition-colors group">
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary text-lg font-bold">305</div>
-                            <p class="text-base font-bold text-on-surface">Flat 305</p>
-                        </div>
-                    </td>
-                    <td class="px-8 py-6 text-sm font-medium text-on-surface-variant">Work in Progress</td>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center justify-center gap-3">
-                            <a href="/owner-pages/apartment-details.html?flatNumber=305" class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</a>
-                        </div>
-                    </td>
-                </tr>
-                <!-- Item 4 -->
-                <tr class="hover:bg-surface-container-highest transition-colors group">
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary text-lg font-bold">204</div>
-                            <p class="text-base font-bold text-on-surface">Flat 204</p>
-                        </div>
-                    </td>
-                    <td class="px-8 py-6 text-sm font-medium text-on-surface-variant">Work in Progress</td>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center justify-center gap-3">
-                            <a href="/owner-pages/apartment-details.html?flatNumber=204" class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</a>
-                        </div>
-                    </td>
-                </tr>
+                    <!-- Dynamic content will be injected here -->
+                    <tr id="loading-row">
+                        <td colspan="3" class="text-center p-10">
+                            <div class="flex justify-center items-center gap-3 text-on-surface-variant">
+                                <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+                                <span>Loading occupied apartments...</span>
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const tableBody = document.getElementById('apartments-table-body');
+        const loadingRow = document.getElementById('loading-row');
+
+        try {
+            const response = await fetch('/api/apartments/getAllOccupied');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const apartments = await response.json();
+
+            // Clear the loading indicator
+            tableBody.innerHTML = '';
+
+            if (apartments.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="text-center p-10 text-on-surface-variant">
+                            No occupied apartments found.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            apartments.forEach(apartment => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-surface-container-highest transition-colors group';
+                row.innerHTML = `
+                    <td class="px-8 py-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary text-lg font-bold">${apartment.flatNumber}</div>
+                            <p class="text-base font-bold text-on-surface">Flat ${apartment.flatNumber}</p>
+                        </div>
+                    </td>
+                    <td class="px-8 py-6 text-sm font-medium text-on-surface-variant">Work in Progress</td>
+                    <td class="px-8 py-6">
+                        <div class="flex items-center justify-center gap-3">
+                            <a href="/owner-pages/apartment-details.html?flatNumber=${apartment.flatNumber}" class="px-4 py-1.5 bg-surface-container-highest text-primary text-xs font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-on-primary transition-all">Details</a>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+        } catch (error) {
+            console.error('Failed to fetch apartments:', error);
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="3" class="text-center p-10 text-error">
+                        Failed to load apartment data. Please try again later.
+                    </td>
+                </tr>
+            `;
+        }
+    });
+</script>
+
 </body>
 </html>
