@@ -44,32 +44,62 @@
 </head>
 <body class="bg-background text-on-surface min-h-screen font-body-primary overflow-hidden">
 <!-- Side Navigation -->
-<aside class="fixed left-0 top-0 h-screen w-64 bg-surface-container/80 backdrop-blur-3xl flex flex-col p-6 space-y-4 z-50">
-    <div class="flex items-center gap-3 mb-8">
+<aside class="fixed left-0 top-0 bottom-0 z-40 w-64 h-screen bg-slate-900/80 dark:bg-surface-container backdrop-blur-3xl shadow-2xl shadow-blue-900/20 flex flex-col p-6">
+    <div class="mb-10 flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">domain</span>
         </div>
         <div>
-            <h2 class="font-h1 text-lg font-bold text-primary tracking-tight">Aetheris Admin</h2>
-            <p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Management Portal</p>
+            <h2 class="font-h1 text-lg font-bold text-primary tracking-tighter uppercase leading-tight">Aetheris Admin</h2>
+            <p class="text-[10px] font-manrope tracking-widest text-slate-500 mt-1 uppercase">Management Portal</p>
         </div>
     </div>
+
     <nav class="flex-1 space-y-2">
-        <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-medium hover:bg-surface-variant hover:text-on-surface transition-colors rounded-xl" href="/owner-pages/dashboard.html">
-            <span class="material-symbols-outlined">dashboard</span>
-            <span class="font-nav-label">Dashboard</span>
+        <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-manrope tracking-tight font-semibold" href="/owner-pages/dashboard.html">
+            <span class="material-symbols-outlined">dashboard</span><span>Dashboard</span>
         </a>
-        <a class="flex items-center gap-3 px-4 py-3 text-primary font-bold bg-primary/10 rounded-xl transition-all scale-95 duration-150" href="/owner-pages/apartments.html">
-            <span class="material-symbols-outlined">domain</span>
-            <span class="font-nav-label">Apartments</span>
+        <a class="flex items-center gap-3 px-4 py-3 text-primary bg-surface-container-high rounded-lg font-bold group scale-[0.98] active:duration-75 font-manrope tracking-tight" href="/owner-pages/apartments.html">
+            <span class="material-symbols-outlined">domain</span><span>Apartments</span>
         </a>
-        <!-- Add other links as needed -->
+        <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-manrope tracking-tight font-semibold" href="/owner-pages/payments.html">
+            <span class="material-symbols-outlined">payments</span><span>Payments</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-manrope tracking-tight font-semibold" href="/owner-pages/maintenance.html">
+            <span class="material-symbols-outlined">build</span><span>Maintenance</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-manrope tracking-tight font-semibold" href="/owner-pages/configuration.html">
+            <span class="material-symbols-outlined">settings</span><span>Settings</span>
+        </a>
     </nav>
+
+    <div class="mt-auto pt-6 border-t border-white/5 flex flex-col gap-3">
+        <a href="/owner-pages/add-new-lease.html" class="bg-primary text-on-primary py-3 rounded-xl font-bold font-manrope tracking-tight flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(173,198,255,0.3)] transition-all">
+            <span class="material-symbols-outlined">add_card</span><span>Create New Lease</span>
+        </a>
+        <a href="/owner-pages/add-new-flat.html" class="bg-surface-container-high text-on-surface hover:bg-surface-container-highest py-3 rounded-xl font-bold font-manrope tracking-tight flex items-center justify-center gap-2 border border-outline-variant/10 transition-all">
+            <span class="material-symbols-outlined">add_home</span><span>Add New Property</span>
+        </a>
+    </div>
 </aside>
 
 <!-- Top Navigation -->
-<header class="fixed top-0 right-0 h-16 w-[calc(100%-16rem)] backdrop-blur-2xl bg-surface/80 flex items-center justify-between px-10 z-40 border-b border-white/5">
+<header class="fixed top-0 right-0 left-64 h-16 backdrop-blur-2xl bg-surface/80 flex items-center justify-between px-8 z-30 border-b border-white/5">
     <div class="flex items-center flex-1">
+        <div class="relative w-96">
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+            <input class="w-full bg-surface-container-lowest border-none rounded-full py-1.5 pl-10 pr-4 text-xs focus:ring-1 focus:ring-primary" placeholder="Search records..." type="text"/>
+        </div>
+    </div>
+    <div class="flex items-center gap-6">
+        <button class="relative p-2 hover:bg-surface-container-lowest rounded-lg text-on-surface-variant transition-colors">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-secondary rounded-full"></span>
+        </button>
+        <button class="p-2 hover:bg-surface-container-lowest rounded-lg text-on-surface-variant transition-colors">
+            <span class="material-symbols-outlined">help</span>
+        </button>
+        <div class="h-8 w-[1px] bg-white/5 mx-2"></div>
         <span class="font-eyebrow text-[10px] uppercase tracking-widest text-on-surface-variant">Lease Processing Module</span>
     </div>
 </header>
@@ -166,21 +196,24 @@
         // Initially disable the button
         submitBtn.disabled = true;
 
-        // MVP FALLBACK: If your backend does not have GET /api/apartments yet,
-        // we will populate this with a few hardcoded options to keep the UI unblocked.
-        // Replace this fetch block with a real call once you build that endpoint.
+        // Fetch occupied apartments — renewal only makes sense for flats with an existing lease
         try {
-            // Simulated Fetch: const response = await fetch('/api/apartments');
-            const mockApartments = [
-                { flatNumber: "101" }, { flatNumber: "202" }, { flatNumber: "305" }, { flatNumber: "204" }
-            ];
+            const response = await fetch('/api/apartments/getAllOccupied');
+            if (!response.ok) throw new Error('Failed to fetch occupied apartments');
 
-            flatSelect.innerHTML = '<option value="" disabled selected>Select an occupied flat...</option>';
-            mockApartments.forEach(apt => {
-                flatSelect.innerHTML += `<option value="${apt.flatNumber}">Flat ${apt.flatNumber}</option>`;
-            });
+            const apartments = await response.json();
+
+            if (apartments.length === 0) {
+                flatSelect.innerHTML = '<option value="" disabled selected>No occupied apartments found</option>';
+            } else {
+                flatSelect.innerHTML = '<option value="" disabled selected>Select an occupied flat...</option>';
+                apartments.forEach(apt => {
+                    flatSelect.innerHTML += `<option value="${apt.flatNumber}">Flat ${apt.flatNumber}</option>`;
+                });
+            }
         } catch (error) {
-            flatSelect.innerHTML = '<option value="" disabled>Error loading apartments</option>';
+            console.error('Error loading occupied apartments:', error);
+            flatSelect.innerHTML = '<option value="" disabled selected>Error loading apartments</option>';
         }
 
         // Event Listener: When a flat is selected, fetch its current active lease
