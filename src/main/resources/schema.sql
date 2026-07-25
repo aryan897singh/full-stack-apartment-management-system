@@ -53,6 +53,7 @@ CREATE TABLE furniture (
 CREATE TABLE manager_maintenance_types (
                                            manager_id BIGINT NOT NULL,
                                            maintenance_type VARCHAR(255) NOT NULL,
+                                           PRIMARY KEY (manager_id, maintenance_type),
                                            FOREIGN KEY (manager_id) REFERENCES managers_tbl(id)
 );
 
