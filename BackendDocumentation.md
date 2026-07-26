@@ -138,6 +138,7 @@ The response is a JSON object with the following structure:
 | Method | Endpoint | Params/Variables | Request Body | Response Type |
 | :--- | :--- | :--- | :--- | :--- |
 | **GET** | `/` | `Query: ?name={String}` | - | `List<TenantDto>` |
+| **GET** | `/getAll` | - | - | `List<TenantDto>` |
 | **GET** | `/{tenantId}` | `Path: tenantId (Long)` | - | `TenantDto` |
 | **POST** | `/` | - | `UpdateTenantDto` | `TenantDto` (201) |
 | **PUT** | `/{id}` | `Path: id (Long)` | `UpdateTenantDto` | `200 OK` (Void) |
