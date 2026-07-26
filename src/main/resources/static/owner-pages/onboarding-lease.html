@@ -6,6 +6,8 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -28,7 +30,7 @@
     <style>
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; display: inline-block; vertical-align: middle; }
         .glass-panel { background: rgba(19, 27, 46, 0.8); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .input-pill { background-color: #0d0e11; border: none; border-radius: 9999px; padding: 0.75rem 1.25rem; color: #dae2fd; font-size: 14px; width: 100%; }
+        .input-pill { background-color: #ffffff; border: none; border-radius: 9999px; padding: 0.75rem 1.25rem; color: #000000; font-size: 14px; width: 100%; }
         .input-pill:focus { outline: none; box-shadow: 0 0 0 1px #4d8eff; }
         .toggle-checkbox:checked + .toggle-label { background-color: #4edea3; }
         .toggle-checkbox:checked + .toggle-label::after { transform: translateX(1.25rem); }
@@ -110,23 +112,20 @@
                     <div class="space-y-4">
                         <div class="flex flex-col space-y-2">
                             <label class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant ml-4">Available Tenants (No Active Lease)</label>
-                            <div class="relative">
-                                <select id="tenantSelect" required class="input-pill appearance-none cursor-pointer pr-10 [color-scheme:dark]">
-                                    <option value="" disabled selected>Loading unassigned tenants...</option>
-                                </select>
-                                <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+                            <div class="flex items-center gap-2">
+                                <div class="relative flex-grow">
+                                    <select id="tenantSelect" class="input-pill appearance-none cursor-pointer pr-10">
+                                        <option value="" disabled selected>Loading unassigned tenants...</option>
+                                    </select>
+                                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">expand_more</span>
+                                </div>
+                                <button type="button" id="addTenantBtn" class="px-4 py-2 bg-primary text-on-primary rounded-full font-bold text-sm">Add</button>
                             </div>
                         </div>
 
-                        <!-- Tenant Details Preview Card -->
-                        <div id="tenantPreview" class="p-5 bg-surface-container-lowest/50 rounded-2xl border border-white/5 space-y-3 hidden">
-                            <p class="text-xs font-bold text-primary uppercase tracking-widest">Selected Tenant Details</p>
-                            <div class="grid grid-cols-2 gap-2 text-xs text-on-surface-variant">
-                                <p><strong>Email:</strong> <span id="prevEmail">-</span></p>
-                                <p><strong>Phone:</strong> <span id="prevPhone">-</span></p>
-                                <p><strong>Guardian:</strong> <span id="prevFather">-</span></p>
-                                <p><strong>Govt ID:</strong> <span id="prevId">-</span></p>
-                            </div>
+                        <!-- Selected Tenant Chips -->
+                        <div id="tenantChipsContainer" class="flex flex-wrap gap-2 min-h-[2.5rem]">
+                            <!-- Chips will be injected here -->
                         </div>
 
                         <div class="p-4 bg-surface-container-lowest/30 rounded-2xl border border-white/5 flex items-center justify-between">
@@ -155,21 +154,21 @@
                         <div class="flex flex-col space-y-2">
                             <label class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant ml-4">Flat Number</label>
                             <div class="relative">
-                                <select id="flatNumberSelect" class="input-pill appearance-none cursor-pointer pr-10 [color-scheme:dark]" name="flatNumber" required>
+                                <select id="flatNumberSelect" class="input-pill appearance-none cursor-pointer pr-10" name="flatNumber" required>
                                     <option value="" disabled selected>Loading vacant units...</option>
                                 </select>
-                                <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+                                <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">expand_more</span>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
                             <div class="flex flex-col space-y-2">
                                 <label class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant ml-4">Start Date</label>
-                                <input class="input-pill [color-scheme:dark]" name="startDate" required type="date"/>
+                                <input class="input-pill" name="startDate" required type="text" placeholder="Select start date"/>
                             </div>
                             <div class="flex flex-col space-y-2">
                                 <label class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant ml-4">End Date</label>
-                                <input class="input-pill [color-scheme:dark]" name="endDate" required type="date"/>
+                                <input class="input-pill" name="endDate" required type="text" placeholder="Select end date"/>
                             </div>
                         </div>
 
@@ -186,7 +185,7 @@
 
                         <div class="flex flex-col space-y-2">
                             <label class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant ml-4">Security Deposit ($)</label>
-                            <input class="input-pill" name="deposit" placeholder="5000" required type="number" step="0.01"/>
+                            <input class="input-pill" name="deposit" placeholder="5000" type="number" step="0.01"/>
                         </div>
 
                         <div class="flex items-center justify-between p-4 bg-surface-container-lowest/30 rounded-2xl border border-white/5">
@@ -208,8 +207,8 @@
 
             <!-- Footer Action -->
             <div class="flex justify-end pt-10">
-                <button class="primary-glow px-12 py-5 bg-primary text-on-primary font-bold text-lg rounded-full flex items-center space-x-3 transition-all hover:scale-[1.02] active:scale-95 group" id="submitBtn" type="submit">
-                    <span id="btnText">Execute Lease Assignment</span>
+                <button class="primary-glow px-12 py-5 bg-primary text-on-primary font-bold text-lg rounded-full flex items-center space-x-3 transition-all hover:scale-[1.02] active:scale-95 group disabled:opacity-50 disabled:cursor-not-allowed" id="submitBtn" type="submit" disabled>
+                    <span id="btnText">Create New Lease</span>
                     <span class="material-symbols-outlined transition-transform group-hover:translate-x-1" id="btnIcon">arrow_forward</span>
                     <div class="hidden animate-spin rounded-full h-5 w-5 border-2 border-on-primary border-t-transparent" id="loader"></div>
                 </button>
@@ -218,14 +217,38 @@
     </div>
 </main>
 
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
     let tenantsMap = {};
+    let selectedTenantIds = [];
+    let selectedTenants = [];
 
-    // 1. Fetch unassigned tenants (GET /api/tenants/getAll, filtered client-side on hasActiveLease)
-    //    and vacant apartments (GET /api/apartments/vacant) in parallel on load.
+    const form = document.getElementById('onboardingForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const tenantSelect = document.getElementById('tenantSelect');
+    const flatSelect = document.getElementById('flatNumberSelect');
+    const startDateInput = document.querySelector('input[name="startDate"]');
+    const endDateInput = document.querySelector('input[name="endDate"]');
+    const rentInput = document.querySelector('input[name="rent"]');
+    const maintenanceInput = document.querySelector('input[name="maintenance"]');
+    const addTenantBtn = document.getElementById('addTenantBtn');
+    const tenantChipsContainer = document.getElementById('tenantChipsContainer');
+
+    const validateForm = () => {
+        const isFormValid = selectedTenantIds.length > 0 &&
+                            flatSelect.value &&
+                            startDateInput.value &&
+                            endDateInput.value &&
+                            rentInput.value &&
+                            maintenanceInput.value;
+        submitBtn.disabled = !isFormValid;
+    };
+
     document.addEventListener('DOMContentLoaded', async () => {
-        const tenantSelect = document.getElementById('tenantSelect');
-        const flatSelect = document.getElementById('flatNumberSelect');
+        // Initialize Flatpickr
+        flatpickr(startDateInput, { altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d" });
+        flatpickr(endDateInput, { altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d" });
 
         const [tenantsResult, apartmentsResult] = await Promise.allSettled([
             fetch('/api/tenants/getAll').then(res => {
@@ -238,16 +261,18 @@
             })
         ]);
 
-        // Populate tenant dropdown
         if (tenantsResult.status === 'fulfilled') {
             const unassignedTenants = tenantsResult.value.filter(t => !t.hasActiveLease);
+            tenantsMap = tenantsResult.value.reduce((map, tenant) => {
+                map[tenant.id] = tenant;
+                return map;
+            }, {});
 
             if (unassignedTenants.length === 0) {
-                tenantSelect.innerHTML = '<option value="" disabled selected>No unassigned tenants found. Create one first!</option>';
+                tenantSelect.innerHTML = '<option value="" disabled selected>No unassigned tenants found.</option>';
             } else {
                 tenantSelect.innerHTML = '<option value="" disabled selected>Select an unassigned tenant...</option>';
                 unassignedTenants.forEach(tenant => {
-                    tenantsMap[tenant.id] = tenant;
                     tenantSelect.innerHTML += `<option value="${tenant.id}">${tenant.name} (${tenant.email})</option>`;
                 });
             }
@@ -256,10 +281,8 @@
             tenantSelect.innerHTML = '<option value="" disabled selected>Error loading tenant records</option>';
         }
 
-        // Populate vacant unit dropdown
         if (apartmentsResult.status === 'fulfilled') {
             const vacantApartments = apartmentsResult.value;
-
             if (vacantApartments.length === 0) {
                 flatSelect.innerHTML = '<option value="" disabled selected>No vacant units available</option>';
             } else {
@@ -272,36 +295,49 @@
             console.error('Error loading vacant apartments:', apartmentsResult.reason);
             flatSelect.innerHTML = '<option value="" disabled selected>Error loading vacant units</option>';
         }
+
+        validateForm(); // Initial validation check
     });
 
-    // 2. Populate preview card when tenant is picked
-    document.getElementById('tenantSelect').addEventListener('change', (e) => {
-        const tenantId = e.target.value;
-        const tenant = tenantsMap[tenantId];
-        const previewBox = document.getElementById('tenantPreview');
+    const renderTenantChips = () => {
+        tenantChipsContainer.innerHTML = '';
+        selectedTenants.forEach(tenant => {
+            const chip = document.createElement('div');
+            chip.className = 'flex items-center bg-primary text-on-primary text-sm font-semibold px-3 py-1 rounded-full';
+            chip.innerHTML = `
+                <span>${tenant.name}</span>
+                <button type="button" data-tenant-id="${tenant.id}" class="ml-2 text-on-primary/70 hover:text-on-primary">&times;</button>
+            `;
+            tenantChipsContainer.appendChild(chip);
+        });
+        validateForm();
+    };
 
-        if (tenant) {
-            document.getElementById('prevEmail').textContent = tenant.email || '-';
-            document.getElementById('prevPhone').textContent = tenant.phoneNumber || '-';
-            document.getElementById('prevFather').textContent = tenant.fatherName || '-';
-            document.getElementById('prevId').textContent = tenant.uniqueIdentifier || '-';
-            previewBox.classList.remove('hidden');
-        } else {
-            previewBox.classList.add('hidden');
+    addTenantBtn.addEventListener('click', () => {
+        const tenantId = parseInt(tenantSelect.value, 10);
+        if (tenantId && !selectedTenantIds.includes(tenantId)) {
+            selectedTenantIds.push(tenantId);
+            selectedTenants.push(tenantsMap[tenantId]);
+            renderTenantChips();
         }
     });
 
-    // 3. Form Submit Logic (Single POST to /api/leases since tenant already exists)
-    document.getElementById('onboardingForm').addEventListener('submit', async (e) => {
+    tenantChipsContainer.addEventListener('click', (e) => {
+        if (e.target.tagName === 'BUTTON' && e.target.dataset.tenantId) {
+            const tenantIdToRemove = parseInt(e.target.dataset.tenantId, 10);
+            selectedTenantIds = selectedTenantIds.filter(id => id !== tenantIdToRemove);
+            selectedTenants = selectedTenants.filter(tenant => tenant.id !== tenantIdToRemove);
+            renderTenantChips();
+        }
+    });
+
+    form.addEventListener('input', validateForm);
+    form.addEventListener('change', validateForm);
+
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
+        if (submitBtn.disabled) return;
 
-        const selectedTenantId = parseInt(document.getElementById('tenantSelect').value, 10);
-        if (!selectedTenantId) {
-            alert('Please select a tenant to onboard.');
-            return;
-        }
-
-        const submitBtn = document.getElementById('submitBtn');
         const btnText = document.getElementById('btnText');
         const btnIcon = document.getElementById('btnIcon');
         const loader = document.getElementById('loader');
@@ -315,7 +351,6 @@
         const data = Object.fromEntries(formData.entries());
 
         try {
-            // Direct POST to /api/leases using the CreateLeaseDto structure
             const leaseResponse = await fetch('/api/leases', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -323,16 +358,17 @@
                     start: new Date(data.startDate).toISOString(),
                     end: new Date(data.endDate).toISOString(),
                     flatNumber: data.flatNumber,
-                    tenantIds: [selectedTenantId], // Array of Longs mapped to the selected existing tenant
+                    tenantIds: selectedTenantIds,
                     rentAmount: parseFloat(data.rent),
                     maintenanceAmount: parseFloat(data.maintenance),
-                    depositAmount: parseFloat(data.deposit),
+                    depositAmount: parseFloat(data.deposit) || 0,
                     isDepositCollected: data.depositCollected === 'on'
                 })
             });
 
             if (!leaseResponse.ok) {
-                throw new Error(`Lease creation failed: ${leaseResponse.statusText}`);
+                const errorData = await leaseResponse.json();
+                throw new Error(`Lease creation failed: ${errorData.message || leaseResponse.statusText}`);
             }
 
             alert(`Lease Successfully Assigned for Unit ${data.flatNumber}!`);
@@ -343,21 +379,19 @@
             alert(`Error: ${error.message}`);
 
             submitBtn.disabled = false;
-            btnText.textContent = "Execute Lease Assignment";
+            btnText.textContent = "Create New Lease";
             btnIcon.classList.remove('hidden');
             loader.classList.add('hidden');
         }
     });
 
-    // Date Auto-Fill Logic (1 Year default)
-    const startDateInput = document.querySelector('input[name="startDate"]');
-    const endDateInput = document.querySelector('input[name="endDate"]');
-
     startDateInput.addEventListener('change', (e) => {
         if(e.target.value) {
             const start = new Date(e.target.value);
-            const oneYearLater = new Date(start.getFullYear() + 1, start.getMonth(), start.getDate() - 1);
-            endDateInput.value = oneYearLater.toISOString().split('T')[0];
+            const oneYearLater = new Date(start.getFullYear() + 1, start.getMonth(), start.getDate());
+            // Adjust for Flatpickr's instance
+            const endDatePicker = endDateInput._flatpickr;
+            endDatePicker.setDate(oneYearLater, true); // 'true' triggers change event
         }
     });
 </script>
