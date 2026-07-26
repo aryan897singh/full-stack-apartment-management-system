@@ -60,7 +60,7 @@ The response is a JSON object with the following structure:
 | Method | Endpoint | Params/Variables | Request Body | Response Type |
 | :--- | :--- | :--- | :--- | :--- |
 | **GET** | `/` | - | - | `List<ConfigurationDto>` |
-| **PUT** | `/configuration/update` | - | `UpdateConfigurationDto` | `200 OK` (Void) |
+| **PUT** | `/update` | - | `UpdateConfigurationDto` | `200 OK` (Void) |
 
 ---
 
@@ -143,6 +143,15 @@ The response is a JSON object with the following structure:
 | **PUT** | `/{id}` | `Path: id (Long)` | `UpdateTenantDto` | `200 OK` (Void) |
 
 ---
+
+## 9. Global Error API
+**Base Path:** `/`
+
+This is a traditional web controller rendering a ThymeLeaf template rather than a standard REST API.
+
+| Method | Endpoint | Params/Variables | Request Body | Response Type |
+| :--- | :--- | :--- | :--- | :--- |
+| **GET** | `/access-denied` | - | - | `String` (View: "access-denied.html") |
 
 ## Data Models (Payloads & Responses)
 
