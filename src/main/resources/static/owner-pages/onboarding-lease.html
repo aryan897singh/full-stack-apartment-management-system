@@ -221,14 +221,14 @@
 <script>
     let tenantsMap = {};
 
-    // 1. Fetch unassigned tenants (GET /api/tenants, filtered client-side on hasActiveLease)
+    // 1. Fetch unassigned tenants (GET /api/tenants/getAll, filtered client-side on hasActiveLease)
     //    and vacant apartments (GET /api/apartments/vacant) in parallel on load.
     document.addEventListener('DOMContentLoaded', async () => {
         const tenantSelect = document.getElementById('tenantSelect');
         const flatSelect = document.getElementById('flatNumberSelect');
 
         const [tenantsResult, apartmentsResult] = await Promise.allSettled([
-            fetch('/api/tenants').then(res => {
+            fetch('/api/tenants/getAll').then(res => {
                 if (!res.ok) throw new Error('Failed to fetch tenant records');
                 return res.json();
             }),
