@@ -6,6 +6,8 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
@@ -127,7 +129,7 @@
                             <label class="font-eyebrow text-[11px] font-bold text-on-surface-variant/70 ml-4 tracking-widest uppercase">Select Apartment</label>
                             <div class="relative">
                                 <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary text-[18px]">domain</span>
-                                <select id="flatSelect" name="flatId" required class="w-full bg-surface-container-lowest border border-white/5 h-14 pl-12 pr-10 rounded-2xl text-sm focus:ring-2 focus:ring-primary/50 transition-all appearance-none bg-none cursor-pointer">
+                                    <select id="flatSelect" name="flatId" required class="w-full bg-surface-container-lowest border border-white/5 h-14 pl-12 pr-10 rounded-2xl text-sm focus:ring-2 focus:ring-primary/50 transition-all appearance-none bg-none cursor-pointer">
                                     <option value="" disabled selected>Loading apartments...</option>
                                 </select>
                                 <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
@@ -146,11 +148,11 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
                             <label class="font-eyebrow text-[11px] font-bold text-primary ml-4 tracking-widest uppercase">New Start Date</label>
-                            <input id="startDate" name="startDate" required type="date" class="w-full bg-surface-container-lowest border border-white/5 h-14 px-6 rounded-2xl text-sm focus:ring-2 focus:ring-primary/50 transition-all [color-scheme:dark]"/>
+                            <input id="startDate" name="startDate" required type="text" class="w-full bg-surface-container-lowest border border-white/5 h-14 px-6 rounded-2xl text-sm focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Select start date"/>
                         </div>
                         <div class="space-y-2">
                             <label class="font-eyebrow text-[11px] font-bold text-primary ml-4 tracking-widest uppercase">New End Date (11 Months)</label>
-                            <input id="endDate" name="endDate" required type="date" class="w-full bg-surface-container-lowest border border-white/5 h-14 px-6 rounded-2xl text-sm focus:ring-2 focus:ring-primary/50 transition-all [color-scheme:dark]"/>
+                            <input id="endDate" name="endDate" required type="text" class="w-full bg-surface-container-lowest border border-white/5 h-14 px-6 rounded-2xl text-sm focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Select end date"/>
                         </div>
                     </div>
 
@@ -185,6 +187,8 @@
     </div>
 </main>
 
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
     // Global variable to hold the fetched tenant IDs for the payload
     let activeTenantIds = [];
@@ -192,6 +196,12 @@
     document.addEventListener('DOMContentLoaded', async () => {
         const flatSelect = document.getElementById('flatSelect');
         const submitBtn = document.getElementById('submitBtn');
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+
+        // Initialize Flatpickr
+        flatpickr(startDateInput, { altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d" });
+        flatpickr(endDateInput, { altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d" });
 
         // Initially disable the button
         submitBtn.disabled = true;
@@ -258,12 +268,12 @@
                     // Set New Start Date (Next day after old lease expires)
                     const newStartDate = new Date(oldEndDate);
                     newStartDate.setDate(newStartDate.getDate() + 1);
-                    document.getElementById('startDate').value = newStartDate.toISOString().split('T')[0];
+                    startDateInput._flatpickr.setDate(newStartDate, true);
 
                     // Set New End Date (Start Date + 11 Months)
                     const newEndDate = new Date(newStartDate);
                     newEndDate.setMonth(newEndDate.getMonth() + 11);
-                    document.getElementById('endDate').value = newEndDate.toISOString().split('T')[0];
+                    endDateInput._flatpickr.setDate(newEndDate, true);
                 }
 
                 // 3. Pre-fill Financials
@@ -274,20 +284,20 @@
                 tenantContainer.innerHTML = `<span class="text-xs text-error">${error.message}</span>`;
                 submitBtn.disabled = true; // Disable on error
                 // Clear financial/date inputs if fetch fails
-                document.getElementById('startDate').value = '';
-                document.getElementById('endDate').value = '';
+                startDateInput._flatpickr.clear();
+                endDateInput._flatpickr.clear();
                 document.getElementById('monthlyRent').value = '';
                 document.getElementById('maintenanceFee').value = '';
             }
         });
 
         // Recalculate 11-month End Date if user manually overrides the Start Date
-        document.getElementById('startDate').addEventListener('change', (e) => {
+        startDateInput.addEventListener('change', (e) => {
             if (e.target.value) {
                 const start = new Date(e.target.value);
                 const newEnd = new Date(start);
                 newEnd.setMonth(newEnd.getMonth() + 11);
-                document.getElementById('endDate').value = newEnd.toISOString().split('T')[0];
+                endDateInput._flatpickr.setDate(newEnd, true);
             }
         });
     });
