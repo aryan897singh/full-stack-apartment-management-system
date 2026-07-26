@@ -126,6 +126,7 @@ The response is a JSON object with the following structure:
 | :--- | :--- | :--- | :--- | :--- |
 | **GET** | `/` | - | - | `List<PaymentDto>` |
 | **GET** | `/{id}` | `Path: id (Long)` | - | `PaymentDto` |
+| **GET** | `/lease/{leaseId}` | `Path: leaseId (Long)` | - | `List<PaymentDto>` |
 | **POST** | `/` | - | `UpdatePaymentDto` | `PaymentDto` (201) |
 | **PUT** | `/{id}` | `Path: id (Long)` | `UpdatePaymentDto` | `200 OK` (Void) |
 | **DELETE** | `/{id}` | `Path: id (Long)` | - | `204 No Content` |
