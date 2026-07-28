@@ -16,4 +16,10 @@ public class GlobalErrorController {
         return "access-denied.html"; //This tells ThymeLeaf to look for access-denied.html when this
         //API endpoint is called
     }
+
+    @GetMapping("/")
+    public String redirectToLandingPage(){
+        return "redirect:/OWNER_PAGES/Dashboard.html";
+    } //Currently the landing page is the Owner's dashboard since the MVP is only for the owner
+
 }
