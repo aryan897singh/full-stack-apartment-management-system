@@ -15,3 +15,6 @@ Always use absolute paths starting with `/owner-pages/`. Do not use `localhost` 
 * New Tenant Move-In (Wizard): `/owner-pages/onboarding-lease.html`
 * Renew Existing Lease: `/owner-pages/renew-lease.html`
 * Add/Edit Tenant (Independent): `/owner-pages/add-new-tenant-form.html`
+
+## Maintenance Flow
+* Add New Request: `/owner-pages/add-new-maintenance-request.html`
