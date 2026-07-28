@@ -132,6 +132,7 @@ public class LeaseService {
         }
 
         return new LeaseDto(
+				lease.getId(),
                 lease.getStart(),
                 lease.getEnd(),
                 lease.getApartment().getFlatNumber(), //We make 2 queries here
