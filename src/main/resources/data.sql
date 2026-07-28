@@ -43,4 +43,4 @@ INSERT INTO payments_tbl (lease_id, payment_type, payment_amount, payment_method
 
 INSERT INTO maintenance_requests_tbl (apartment_id, maintenance_type, title, description, status, date_submitted, manager_id) VALUES
                                                                                                                                   (1, 'PLUMBING', 'Leaky Faucet', 'The kitchen sink is leaking continuously', 'PENDING', '2025-02-15 14:00:00', 1),
-                                                                                                                                  (2, 'ELECTRICAL', 'Broken Light', 'Living room ceiling light will not turn on', 'RESOLVED', '2024-10-10 08:00:00', 2);
+                                                                                                                                  (2, 'ELECTRICAL', 'Broken Light', 'Living room ceiling light will not turn on', 'COMPLETED', '2024-10-10 08:00:00', 2);
