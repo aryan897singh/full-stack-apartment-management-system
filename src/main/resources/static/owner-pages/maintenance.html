@@ -1,0 +1,399 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Maintenance Dashboard | Shri Shyam Kaleshwar Residency</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=Manrope:wght@600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@300,0..1&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Manrope:wght@100..900&amp;display=swap" rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "surface-container-high": "#222a3e",
+                        "surface-container": "#171f33",
+                        "on-surface-variant": "#c4c6d0",
+                        "surface-container-low": "#131b2e",
+                        "secondary-fixed": "#6ffbbe",
+                        "surface-tint": "#adc6ff",
+                        "outline-variant": "#44474f",
+                        "surface-container-lowest": "#060d20",
+                        "primary-fixed-dim": "#adc6ff",
+                        "inverse-on-surface": "#283044",
+                        "secondary-fixed-dim": "#4edea3",
+                        "on-primary": "#122f5f",
+                        "on-secondary-container": "#003e28",
+                        "on-surface": "#dbe2fd",
+                        "tertiary": "#ffdbc4",
+                        "primary-container": "#4d8eff",
+                        "inverse-surface": "#dbe2fd",
+                        "surface-container-highest": "#2d3449",
+                        "on-tertiary-fixed-variant": "#6b3a14",
+                        "on-background": "#dae2fd",
+                        "outline": "#8c909f",
+                        "on-tertiary-container": "#79451e",
+                        "tertiary-container": "#feb685",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-primary-container": "#385283",
+                        "surface-variant": "#2d3449",
+                        "surface": "#0b1326",
+                        "surface-dim": "#0b1326",
+                        "primary-fixed": "#d8e2ff",
+                        "inverse-primary": "#455e90",
+                        "primary": "#d8e2ff",
+                        "on-secondary-fixed": "#002114",
+                        "tertiary-fixed": "#ffdcc6",
+                        "secondary-container": "#00b47d",
+                        "surface-bright": "#31394d",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-error": "#690005",
+                        "on-primary-fixed-variant": "#2c4677",
+                        "on-primary-fixed": "#001a42",
+                        "secondary": "#4edea3",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#301400",
+                        "on-secondary": "#003824",
+                        "on-tertiary": "#502501",
+                        "error": "#ffb4ab",
+                        "background": "#0b1326"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "header-height": "4rem",
+                        "section-gap": "2.5rem",
+                        "sidebar-width": "16rem",
+                        "container-padding": "2.5rem",
+                        "component-gap": "2rem",
+                        "gutter": "1rem"
+                    },
+                    "fontFamily": {
+                        "badge-text": ["Inter"],
+                        "headline-lg": ["Manrope"],
+                        "nav-label": ["Manrope"],
+                        "eyebrow": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "button-text": ["Manrope"],
+                        "table-header": ["Inter"]
+                    },
+                    "fontSize": {
+                        "badge-text": ["10px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.05em", "fontWeight": "800"}],
+                        "nav-label": ["16px", {"lineHeight": "1", "letterSpacing": "-0.025em", "fontWeight": "600"}],
+                        "eyebrow": ["11px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-md": ["18px", {"lineHeight": "1.2", "letterSpacing": "-0.025em", "fontWeight": "700"}],
+                        "button-text": ["14px", {"lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "table-header": ["10px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0b1326;
+            color: #dbe2fd;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(19, 27, 46, 0.8);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(68, 71, 79, 0.1);
+        }
+        .sidebar-item-active {
+            background: #d8e2ff;
+            color: #122f5f;
+            box-shadow: 0px 0px 20px rgba(173, 198, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="font-body-lg text-body-lg overflow-x-hidden">
+<!-- SIDEBAR -->
+<aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-low/80 backdrop-blur-3xl border-r border-outline-variant/10 flex flex-col py-8 px-4 z-50">
+    <div class="mb-10 px-2">
+        <h1 class="font-headline-md text-headline-md font-bold text-primary tracking-tight" id="nav-brand-app-name">
+            Shri Shyam Kaleshwar Residency
+        </h1>
+        <p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mt-1 opacity-60">Admin Terminal</p>
+    </div>
+    <nav class="flex-grow space-y-2">
+        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest/50 transition-all" href="/owner-pages/dashboard.html">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="font-nav-label text-nav-label">Dashboard</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest/50 transition-all" href="/owner-pages/apartments.html">
+            <span class="material-symbols-outlined">domain</span>
+            <span class="font-nav-label text-nav-label">Apartments</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest/50 transition-all" href="/owner-pages/payments.html">
+            <span class="material-symbols-outlined">payments</span>
+            <span class="font-nav-label text-nav-label">Payments</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-xl sidebar-item-active" href="/owner-pages/maintenance.html">
+            <span class="material-symbols-outlined">build</span>
+            <span class="font-nav-label text-nav-label">Maintenance</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest/50 transition-all" href="/owner-pages/configuration.html">
+            <span class="material-symbols-outlined">settings</span>
+            <span class="font-nav-label text-nav-label">Settings</span>
+        </a>
+    </nav>
+    <div class="mt-auto space-y-4">
+        <div class="space-y-2 border-outline-variant/10"><a href="/owner-pages/add-new-lease.html" class="w-full flex items-center gap-3 px-6 py-4 bg-primary-fixed text-on-primary-fixed rounded-2xl font-headline-md text-nav-label transition-all active:scale-95 mb-3 shadow-lg">
+            <span class="material-symbols-outlined">add_card</span>
+            <span class="">Create New Lease</span>
+        </a>
+            <a href="/owner-pages/add-new-flat.html" class="w-full flex items-center gap-3 px-6 py-4 bg-surface-container-high/50 text-on-surface border border-outline-variant/20 rounded-2xl font-headline-md text-nav-label transition-all hover:bg-surface-container-highest/50 active:scale-95">
+                <span class="material-symbols-outlined">add_home</span>
+                <span class="">Add New Property</span>
+            </a></div>
+
+    </div>
+</aside>
+<!-- HEADER -->
+<header class="fixed top-0 right-0 h-header-height left-sidebar-width bg-surface-container-low/80 backdrop-blur-3xl border-b border-outline-variant/10 flex justify-between items-center px-container-padding z-40">
+    <div class="flex items-center gap-4 bg-surface-container-lowest rounded-full px-4 py-1.5 w-96 border border-outline-variant/10">
+        <span class="material-symbols-outlined text-outline">search</span>
+        <input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-outline/50" placeholder="Search maintenance logs..." type="text">
+    </div>
+    <div class="flex items-center gap-6">
+        <button class="relative text-on-surface-variant hover:bg-surface-container-highest/30 p-2 rounded-full transition-all">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full border-2 border-surface"></span>
+        </button>
+        <button class="text-on-surface-variant hover:bg-surface-container-highest/30 p-2 rounded-full transition-all">
+            <span class="material-symbols-outlined">chat_bubble</span>
+        </button>
+        <button class="text-on-surface-variant hover:bg-surface-container-highest/30 p-2 rounded-full transition-all">
+            <span class="material-symbols-outlined">apps</span>
+        </button>
+    </div>
+</header>
+<!-- MAIN CONTENT -->
+<main class="ml-64 pt-16 min-h-screen">
+    <div class="max-w-7xl mx-auto p-10 space-y-section-gap">
+        <!-- Page Header -->
+        <div class="flex justify-between items-end">
+            <div>
+                <span class="font-eyebrow text-eyebrow text-primary uppercase tracking-[0.2em]">Facility Operations</span>
+                <h2 class="font-headline-lg text-headline-lg mt-2">Maintenance Dashboard</h2>
+            </div>
+            <a href="/owner-pages/add-new-maintenance-request.html" class="bg-primary text-on-primary font-button-text text-button-text px-6 py-3 rounded-xl shadow-[0px_0px_20px_rgba(173,198,255,0.3)] hover:opacity-90 active:scale-95 transition-all flex items-center gap-2">
+                <span class="material-symbols-outlined text-[20px]">add</span>
+                Add New Request
+            </a>
+        </div>
+        <!-- Metrics Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-component-gap">
+            <div class="glass-card p-6 rounded-3xl relative overflow-hidden group">
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all"></div>
+                <p class="font-eyebrow text-eyebrow text-on-surface-variant uppercase tracking-[0.15em] mb-4">Open Requests</p>
+                <div class="flex items-baseline gap-2">
+                    <span class="font-headline-lg text-headline-lg" id="open-requests-count">0</span>
+                    <span class="material-symbols-outlined text-primary">arrow_upward</span>
+                </div>
+                <p class="text-body-sm text-on-surface-variant mt-2">Active tasks currently assigned</p>
+            </div>
+            <div class="glass-card p-6 rounded-3xl relative overflow-hidden group">
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-tertiary/5 rounded-full blur-2xl group-hover:bg-tertiary/10 transition-all"></div>
+                <p class="font-eyebrow text-eyebrow text-on-surface-variant uppercase tracking-[0.15em] mb-4">Pending Review</p>
+                <div class="flex items-baseline gap-2">
+                    <span class="font-headline-lg text-headline-lg" id="pending-requests-count">0</span>
+                    <span class="material-symbols-outlined text-tertiary">priority_high</span>
+                </div>
+                <p class="text-body-sm text-on-surface-variant mt-2">Awaiting manager approval</p>
+            </div>
+            <div class="glass-card p-6 rounded-3xl relative overflow-hidden group">
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-secondary/5 rounded-full blur-2xl group-hover:bg-secondary/10 transition-all"></div>
+                <p class="font-eyebrow text-eyebrow text-on-surface-variant uppercase tracking-[0.15em] mb-4">Completed</p>
+                <div class="flex items-baseline gap-2">
+                    <span class="font-headline-lg text-headline-lg" id="completed-requests-count">0</span>
+                    <span class="material-symbols-outlined text-secondary">check_circle</span>
+                </div>
+                <p class="text-body-sm text-on-surface-variant mt-2">Resolved in the last 30 days</p>
+            </div>
+        </div>
+        <!-- Pending Review Section -->
+        <section class="space-y-4">
+            <div class="flex items-center gap-3">
+                <span class="w-1.5 h-6 bg-tertiary rounded-full"></span>
+                <h3 class="font-headline-md text-headline-md">Requests Pending Review</h3>
+            </div>
+            <div class="glass-card rounded-3xl overflow-hidden">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                    <tr class="bg-surface-container-highest/20 border-b border-outline-variant/10">
+                        <th class="px-6 py-4 font-table-header text-table-header text-on-surface-variant uppercase">Title</th>
+                        <th class="px-6 py-4 font-table-header text-table-header text-on-surface-variant uppercase">Flat</th>
+                        <th class="px-6 py-4 font-table-header text-table-header text-on-surface-variant uppercase">Date Submitted</th>
+                        <th class="px-6 py-4 font-table-header text-table-header text-on-surface-variant uppercase text-right">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="pending-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <!-- Full History Section -->
+        <section class="space-y-4">
+            <div class="flex items-center gap-3">
+                <span class="w-1.5 h-6 bg-primary rounded-full"></span>
+                <h3 class="font-headline-md text-headline-md">Full Request History</h3>
+            </div>
+            <div class="glass-card rounded-3xl overflow-hidden">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                    <tr class="bg-surface-container-highest/20 border-b border-outline-variant/10">
+                        <th class="px-6 py-4 font-table-header text-table-header text-on-surface-variant uppercase">ID</th>
+                        <th class="px-6 py-4 font-table-header text-table-header text-on-surface-variant uppercase">Title</th>
+                        <th class="px-6 py-4 font-table-header text-table-header text-on-surface-variant uppercase">Flat</th>
+                        <th class="px-6 py-4 font-table-header text-table-header text-on-surface-variant uppercase">Date</th>
+                        <th class="px-6 py-4 font-table-header text-table-header text-on-surface-variant uppercase">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody id="history-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</main>
+<script>
+    const API_BASE = '/api/maintenanceRequests';
+
+    async function fetchCounts() {
+        try {
+            const [open, pending, completed] = await Promise.all([
+                fetch(`${API_BASE}/countOpenRequests`).then(r => r.json()),
+                fetch(`${API_BASE}/countPendingRequests`).then(r => r.json()),
+                fetch(`${API_BASE}/countCompletedRequests`).then(r => r.json())
+            ]);
+            document.getElementById('open-requests-count').textContent = open.count !== undefined ? open.count : open;
+            document.getElementById('pending-requests-count').textContent = pending.count !== undefined ? pending.count : pending;
+            document.getElementById('completed-requests-count').textContent = completed.count !== undefined ? completed.count : completed;
+        } catch (err) {
+            console.error('Count fetch failed', err);
+        }
+    }
+
+    async function fetchPending() {
+        const container = document.getElementById('pending-table-body');
+        try {
+            const response = await fetch(`${API_BASE}/getAllPendingRequests`);
+            const data = await response.json();
+            renderPending(data);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    async function fetchHistory() {
+        const container = document.getElementById('history-table-body');
+        try {
+            const response = await fetch(`${API_BASE}`);
+            const data = await response.json();
+            // Sort descending by date submitted
+            data.sort((a, b) => new Date(b.dateSubmitted) - new Date(a.dateSubmitted));
+            renderHistory(data);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    function renderPending(data) {
+        const container = document.getElementById('pending-table-body');
+        if (!data.length) {
+            container.innerHTML = '<tr><td colspan="4" class="px-6 py-8 text-center text-on-surface-variant/50">No pending requests found.</td></tr>';
+            return;
+        }
+        container.innerHTML = data.map(item => `
+                <tr class="border-b border-outline-variant/5 hover:bg-surface-container-highest/10 transition-colors">
+                    <td class="px-6 py-4 font-bold text-on-surface">${item.title}</td>
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">
+                                ${item.flatNumber.split('-')[1] || item.flatNumber}
+                            </div>
+                            <span class="text-body-sm font-medium">${item.flatNumber}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-on-surface-variant text-body-sm">${new Date(item.dateSubmitted).toLocaleDateString()}</td>
+                    <td class="px-6 py-4 text-right">
+                        <div class="flex justify-end gap-2">
+                            <button onclick="updateStatus('${item.id}', 'IN_PROGRESS')" class="bg-secondary/10 text-secondary border border-secondary/20 hover:bg-secondary/20 font-button-text text-[12px] px-3 py-1.5 rounded-full transition-all">Accept</button>
+                            <button onclick="updateStatus('${item.id}', 'CANCELLED')" class="bg-error/10 text-error border border-error/20 hover:bg-error/20 font-button-text text-[12px] px-3 py-1.5 rounded-full transition-all">Decline</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+    }
+
+    function renderHistory(data) {
+        const container = document.getElementById('history-table-body');
+        container.innerHTML = data.map(item => {
+            let badgeClass = '';
+            switch(item.status) {
+                case 'COMPLETED': badgeClass = 'bg-secondary/10 text-secondary border-secondary/20'; break;
+                case 'IN_PROGRESS': badgeClass = 'bg-primary/10 text-primary border-primary/20'; break;
+                case 'PENDING': badgeClass = 'bg-tertiary/10 text-tertiary border-tertiary/20'; break;
+                default: badgeClass = 'bg-error/10 text-error border-error/20';
+            }
+
+            return `
+                <tr class="border-b border-outline-variant/5 hover:bg-surface-container-highest/10 transition-colors">
+                    <td class="px-6 py-4 text-[10px] font-mono text-outline">${item.id}</td>
+                    <td class="px-6 py-4 font-medium text-on-surface">${item.title}</td>
+                    <td class="px-6 py-4 text-body-sm">${item.flatNumber}</td>
+                    <td class="px-6 py-4 text-on-surface-variant text-body-sm">${new Date(item.dateSubmitted).toLocaleDateString()}</td>
+                    <td class="px-6 py-4">
+                        <span class="inline-block px-2.5 py-0.5 rounded-full border ${badgeClass} text-[10px] font-bold tracking-wider">
+                            ${item.status}
+                        </span>
+                    </td>
+                </tr>
+            `}).join('');
+    }
+
+    async function updateStatus(id, status) {
+        try {
+            const response = await fetch(`${API_BASE}/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            });
+            if (response.ok) {
+                init(); // Refresh data from backend
+            } else {
+                alert('Failed to update request status.');
+            }
+        } catch (err) {
+            console.error('Error updating status:', err);
+            alert('Network error occurred while updating status.');
+        }
+    }
+
+    function init() {
+        fetchCounts();
+        fetchPending();
+        fetchHistory();
+    }
+
+    window.onload = init;
+</script>
+
+
+</body></html>

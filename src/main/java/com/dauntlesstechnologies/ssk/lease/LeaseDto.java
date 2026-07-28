@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Set;
 
 public record LeaseDto(
+		Long id,
         Date start,
         Date end,
         String flatNumber,

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Payments Dashboard | Shri Shyam Kaleshwar Residency</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0b1326;
+            color: #dbe2fd;
+        }
+        .glass-panel {
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        /* Custom scrollbar for a cleaner UI */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d3449;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #44474f;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#122f5f",
+                        "on-error-container": "#ffdad6",
+                        "secondary": "#4edea3",
+                        "on-background": "#dae2fd",
+                        "surface-variant": "#2d3449",
+                        "surface-container-low": "#131b2e",
+                        "inverse-on-surface": "#283044",
+                        "on-primary-container": "#385283",
+                        "surface-dim": "#0b1326",
+                        "surface-container-lowest": "#060e20",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-secondary-fixed": "#002114",
+                        "on-tertiary-container": "#79451e",
+                        "on-tertiary-fixed-variant": "#6b3a14",
+                        "surface-container-high": "#222a3e",
+                        "primary": "#d8e2ff",
+                        "on-surface-variant": "#c4c6d0",
+                        "surface": "#0b1326",
+                        "secondary-container": "#00b47d",
+                        "outline-variant": "#44474f",
+                        "surface-bright": "#31394e",
+                        "inverse-primary": "#455e90",
+                        "surface-container": "#171f33",
+                        "outline": "#8c909f",
+                        "on-primary-fixed-variant": "#2c4677",
+                        "on-secondary": "#003824",
+                        "on-primary-fixed": "#001a42",
+                        "on-tertiary-fixed": "#301400",
+                        "primary-fixed": "#d8e2ff",
+                        "primary-container": "#4d8eff",
+                        "tertiary-fixed": "#ffdcc6",
+                        "secondary-fixed-dim": "#4edea3",
+                        "tertiary-container": "#feb685",
+                        "surface-tint": "#adc6ff",
+                        "background": "#0b1326",
+                        "tertiary": "#ffdbc4",
+                        "secondary-fixed": "#6ffbbe",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#502501",
+                        "surface-container-highest": "#2d3449",
+                        "on-secondary-container": "#003e28",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#005236",
+                        "inverse-surface": "#dbe2fd",
+                        "on-surface": "#dbe2fd",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sidebar-width": "16rem",
+                        "component-gap": "2rem",
+                        "section-gap": "2.5rem",
+                        "header-height": "4rem",
+                        "container-padding": "2.5rem",
+                        "gutter": "1rem"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "nav-label": ["Manrope"],
+                        "table-header": ["Inter"],
+                        "badge-text": ["Inter"],
+                        "button-text": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "eyebrow": ["Inter"],
+                        "headline-lg": ["Manrope"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "nav-label": ["16px", {"lineHeight": "1", "letterSpacing": "-0.025em", "fontWeight": "600"}],
+                        "table-header": ["10px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "700"}],
+                        "badge-text": ["10px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "button-text": ["14px", {"lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "eyebrow": ["11px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "700"}],
+                        "headline-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.05em", "fontWeight": "800"}],
+                        "headline-md": ["18px", {"lineHeight": "1.2", "letterSpacing": "-0.025em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background font-body-lg text-on-surface">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-low/80 backdrop-blur-3xl border-r border-outline-variant/10 flex flex-col py-8 px-4 z-50">
+    <div class="mb-10 px-2">
+        <h1 class="font-headline-md text-headline-md font-bold text-primary leading-tight" id="nav-brand-app-name">Shri Shyam Kaleshwar Residency</h1>
+        <p class="font-body-sm text-on-surface-variant mt-1">Admin Terminal</p>
+    </div>
+    <nav class="flex-1 space-y-2">
+        <a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest/50 px-4 py-3 rounded-xl transition-all duration-200" href="/owner-pages/dashboard.html">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="font-nav-label text-nav-label">Dashboard</span>
+        </a>
+        <a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest/50 px-4 py-3 rounded-xl transition-all duration-200" href="/owner-pages/apartments.html">
+            <span class="material-symbols-outlined">domain</span>
+            <span class="font-nav-label text-nav-label">Apartments</span>
+        </a>
+        <a class="flex items-center gap-3 bg-primary text-on-primary px-4 py-3 rounded-xl shadow-[0px_0px_20px_rgba(173,198,255,0.3)] transition-all duration-100 active:scale-95" href="/owner-pages/payments.html">
+            <span class="material-symbols-outlined">payments</span>
+            <span class="font-nav-label text-nav-label">Payments</span>
+        </a>
+        <a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest/50 px-4 py-3 rounded-xl transition-all duration-200" href="/owner-pages/maintenance.html">
+            <span class="material-symbols-outlined">build</span>
+            <span class="font-nav-label text-nav-label">Maintenance</span>
+        </a>
+        <a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest/50 px-4 py-3 rounded-xl transition-all duration-200" href="/owner-pages/settings.html">
+            <span class="material-symbols-outlined">settings</span>
+            <span class="font-nav-label text-nav-label">Settings</span>
+        </a>
+    </nav>
+    <div class="mt-auto space-y-2 pt-6 border-t border-outline-variant/10">
+        <a href="/owner-pages/add-new-lease.html" class="bg-primary text-on-primary py-3 rounded-xl font-bold flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined">add_card</span>
+            <span>Create New Lease</span>
+        </a>
+        <a href="/owner-pages/add-new-flat.html" class="bg-surface-container-high text-on-surface hover:bg-surface-container-highest py-3 rounded-xl font-bold flex items-center justify-center gap-2 border border-outline-variant/10">
+            <span class="material-symbols-outlined">add_home</span>
+            <span>Add New Property</span>
+        </a>
+    </div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 h-header-height left-sidebar-width bg-surface-container-low/80 backdrop-blur-3xl border-b border-outline-variant/10 flex justify-between items-center px-container-padding z-40">
+    <div class="flex items-center bg-surface-container-lowest rounded-full px-4 py-2 w-96 border border-outline-variant/10">
+        <span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+        <input class="bg-transparent border-none focus:ring-0 text-body-sm w-full placeholder:text-on-surface-variant/50" placeholder="Search payment records..." type="text"/>
+    </div>
+    <div class="flex items-center gap-4">
+        <button class="p-2 text-on-surface-variant hover:bg-surface-container-highest/30 rounded-full transition-all active:opacity-80">
+            <span class="material-symbols-outlined">notifications</span>
+        </button>
+        <button class="p-2 text-on-surface-variant hover:bg-surface-container-highest/30 rounded-full transition-all active:opacity-80">
+            <span class="material-symbols-outlined">chat_bubble</span>
+        </button>
+        <div class="h-8 w-px bg-outline-variant/20 mx-2"></div>
+        <div class="flex items-center gap-3 pl-2">
+            <div class="text-right">
+                <p class="text-body-sm font-bold">Admin Console</p>
+                <p class="text-[10px] text-on-surface-variant tracking-wider uppercase">Active Session</p>
+            </div>
+            <img class="w-10 h-10 rounded-full border border-primary/20 object-cover" data-alt="A professional property manager avatar portrait with a clean corporate background, soft professional lighting, and high-end aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1P5mx7zK9ghVk38HD6pxGOmoVI7EuuC0mbXT5D-fhpJZDAXJCo9nndMuCBPavvPlrYRvcUnjZ_-BDEMw3diYNA1yXQY8JU9ALe0Q0UjcXlRCuWwjfHd3i53U2U51atIUYcIFBR852ti9JeeuJAO1tt1XLUYKwoK5tKlrjaL5_xxXfshu_eeeYJj0bQUklobP51EsZO_VXB8EjGewIt9WR15WQWe-uMKYpi5uz6Av7TpnCV0-H7PFbcl_PKkBcwERZJq6p1Aie5Q"/>
+        </div>
+    </div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-sidebar-width pt-header-height min-h-screen">
+    <div class="max-w-7xl mx-auto px-container-padding py-section-gap space-y-section-gap">
+        <!-- Page Header -->
+        <header>
+            <span class="font-eyebrow text-eyebrow text-primary uppercase mb-2 block">Financials</span>
+            <h2 class="font-headline-lg text-headline-lg text-on-surface">Payments Dashboard</h2>
+        </header>
+        <!-- Revenue Stats Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-component-gap">
+            <!-- Yearly Revenue Card -->
+            <div class="bg-surface-container-low p-6 rounded-3xl border border-outline-variant/10 hover:border-primary/20 transition-all duration-300 group">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-3 rounded-2xl bg-primary/10 text-primary">
+                        <span class="material-symbols-outlined">analytics</span>
+                    </div>
+                    <span class="text-[10px] font-bold text-secondary uppercase tracking-widest">+12.5% YoY</span>
+                </div>
+                <p class="font-body-sm text-on-surface-variant">Yearly Revenue</p>
+                <h3 class="font-headline-lg text-[32px] font-bold text-on-surface mt-1" id="yearly-total">$0.00</h3>
+            </div>
+            <!-- Monthly Revenue Card -->
+            <div class="bg-surface-container-low p-6 rounded-3xl border border-outline-variant/10 hover:border-primary/20 transition-all duration-300">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-3 rounded-2xl bg-secondary-container/10 text-secondary">
+                        <span class="material-symbols-outlined">calendar_month</span>
+                    </div>
+                    <span class="text-[10px] font-bold text-primary uppercase tracking-widest">Current Month</span>
+                </div>
+                <p class="font-body-sm text-on-surface-variant">This Month's Revenue</p>
+                <h3 class="font-headline-lg text-[32px] font-bold text-on-surface mt-1" id="monthly-total">$0.00</h3>
+            </div>
+            <!-- Deposit Collected Card (Mocked) -->
+            <div class="bg-surface-container-low p-6 rounded-3xl border border-outline-variant/10 hover:border-primary/20 transition-all duration-300">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-3 rounded-2xl bg-tertiary-container/10 text-tertiary">
+                        <span class="material-symbols-outlined">account_balance_wallet</span>
+                    </div>
+                    <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Target: 42 Units</span>
+                </div>
+                <p class="font-body-sm text-on-surface-variant">Deposit Collected</p>
+                <div class="flex items-baseline gap-2 mt-1">
+                    <h3 class="font-headline-lg text-[32px] font-bold text-on-surface">15</h3>
+                    <span class="text-on-surface-variant font-body-lg">OUT OF 42</span>
+                </div>
+                <div class="w-full bg-surface-container-highest rounded-full h-1.5 mt-4 overflow-hidden">
+                    <div class="bg-primary h-full rounded-full w-[35.7%]" style="box-shadow: 0 0 10px rgba(173, 198, 255, 0.4);"></div>
+                </div>
+            </div>
+        </section>
+        <!-- Payments Table Section -->
+        <section class="bg-surface-container-low rounded-3xl border border-outline-variant/10 overflow-hidden shadow-2xl">
+            <div class="px-8 py-6 border-b border-outline-variant/10 flex justify-between items-center">
+                <h4 class="font-headline-md text-headline-md">Recent Transactions</h4>
+                <button class="flex items-center gap-2 bg-surface-container-high hover:bg-surface-container-highest text-on-surface px-4 py-2 rounded-xl border border-outline-variant/10 transition-all text-button-text font-button-text">
+                    <span class="material-symbols-outlined text-[20px]">filter_list</span>
+                    Filter
+                </button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                    <tr class="bg-surface-container-highest/30">
+                        <th class="px-8 py-4 font-table-header text-table-header text-on-surface-variant uppercase">Flat No</th>
+                        <th class="px-6 py-4 font-table-header text-table-header text-on-surface-variant uppercase">Type</th>
+                        <th class="px-6 py-4 font-table-header text-table-header text-on-surface-variant uppercase">Amount</th>
+                        <th class="px-6 py-4 font-table-header text-table-header text-on-surface-variant uppercase">Method</th>
+                        <th class="px-6 py-4 font-table-header text-table-header text-on-surface-variant uppercase">Date</th>
+                        <th class="px-8 py-4 font-table-header text-table-header text-on-surface-variant uppercase">Comment</th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline-variant/5" id="payments-table-body">
+                    <!-- JS will inject rows here -->
+                    <tr class="animate-pulse">
+                        <td class="px-8 py-10 text-center text-on-surface-variant italic" colspan="6">Loading transaction records...</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="px-8 py-4 border-t border-outline-variant/10 bg-surface-container-highest/10 flex justify-between items-center">
+                <p class="text-body-sm text-on-surface-variant">Showing latest <span id="record-count">0</span> records</p>
+                <div class="flex gap-2">
+                    <button class="p-2 hover:bg-surface-container-high rounded-lg text-on-surface-variant"><span class="material-symbols-outlined">chevron_left</span></button>
+                    <button class="p-2 hover:bg-surface-container-high rounded-lg text-on-surface-variant"><span class="material-symbols-outlined">chevron_right</span></button>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('/api/payments')
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`Network response was not ok: ${res.statusText}`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                renderPayments(data);
+            })
+            .catch(error => {
+                console.error('Failed to fetch payments:', error);
+                const tableBody = document.getElementById('payments-table-body');
+                tableBody.innerHTML = `<tr class="text-center text-error"><td colspan="6" class="px-8 py-10">${error.message}</td></tr>`;
+            });
+
+        const formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2
+        });
+
+        function renderPayments(data) {
+            const tableBody = document.getElementById('payments-table-body');
+            const yearlyTotalEl = document.getElementById('yearly-total');
+            const monthlyTotalEl = document.getElementById('monthly-total');
+            const recordCountEl = document.getElementById('record-count');
+
+            tableBody.innerHTML = '';
+
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
+
+            let yearlyTotal = 0;
+            let monthlyTotal = 0;
+
+            if (data.length === 0) {
+                tableBody.innerHTML = `<tr class="text-center text-on-surface-variant italic"><td colspan="6" class="px-8 py-10">No payment records found.</td></tr>`;
+                yearlyTotalEl.innerText = formatter.format(0);
+                monthlyTotalEl.innerText = formatter.format(0);
+                recordCountEl.innerText = 0;
+                return;
+            }
+
+            data.forEach(payment => {
+                const payDate = new Date(payment.paymentDate);
+
+                // Logic for totals
+                if(payDate.getFullYear() === currentYear) {
+                    yearlyTotal += payment.paymentAmount;
+                    if(payDate.getMonth() === currentMonth) {
+                        monthlyTotal += payment.paymentAmount;
+                    }
+                }
+
+                // Row Creation
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-surface-container-highest/20 transition-colors group';
+
+                row.innerHTML = `
+                        <td class="px-8 py-5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center font-bold text-primary text-body-sm">
+                                    ${payment.flatNumber}
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-5">
+                            <span class="px-3 py-1 rounded-full text-badge-text font-badge-text uppercase ${payment.paymentType === 'Maintenance' ? 'bg-secondary/10 text-secondary border border-secondary/20' : 'bg-primary/10 text-primary border border-primary/20'}">
+                                ${payment.paymentType}
+                            </span>
+                        </td>
+                        <td class="px-6 py-5 font-bold text-on-surface">
+                            ${formatter.format(payment.paymentAmount)}
+                        </td>
+                        <td class="px-6 py-5">
+                            <div class="flex items-center gap-2 text-on-surface-variant font-body-sm">
+                                <span class="material-symbols-outlined text-[16px]">${payment.paymentMethod === 'UPI' ? 'bolt' : (payment.paymentMethod === 'Cash' ? 'payments' : 'credit_card')}</span>
+                                ${payment.paymentMethod}
+                            </div>
+                        </td>
+                        <td class="px-6 py-5 text-on-surface-variant text-body-sm font-medium">
+                            ${new Date(payment.paymentDate).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}
+                        </td>
+                        <td class="px-8 py-5 text-on-surface-variant text-body-sm italic">
+                            ${payment.comment}
+                        </td>
+                    `;
+                tableBody.appendChild(row);
+            });
+
+            // Update UI numbers
+            yearlyTotalEl.innerText = formatter.format(yearlyTotal);
+            monthlyTotalEl.innerText = formatter.format(monthlyTotal);
+            recordCountEl.innerText = data.length;
+        }
+    });
+</script>
+</body></html>

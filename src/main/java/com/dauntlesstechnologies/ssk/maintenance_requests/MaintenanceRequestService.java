@@ -116,7 +116,7 @@ public class MaintenanceRequestService {
             Lease activeLease = activeLeaseOptional.get();
             maintenanceRequest.setApartment(activeLease.getApartment());
         }else{
-            throw new EntityNotFoundException("Actove Lease with tenant id " + tenantId + " not found");
+            throw new EntityNotFoundException("Active Lease with tenant id " + tenantId + " not found");
         }
 
 

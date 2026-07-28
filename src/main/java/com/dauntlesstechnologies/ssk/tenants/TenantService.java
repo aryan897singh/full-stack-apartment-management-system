@@ -19,6 +19,14 @@ public class TenantService {
         this.leaseRepository = leaseRepository;
     }
 
+	public List<TenantDto> getAllTenants(){
+		return tenantRepository
+				.findAll()
+				.stream()
+				.map(this::convertToDto)
+				.toList();
+	}
+
     public List<TenantDto> createAndSearchTenantRecord(String name) {
         List<Tenant> foundTenants = tenantRepository.findByNameContainingIgnoreCase(name);
         if (!(foundTenants.isEmpty())) {

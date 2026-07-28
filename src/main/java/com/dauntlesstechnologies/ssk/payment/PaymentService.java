@@ -34,8 +34,6 @@ public class PaymentService {
            return entityToDto(payment);
        }
        else throw new RuntimeException("Payment Not Found");
-
-
     }
 
     public List<PaymentDto> findAllPayments(){
@@ -47,6 +45,16 @@ public class PaymentService {
             }
             return paymentDtos;
         }
+
+		public List<PaymentDto> findAllPaymentsByLeaseId(Long leaseId){
+			List<Payment> payments = paymentRepository.findAllByLeaseId(leaseId);
+			List<PaymentDto> paymentDtos = new ArrayList<>();
+
+			return payments
+					.stream()
+					.map(this::entityToDto)
+					.toList();
+		}
 
     @Transactional
     public PaymentDto createPayment(UpdatePaymentDto updatePaymentDto){

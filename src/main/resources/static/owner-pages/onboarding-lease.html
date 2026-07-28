@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>New Move-In Onboarding | Aetheris Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#1e1f23", "surface-variant": "#343538", "surface": "#0b1326",
+                        "on-primary-container": "#385283", "on-surface-variant": "#c4c6d0", "on-primary": "#122f5f",
+                        "secondary-container": "#00b47d", "primary-fixed-dim": "#adc6ff", "primary": "#d8e2ff",
+                        "inverse-primary": "#455e90", "surface-container-lowest": "#0d0e11", "outline-variant": "#44474f",
+                        "on-error-container": "#ffdad6", "primary-fixed": "#d8e2ff", "secondary": "#4edea3",
+                        "on-surface": "#dae2fd", "error": "#ffb4ab", "surface-container-low": "#1a1b1f"
+                    },
+                    "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                    "fontFamily": { "nav-label": ["manrope"], "sidebar-brand": ["manrope"], "h1": ["manrope"], "body-primary": ["inter"] }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; display: inline-block; vertical-align: middle; }
+        .glass-panel { background: rgba(19, 27, 46, 0.8); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .input-pill { background-color: #ffffff; border: none; border-radius: 9999px; padding: 0.75rem 1.25rem; color: #000000; font-size: 14px; width: 100%; }
+        .input-pill:focus { outline: none; box-shadow: 0 0 0 1px #4d8eff; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #4edea3; }
+        .toggle-checkbox:checked + .toggle-label::after { transform: translateX(1.25rem); }
+        .primary-glow { box-shadow: 0 4px 20px rgba(77, 142, 255, 0.2); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen overflow-x-hidden font-body-primary">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 bottom-0 z-40 w-64 h-screen bg-slate-900/80 dark:bg-surface-container backdrop-blur-3xl shadow-2xl shadow-blue-900/20 flex flex-col p-6">
+    <div class="mb-10 flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-on-primary">domain</span>
+        </div>
+        <div>
+            <h2 class="font-sidebar-brand text-lg font-bold text-primary tracking-tighter uppercase leading-tight">Aetheris Admin</h2>
+            <p class="text-[10px] font-manrope tracking-widest text-slate-500 mt-1 uppercase">Management Portal</p>
+        </div>
+    </div>
+
+    <nav class="flex-1 space-y-2">
+        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-manrope tracking-tight font-semibold" href="/owner-pages/dashboard.html">
+            <span class="material-symbols-outlined mr-3">dashboard</span><span>Dashboard</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-primary bg-surface-container-high rounded-lg font-bold group scale-[0.98] active:duration-75 font-manrope tracking-tight" href="/owner-pages/apartments.html">
+            <span class="material-symbols-outlined mr-3">domain</span><span>Apartments</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-manrope tracking-tight font-semibold" href="/owner-pages/payments.html">
+            <span class="material-symbols-outlined mr-3">payments</span><span>Payments</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-manrope tracking-tight font-semibold" href="/owner-pages/maintenance.html">
+            <span class="material-symbols-outlined mr-3">build</span><span>Maintenance</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-manrope tracking-tight font-semibold" href="/owner-pages/configuration.html">
+            <span class="material-symbols-outlined mr-3">settings</span><span>Settings</span>
+        </a>
+    </nav>
+
+    <div class="mt-auto pt-6 border-t border-white/5 flex flex-col gap-3">
+        <a href="/owner-pages/add-new-lease.html" class="bg-primary text-on-primary py-3 rounded-xl font-bold font-manrope tracking-tight flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(173,198,255,0.3)] transition-all">
+            <span class="material-symbols-outlined">add_card</span><span>Create New Lease</span>
+        </a>
+        <a href="/owner-pages/add-new-flat.html" class="bg-surface-container-high text-on-surface hover:bg-surface-container-highest py-3 rounded-xl font-bold font-manrope tracking-tight flex items-center justify-center gap-2 border border-outline-variant/10 transition-all">
+            <span class="material-symbols-outlined">add_home</span><span>Add New Property</span>
+        </a>
+    </div>
+</aside>
+
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 h-16 w-[calc(100%-16rem)] backdrop-blur-2xl bg-surface/80 flex items-center justify-between px-10 z-40 border-b border-white/5">
+    <div class="flex items-center flex-1 max-w-md">
+        <div class="relative w-full">
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+            <input class="w-full bg-surface-container-lowest/50 border-none rounded-full py-2 pl-12 pr-4 text-sm focus:ring-1 focus:ring-primary" placeholder="Search records..." type="text"/>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="ml-64 pt-16 min-h-screen">
+    <div class="max-w-7xl mx-auto p-10">
+        <div class="mb-10">
+            <p class="text-[11px] font-bold text-secondary uppercase tracking-[0.2em] mb-2">Contract Management</p>
+            <h1 class="font-h1 text-5xl font-extrabold text-on-surface">New Move-In Onboarding</h1>
+            <p class="text-sm text-on-surface-variant mt-2">Select an existing unassigned tenant and bind them to a vacant residential unit.</p>
+        </div>
+
+        <form class="space-y-10" id="onboardingForm">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+                <!-- Left Column: Existing Unassigned Tenant Selection -->
+                <section class="glass-panel rounded-3xl p-8 space-y-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <h2 class="font-h1 text-xl text-on-surface">Select Unassigned Tenant</h2>
+                        <div class="bg-primary/10 p-2 rounded-xl text-primary">
+                            <span class="material-symbols-outlined">group</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex flex-col space-y-2">
+                            <label class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant ml-4">Available Tenants (No Active Lease)</label>
+                            <div class="flex items-center gap-2">
+                                <div class="relative flex-grow">
+                                    <select id="tenantSelect" class="input-pill appearance-none bg-none cursor-pointer pr-10">
+                                        <option value="" disabled selected>Loading unassigned tenants...</option>
+                                    </select>
+                                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">expand_more</span>
+                                </div>
+                                <button type="button" id="addTenantBtn" class="px-4 py-2 bg-primary text-on-primary rounded-full font-bold text-sm">Add</button>
+                            </div>
+                        </div>
+
+                        <!-- Selected Tenant Chips -->
+                        <div id="tenantChipsContainer" class="flex flex-wrap gap-2 min-h-[2.5rem]">
+                            <!-- Chips will be injected here -->
+                        </div>
+
+                        <div class="p-4 bg-surface-container-lowest/30 rounded-2xl border border-white/5 flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="material-symbols-outlined text-secondary">person_add</span>
+                                <div>
+                                    <p class="text-xs font-bold">Missing a person?</p>
+                                    <p class="text-[10px] text-on-surface-variant">Register their profile independently first.</p>
+                                </div>
+                            </div>
+                            <a href="/owner-pages/add-new-tenant-form.html" class="px-4 py-2 bg-surface-container-high hover:bg-surface-container-highest text-primary text-xs font-bold rounded-xl transition-all">Add Person</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Right Column: Lease Configuration -->
+                <section class="glass-panel rounded-3xl p-8 space-y-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <h2 class="font-h1 text-xl text-on-surface">Lease Configuration</h2>
+                        <div class="bg-secondary/10 p-2 rounded-xl text-secondary">
+                            <span class="material-symbols-outlined">article</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex flex-col space-y-2">
+                            <label class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant ml-4">Flat Number</label>
+                            <div class="relative">
+                                <select id="flatNumberSelect" class="input-pill appearance-none bg-none cursor-pointer pr-10" name="flatNumber" required>
+                                    <option value="" disabled selected>Loading vacant units...</option>
+                                </select>
+                                <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">expand_more</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="flex flex-col space-y-2">
+                                <label class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant ml-4">Start Date</label>
+                                <input class="input-pill" name="startDate" required type="text" placeholder="Select start date"/>
+                            </div>
+                            <div class="flex flex-col space-y-2">
+                                <label class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant ml-4">End Date</label>
+                                <input class="input-pill" name="endDate" required type="text" placeholder="Select end date"/>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="flex flex-col space-y-2">
+                                <label class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant ml-4">Monthly Rent ($)</label>
+                                <input class="input-pill" name="rent" placeholder="3200" required type="number" step="0.01"/>
+                            </div>
+                            <div class="flex flex-col space-y-2">
+                                <label class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant ml-4">Maintenance Fee ($)</label>
+                                <input class="input-pill" name="maintenance" placeholder="450" required type="number" step="0.01"/>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col space-y-2">
+                            <label class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant ml-4">Security Deposit ($)</label>
+                            <input class="input-pill" name="deposit" placeholder="5000" type="number" step="0.01"/>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 bg-surface-container-lowest/30 rounded-2xl border border-white/5">
+                            <div class="flex items-center space-x-3">
+                                <span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+                                <div>
+                                    <p class="text-sm font-bold">Deposit Collected</p>
+                                    <p class="text-[10px] text-on-surface-variant">Has the physical payment been received?</p>
+                                </div>
+                            </div>
+                            <div class="relative inline-block w-10 align-middle select-none">
+                                <input class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-2 border-transparent appearance-none cursor-pointer transition-transform duration-200 ease-in-out z-10 top-[2px] left-[2px]" id="depColl" name="depositCollected" type="checkbox"/>
+                                <label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-variant cursor-pointer transition-colors duration-200" for="depColl"></label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Footer Action -->
+            <div class="flex justify-end pt-10">
+                <button class="primary-glow px-12 py-5 bg-primary text-on-primary font-bold text-lg rounded-full flex items-center space-x-3 transition-all hover:scale-[1.02] active:scale-95 group disabled:opacity-50 disabled:cursor-not-allowed" id="submitBtn" type="submit" disabled>
+                    <span id="btnText">Create New Lease</span>
+                    <span class="material-symbols-outlined transition-transform group-hover:translate-x-1" id="btnIcon">arrow_forward</span>
+                    <div class="hidden animate-spin rounded-full h-5 w-5 border-2 border-on-primary border-t-transparent" id="loader"></div>
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    let tenantsMap = {};
+    let selectedTenantIds = [];
+    let selectedTenants = [];
+
+    const form = document.getElementById('onboardingForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const tenantSelect = document.getElementById('tenantSelect');
+    const flatSelect = document.getElementById('flatNumberSelect');
+    const startDateInput = document.querySelector('input[name="startDate"]');
+    const endDateInput = document.querySelector('input[name="endDate"]');
+    const rentInput = document.querySelector('input[name="rent"]');
+    const maintenanceInput = document.querySelector('input[name="maintenance"]');
+    const addTenantBtn = document.getElementById('addTenantBtn');
+    const tenantChipsContainer = document.getElementById('tenantChipsContainer');
+
+    const validateForm = () => {
+        const isFormValid = selectedTenantIds.length > 0 &&
+                            flatSelect.value &&
+                            startDateInput.value &&
+                            endDateInput.value &&
+                            rentInput.value &&
+                            maintenanceInput.value;
+        submitBtn.disabled = !isFormValid;
+    };
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Initialize Flatpickr
+        flatpickr(startDateInput, { altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d" });
+        flatpickr(endDateInput, { altInput: true, altFormat: "F j, Y", dateFormat: "Y-m-d" });
+
+        const [tenantsResult, apartmentsResult] = await Promise.allSettled([
+            fetch('/api/tenants/getAll').then(res => {
+                if (!res.ok) throw new Error('Failed to fetch tenant records');
+                return res.json();
+            }),
+            fetch('/api/apartments/vacant').then(res => {
+                if (!res.ok) throw new Error('Failed to fetch vacant apartments');
+                return res.json();
+            })
+        ]);
+
+        if (tenantsResult.status === 'fulfilled') {
+            const unassignedTenants = tenantsResult.value.filter(t => !t.hasActiveLease);
+            tenantsMap = tenantsResult.value.reduce((map, tenant) => {
+                map[tenant.id] = tenant;
+                return map;
+            }, {});
+
+            if (unassignedTenants.length === 0) {
+                tenantSelect.innerHTML = '<option value="" disabled selected>No unassigned tenants found.</option>';
+            } else {
+                tenantSelect.innerHTML = '<option value="" disabled selected>Select an unassigned tenant...</option>';
+                unassignedTenants.forEach(tenant => {
+                    tenantSelect.innerHTML += `<option value="${tenant.id}">${tenant.name} (${tenant.email})</option>`;
+                });
+            }
+        } else {
+            console.error('Error loading tenants:', tenantsResult.reason);
+            tenantSelect.innerHTML = '<option value="" disabled selected>Error loading tenant records</option>';
+        }
+
+        if (apartmentsResult.status === 'fulfilled') {
+            const vacantApartments = apartmentsResult.value;
+            if (vacantApartments.length === 0) {
+                flatSelect.innerHTML = '<option value="" disabled selected>No vacant units available</option>';
+            } else {
+                flatSelect.innerHTML = '<option value="" disabled selected>Select available unit</option>';
+                vacantApartments.forEach(apartment => {
+                    flatSelect.innerHTML += `<option value="${apartment.flatNumber}">${apartment.flatNumber}</option>`;
+                });
+            }
+        } else {
+            console.error('Error loading vacant apartments:', apartmentsResult.reason);
+            flatSelect.innerHTML = '<option value="" disabled selected>Error loading vacant units</option>';
+        }
+
+        validateForm(); // Initial validation check
+    });
+
+    const renderTenantChips = () => {
+        tenantChipsContainer.innerHTML = '';
+        selectedTenants.forEach(tenant => {
+            const chip = document.createElement('div');
+            chip.className = 'flex items-center bg-primary text-on-primary text-sm font-semibold px-3 py-1 rounded-full';
+            chip.innerHTML = `
+                <span>${tenant.name}</span>
+                <button type="button" data-tenant-id="${tenant.id}" class="ml-2 text-on-primary/70 hover:text-on-primary">&times;</button>
+            `;
+            tenantChipsContainer.appendChild(chip);
+        });
+        validateForm();
+    };
+
+    addTenantBtn.addEventListener('click', () => {
+        const tenantId = parseInt(tenantSelect.value, 10);
+        if (tenantId && !selectedTenantIds.includes(tenantId)) {
+            selectedTenantIds.push(tenantId);
+            selectedTenants.push(tenantsMap[tenantId]);
+            renderTenantChips();
+        }
+    });
+
+    tenantChipsContainer.addEventListener('click', (e) => {
+        if (e.target.tagName === 'BUTTON' && e.target.dataset.tenantId) {
+            const tenantIdToRemove = parseInt(e.target.dataset.tenantId, 10);
+            selectedTenantIds = selectedTenantIds.filter(id => id !== tenantIdToRemove);
+            selectedTenants = selectedTenants.filter(tenant => tenant.id !== tenantIdToRemove);
+            renderTenantChips();
+        }
+    });
+
+    form.addEventListener('input', validateForm);
+    form.addEventListener('change', validateForm);
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (submitBtn.disabled) return;
+
+        const btnText = document.getElementById('btnText');
+        const btnIcon = document.getElementById('btnIcon');
+        const loader = document.getElementById('loader');
+
+        submitBtn.disabled = true;
+        btnText.textContent = "Processing Lease...";
+        btnIcon.classList.add('hidden');
+        loader.classList.remove('hidden');
+
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const leaseResponse = await fetch('/api/leases', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    start: new Date(data.startDate).toISOString(),
+                    end: new Date(data.endDate).toISOString(),
+                    flatNumber: data.flatNumber,
+                    tenantIds: selectedTenantIds,
+                    rentAmount: parseFloat(data.rent),
+                    maintenanceAmount: parseFloat(data.maintenance),
+                    depositAmount: parseFloat(data.deposit) || 0,
+                    isDepositCollected: data.depositCollected === 'on'
+                })
+            });
+
+            if (!leaseResponse.ok) {
+                const errorData = await leaseResponse.json();
+                throw new Error(`Lease creation failed: ${errorData.message || leaseResponse.statusText}`);
+            }
+
+            alert(`Lease Successfully Assigned for Unit ${data.flatNumber}!`);
+            window.location.href = '/owner-pages/apartments.html';
+
+        } catch (error) {
+            console.error('Lease assignment failed:', error);
+            alert(`Error: ${error.message}`);
+
+            submitBtn.disabled = false;
+            btnText.textContent = "Create New Lease";
+            btnIcon.classList.remove('hidden');
+            loader.classList.add('hidden');
+        }
+    });
+
+    startDateInput.addEventListener('change', (e) => {
+        if(e.target.value) {
+            const start = new Date(e.target.value);
+            const oneYearLater = new Date(start.getFullYear() + 1, start.getMonth(), start.getDate());
+            // Adjust for Flatpickr's instance
+            const endDatePicker = endDateInput._flatpickr;
+            endDatePicker.setDate(oneYearLater, true); // 'true' triggers change event
+        }
+    });
+</script>
+</body></html>

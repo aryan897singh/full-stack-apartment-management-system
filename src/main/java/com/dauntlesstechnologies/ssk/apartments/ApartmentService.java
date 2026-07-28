@@ -21,6 +21,19 @@ public class ApartmentService {
         this.leaseRepository = leaseRepository;
     }
 
+    public Map<String, Long> getApartmentStatistics() {
+        long totalApartments = apartmentRepository.count();
+        long occupiedApartments = leaseRepository.countOccupiedApartments();
+        long vacantApartments = totalApartments - occupiedApartments;
+
+        Map<String, Long> stats = new HashMap<>();
+        stats.put("occupied", occupiedApartments);
+        stats.put("vacant", vacantApartments);
+        stats.put("total", totalApartments);
+
+        return stats;
+    }
+
     @Transactional
     public ApartmentDto createApartment(UpdateApartmentDto updateApartmentDto){
         Apartment apartment = new Apartment();
@@ -40,6 +53,35 @@ public class ApartmentService {
         }
 
     }
+
+    public List<ApartmentDto> findAllOccupiedApartments(){
+        List<Apartment> apartmentList = apartmentRepository.findAllOccupiedApartments();
+        List<ApartmentDto> apartmentDtoList = new ArrayList<>();
+
+        for(Apartment apartment : apartmentList){
+            apartmentDtoList.add(
+                    new ApartmentDto(
+                    apartment.getFlatNumber(),
+                    true,
+                    null
+            ));
+        }
+        return apartmentDtoList;
+    }
+
+	public List<ApartmentDto> findAllVacantApartments(){
+		List<Apartment> apartmentList = apartmentRepository.findAllVacantApartments();
+		List<ApartmentDto> apartmentDtoList = new ArrayList<>();
+
+		for(Apartment apartment : apartmentList){
+			apartmentDtoList.add(
+					new ApartmentDto(
+							apartment.getFlatNumber(),
+							false,
+							null));
+	}
+		return apartmentDtoList;
+	}
 
     @Transactional
     public void updateApartmentById(Long id, UpdateApartmentDto updateApartmentDto){

@@ -35,16 +35,16 @@ public class SecurityConfig {
 
                                 //Problem - API endpoints locked, page wide open
                                 //Solution - Lock both the HTML page and the data endpoints (Defense in depth)
-                                .requestMatchers("/OWNER_PAGES/**").hasRole("OWNER")
+                                .requestMatchers("/owner_pages/**").hasRole("OWNER")
 
-                                .requestMatchers("/apartments/**").hasRole("OWNER")
-                                .requestMatchers("/tenants/**").hasRole("OWNER")
+                                .requestMatchers("/api/apartments/**").hasRole("OWNER")
+                                .requestMatchers("/api/tenants/**").hasRole("OWNER")
                                 .requestMatchers("/configuration/**").hasRole("OWNER")
-                                .requestMatchers("/deposits/**").hasRole("OWNER")
-                                .requestMatchers("/furniture/**").hasRole("OWNER")
-                                .requestMatchers("/maintenanceRequests/**").hasRole("OWNER")
-                                .requestMatchers("/managers/**").hasRole("OWNER")
-                                .requestMatchers("/payments/**").hasRole("OWNER")
+                                .requestMatchers("/api/furniture/**").hasRole("OWNER")
+                                .requestMatchers("/api/maintenanceRequests/**").hasRole("OWNER")
+                                .requestMatchers("/api/managers/**").hasRole("OWNER")
+                                .requestMatchers("/api/payments/**").hasRole("OWNER")
+								.requestMatchers("/api/leases/**").hasRole("OWNER")
 
 
 
@@ -73,6 +73,7 @@ public class SecurityConfig {
                                                 //takes OidcUser and returns UserEndpointConfig object
 
                 );
+		http.csrf(csrf->csrf.disable());
         return http.build(); //Return the rulebook we defined
 
     }

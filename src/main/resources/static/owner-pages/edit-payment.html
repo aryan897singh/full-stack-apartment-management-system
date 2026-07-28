@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Edit Tenant</title>
+    <title>Edit Payment</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -18,7 +18,7 @@
         .navbar { background-color: #1e1e1e !important; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); }
         .navbar-brand { font-weight: 600; color: #f8f9fa !important; }
         .nav-link { color: #adb5bd !important; }
-        .nav-link:hover { color: #ffffff !important; }
+        .nav-link.active, .nav-link:hover { color: #ffffff !important; }
         .card { background-color: #1e1e1e; border: 1px solid #343a40; border-radius: 8px; }
         h2 { color: #f8f9fa; font-weight: 300; }
         footer { background-color: #1e1e1e; padding: 1rem 0; text-align: center; border-top: 1px solid #343a40; margin-top: auto; }
@@ -39,82 +39,82 @@
             border-color: #007bff;
             box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
         }
+        .form-control[readonly] {
+            background-color: #3a3a3a;
+            color: #adb5bd;
+        }
     </style>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/OWNER_PAGES/Dashboard.html">
+        <a class="navbar-brand" href="/owner-pages/dashboard.html">
             <span id="nav-brand-app-name">Loading...</span>
         </a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                    <a class="nav-link" href="/owner-pages/dashboard.html">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/OWNER_PAGES/Tenants.html">Tenants</a>
+                    <a class="nav-link" href="/owner-pages/apartments.html">Tenants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/payments.html">Payments</a>
+                    <a class="nav-link active" aria-current="page" href="/owner-pages/payments.html">Payments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/maintenance.html">Maintenance</a>
+                    <a class="nav-link" href="/owner-pages/maintenance.html">Maintenance</a>
                 </li>
             </ul>
-            <a href="/OWNER_PAGES/configuration.html" class="profile-circle me-2" title="Profile Details">AS</a>
+            <a href="/owner-pages/configuration.html" class="profile-circle me-2" title="Profile Details">AS</a>
         </div>
     </div>
 </nav>
 
 <div class="content-wrapper">
     <div class="container mt-4">
-        <h2 class="mb-4">Edit Tenant Details</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Edit Payment Record</h2>
+            <a href="/owner-pages/monthly-revenue.html" class="btn btn-outline-primary">Go Back</a>
+        </div>
 
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <div id="alert-message" class="alert" role="alert" style="display: none;"></div>
 
                 <div class="card p-4 mb-4">
-                    <form id="edit-tenant-form">
+                    <form id="edit-payment-form">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email">
+                            <label for="flatNumber" class="form-label">Flat Number</label>
+                            <input type="text" class="form-control" id="flatNumber" name="flatNumber" readonly>
                         </div>
                         <div class="mb-3">
-                            <label for="phoneNumber" class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber">
+                            <label for="rentAmount" class="form-label">Rent Amount</label>
+                            <input type="number" step="0.01" class="form-control" id="rentAmount" name="rentAmount" required>
                         </div>
                         <div class="mb-3">
-                            <label for="address" class="form-label">Address</label>
-                            <input type="text" class="form-control" id="address" name="address" required>
+                            <label for="maintenanceAmount" class="form-label">Maintenance Amount</label>
+                            <input type="number" step="0.01" class="form-control" id="maintenanceAmount" name="maintenanceAmount" required>
                         </div>
                         <div class="mb-3">
-                            <label for="fatherName" class="form-label">Father's Name</label>
-                            <input type="text" class="form-control" id="fatherName" name="fatherName" required>
+                            <label for="electricityAmount" class="form-label">Electricity Amount</label>
+                            <input type="number" step="0.01" class="form-control" id="electricityAmount" name="electricityAmount" required>
                         </div>
                         <div class="mb-3">
-                            <label for="aadharCardNumber" class="form-label">Aadhar Card Number</label>
-                            <input type="text" class="form-control" id="aadharCardNumber" name="aadharCardNumber" required>
+                            <label for="paymentMethod" class="form-label">Payment Method</label>
+                            <select class="form-select" id="paymentMethod" name="paymentMethod" required>
+                                <option value="UPI">UPI</option>
+                                <option value="CARD">CARD</option>
+                                <option value="CASH">CASH</option>
+                                <option value="BANK_TRANSFER">BANK_TRANSFER</option>
+                            </select>
                         </div>
                         <div class="mb-3">
-                            <label for="joinDate" class="form-label">Join Date</label>
-                            <input type="date" class="form-control" id="joinDate" name="joinDate" required>
+                            <label for="paymentDate" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="paymentDate" name="paymentDate" required>
                         </div>
-
-                        <hr style="border-top: 1px solid #444;">
-
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="mainOwner" name="mainOwner">
-                            <label class="form-check-label" for="mainOwner">Is Main Owner (Primary Tenant)</label>
-                        </div>
-
-                        <div class="d-grid gap-2 mt-4">
+                        <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
                         </div>
                     </form>
@@ -137,44 +137,42 @@
         const settings = await getAppSettings();
         document.getElementById('nav-brand-app-name').textContent = settings.APARTMENT_NAME;
 
-        // 1. Read the tenantId from the URL
+        // 1. Read the paymentId from the URL
         const params = new URLSearchParams(window.location.search);
-        const tenantId = params.get('tenantId');
-        const form = document.getElementById('edit-tenant-form');
+        const paymentId = params.get('paymentId');
+        const form = document.getElementById('edit-payment-form');
         const alertBox = document.getElementById('alert-message');
 
-        if (!tenantId) {
-            showAlert('Error: No tenant ID specified. Redirecting...', 'danger');
-            setTimeout(() => window.location.href = '/OWNER_PAGES/Tenants.html', 2000);
+        if (!paymentId) {
+            showAlert('Error: No payment ID specified. Redirecting...', 'danger');
+            setTimeout(() => window.location.href = '/monthly-revenue.html', 2000);
             return;
         }
 
-        // 2. Fetch existing tenant data
+        // 2. Fetch existing payment data
         try {
-            const response = await fetch(`/tenants/${tenantId}`); // Uses your GET /tenants/{id}
+            const response = await fetch(`/payments/${paymentId}`); // Uses your GET /payments/{id}
             if (!response.ok) {
-                throw new Error('Failed to fetch tenant details');
+                throw new Error('Failed to fetch payment details');
             }
-            const tenant = await response.json(); // This is your TenantDto
+            const payment = await response.json(); // This is your PaymentDto
 
             // 3. Populate the form
-            document.getElementById('name').value = tenant.name;
-            document.getElementById('email').value = tenant.email || '';
-            document.getElementById('phoneNumber').value = tenant.phoneNumber || '';
-            document.getElementById('address').value = tenant.address;
-            document.getElementById('fatherName').value = tenant.fatherName;
-            document.getElementById('aadharCardNumber').value = tenant.aadharCardNumber;
-            document.getElementById('mainOwner').checked = tenant.mainOwner;
+            document.getElementById('flatNumber').value = payment.flatNumber;
+            document.getElementById('rentAmount').value = payment.rentAmount;
+            document.getElementById('maintenanceAmount').value = payment.maintenanceAmount;
+            document.getElementById('electricityAmount').value = payment.electricityAmount;
+            document.getElementById('paymentMethod').value = payment.paymentMethod;
 
             // Format the date for the date input field (yyyy-MM-dd)
-            if (tenant.joinDate) {
-                const joinDate = new Date(tenant.joinDate);
-                document.getElementById('joinDate').value = joinDate.toISOString().split('T')[0];
+            if (payment.paymentDate) {
+                const paymentDate = new Date(payment.paymentDate);
+                document.getElementById('paymentDate').value = paymentDate.toISOString().split('T')[0];
             }
 
         } catch (error) {
             console.error(error);
-            showAlert('Error loading tenant data. Please go back and try again.', 'danger');
+            showAlert('Error loading payment data. Please go back and try again.', 'danger');
         }
 
         // 4. Handle the form submission
@@ -182,23 +180,21 @@
             event.preventDefault();
 
             // Build the DTO from form values
-            const updatedTenantDto = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                phoneNumber: document.getElementById('phoneNumber').value,
-                address: document.getElementById('address').value,
-                fatherName: document.getElementById('fatherName').value,
-                aadharCardNumber: document.getElementById('aadharCardNumber').value,
-                joinDate: document.getElementById('joinDate').value,
-                mainOwner: document.getElementById('mainOwner').checked
+            const updatedPaymentDto = {
+                flatNumber: document.getElementById('flatNumber').value,
+                rentAmount: document.getElementById('rentAmount').value,
+                maintenanceAmount: document.getElementById('maintenanceAmount').value,
+                electricityAmount: document.getElementById('electricityAmount').value,
+                paymentMethod: document.getElementById('paymentMethod').value,
+                paymentDate: document.getElementById('paymentDate').value
             };
 
             try {
                 // Send the PUT request
-                const response = await fetch(`/tenants/update/${tenantId}`, {
+                const response = await fetch(`/payments/updatePayment/${paymentId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(updatedTenantDto)
+                    body: JSON.stringify(updatedPaymentDto)
                 });
 
                 if (!response.ok) {
@@ -207,8 +203,7 @@
 
                 showAlert('Changes saved successfully! Redirecting...', 'success');
                 setTimeout(() => {
-                    // Go back to the details page, passing the original tenantId
-                    window.location.href = `/OWNER_PAGES/apartment-details.html?tenantId=${tenantId}`;
+                    window.location.href = '/monthly-revenue.html';
                 }, 1500);
 
             } catch (error) {
