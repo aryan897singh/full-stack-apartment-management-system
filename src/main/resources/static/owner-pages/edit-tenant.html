@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Edit Apartment</title>
+    <title>Edit Tenant</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -45,67 +45,73 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/OWNER_PAGES/Dashboard.html">
+        <a class="navbar-brand" href="/owner-pages/dashboard.html">
             <span id="nav-brand-app-name">Loading...</span>
         </a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/Dashboard.html">Dashboard</a>
+                    <a class="nav-link" href="/owner-pages/dashboard.html">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/OWNER_PAGES/Tenants.html">Tenants</a>
+                    <a class="nav-link active" aria-current="page" href="/owner-pages/apartments.html">Tenants</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/payments.html">Payments</a>
+                    <a class="nav-link" href="/owner-pages/payments.html">Payments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/OWNER_PAGES/maintenance.html">Maintenance</a>
+                    <a class="nav-link" href="/owner-pages/maintenance.html">Maintenance</a>
                 </li>
             </ul>
-            <a href="/OWNER_PAGES/configuration.html" class="profile-circle me-2" title="Profile Details">AS</a>
+            <a href="/owner-pages/configuration.html" class="profile-circle me-2" title="Profile Details">AS</a>
         </div>
     </div>
 </nav>
 
 <div class="content-wrapper">
     <div class="container mt-4">
-        <h2 class="mb-4">Edit Apartment Details</h2>
+        <h2 class="mb-4">Edit Tenant Details</h2>
 
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <div id="alert-message" class="alert" role="alert" style="display: none;"></div>
 
                 <div class="card p-4 mb-4">
-                    <form id="edit-apartment-form">
+                    <form id="edit-tenant-form">
                         <div class="mb-3">
-                            <label for="flatNumber" class="form-label">Flat Number</label>
-                            <input type="text" class="form-control" id="flatNumber" name="flatNumber" required>
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="expectedRent" class="form-label">Expected Rent</label>
-                            <input type="number" step="0.01" class="form-control" id="expectedRent" name="expectedRent">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email">
                         </div>
                         <div class="mb-3">
-                            <label for="rentAmount" class="form-label">Actual Rent (Negotiated)</label>
-                            <input type="number" step="0.01" class="form-control" id="rentAmount" name="rentAmount">
+                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber">
                         </div>
                         <div class="mb-3">
-                            <label for="maintenanceAmount" class="form-label">Maintenance Fee</label>
-                            <input type="number" step="0.01" class="form-control" id="maintenanceAmount" name="maintenanceAmount">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address" name="address" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fatherName" class="form-label">Father's Name</label>
+                            <input type="text" class="form-control" id="fatherName" name="fatherName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="aadharCardNumber" class="form-label">Aadhar Card Number</label>
+                            <input type="text" class="form-control" id="aadharCardNumber" name="aadharCardNumber" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="joinDate" class="form-label">Join Date</label>
+                            <input type="date" class="form-control" id="joinDate" name="joinDate" required>
                         </div>
 
                         <hr style="border-top: 1px solid #444;">
-                        <h5 class="mb-3">Monthly Payment Overrides</h5>
-                        <p class="text-muted small">Only change these if you need to manually correct a payment record.</p>
 
-                        <div class="mb-3">
-                            <label for="paidRent" class="form-label">Rent Paid (This Month)</label>
-                            <input type="number" step="0.01" class="form-control" id="paidRent" name="paidRent">
-                        </div>
-                        <div class="mb-3">
-                            <label for="paidMaintenance" class="form-label">Maintenance Paid (This Month)</label>
-                            <input type="number" step="0.01" class="form-control" id="paidMaintenance" name="paidMaintenance">
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="mainOwner" name="mainOwner">
+                            <label class="form-check-label" for="mainOwner">Is Main Owner (Primary Tenant)</label>
                         </div>
 
                         <div class="d-grid gap-2 mt-4">
@@ -131,61 +137,68 @@
         const settings = await getAppSettings();
         document.getElementById('nav-brand-app-name').textContent = settings.APARTMENT_NAME;
 
-        // 1. Read the apartmentId from the URL
+        // 1. Read the tenantId from the URL
         const params = new URLSearchParams(window.location.search);
-        const apartmentId = params.get('apartmentId');
-        const form = document.getElementById('edit-apartment-form');
+        const tenantId = params.get('tenantId');
+        const form = document.getElementById('edit-tenant-form');
         const alertBox = document.getElementById('alert-message');
 
-        if (!apartmentId) {
-            showAlert('Error: No apartment ID specified. Redirecting...', 'danger');
-            setTimeout(() => window.location.href = '/OWNER_PAGES/Tenants.html', 2000);
+        if (!tenantId) {
+            showAlert('Error: No tenant ID specified. Redirecting...', 'danger');
+            setTimeout(() => window.location.href = 'apartments.html', 2000);
             return;
         }
 
-        // 2. Fetch existing apartment data
+        // 2. Fetch existing tenant data
         try {
-            // Uses your existing GET /apartments/{id} endpoint
-            const response = await fetch(`/apartments/${apartmentId}`);
+            const response = await fetch(`/tenants/${tenantId}`); // Uses your GET /tenants/{id}
             if (!response.ok) {
-                throw new Error('Failed to fetch apartment details');
+                throw new Error('Failed to fetch tenant details');
             }
-            const apartment = await response.json(); // This is your ApartmentDto
+            const tenant = await response.json(); // This is your TenantDto
 
             // 3. Populate the form
-            document.getElementById('flatNumber').value = apartment.flatNumber;
-            document.getElementById('expectedRent').value = apartment.expectedRent;
-            document.getElementById('rentAmount').value = apartment.rentAmount;
-            document.getElementById('maintenanceAmount').value = apartment.maintenanceAmount;
-            document.getElementById('paidRent').value = apartment.paidRent;
-            document.getElementById('paidMaintenance').value = apartment.paidMaintenance;
+            document.getElementById('name').value = tenant.name;
+            document.getElementById('email').value = tenant.email || '';
+            document.getElementById('phoneNumber').value = tenant.phoneNumber || '';
+            document.getElementById('address').value = tenant.address;
+            document.getElementById('fatherName').value = tenant.fatherName;
+            document.getElementById('aadharCardNumber').value = tenant.aadharCardNumber;
+            document.getElementById('mainOwner').checked = tenant.mainOwner;
+
+            // Format the date for the date input field (yyyy-MM-dd)
+            if (tenant.joinDate) {
+                const joinDate = new Date(tenant.joinDate);
+                document.getElementById('joinDate').value = joinDate.toISOString().split('T')[0];
+            }
 
         } catch (error) {
             console.error(error);
-            showAlert('Error loading apartment data. Please go back and try again.', 'danger');
+            showAlert('Error loading tenant data. Please go back and try again.', 'danger');
         }
 
         // 4. Handle the form submission
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            // Build the UpdateApartmentDto from form values
-            // This matches the DTO your backend 'updateApartmentById' method expects
-            const updatedApartmentDto = {
-                flatNumber: document.getElementById('flatNumber').value,
-                expectedRent: document.getElementById('expectedRent').value,
-                rentAmount: document.getElementById('rentAmount').value,
-                maintenanceAmount: document.getElementById('maintenanceAmount').value,
-                paidRent: document.getElementById('paidRent').value,
-                paidMaintenance: document.getElementById('paidMaintenance').value
+            // Build the DTO from form values
+            const updatedTenantDto = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phoneNumber: document.getElementById('phoneNumber').value,
+                address: document.getElementById('address').value,
+                fatherName: document.getElementById('fatherName').value,
+                aadharCardNumber: document.getElementById('aadharCardNumber').value,
+                joinDate: document.getElementById('joinDate').value,
+                mainOwner: document.getElementById('mainOwner').checked
             };
 
             try {
                 // Send the PUT request
-                const response = await fetch(`/apartments/update/${apartmentId}`, {
+                const response = await fetch(`/tenants/update/${tenantId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(updatedApartmentDto)
+                    body: JSON.stringify(updatedTenantDto)
                 });
 
                 if (!response.ok) {
@@ -193,10 +206,9 @@
                 }
 
                 showAlert('Changes saved successfully! Redirecting...', 'success');
-                // We need to pass a tenantId back, but this page doesn't know it.
-                // The safest bet is to go back to the main Tenants page.
                 setTimeout(() => {
-                    window.location.href = `/OWNER_PAGES/Tenants.html`;
+                    // Go back to the details page, passing the original tenantId
+                    window.location.href = `/apartment-details.html?tenantId=${tenantId}`;
                 }, 1500);
 
             } catch (error) {

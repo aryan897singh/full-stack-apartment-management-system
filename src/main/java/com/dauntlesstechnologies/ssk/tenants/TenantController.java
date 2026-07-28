@@ -17,6 +17,11 @@ public class TenantController {
         this.tenantService = tenantService;
     }
 
+	@GetMapping("/getAll")
+	public ResponseEntity<List<TenantDto>> getAllTenants(){
+		return ResponseEntity.ok(tenantService.getAllTenants());
+	}
+
     @GetMapping
     public ResponseEntity<List<TenantDto>> getTenantByName(@RequestParam("name") String name){
         return ResponseEntity.ok(tenantService.createAndSearchTenantRecord(name));

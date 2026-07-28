@@ -1,0 +1,225 @@
+<!DOCTYPE html><html lang="en" class="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        background: "#0b1326",
+                        surface: "#0b1326",
+                        "surface-dim": "#0b1326",
+                        "surface-bright": "#31394d",
+                        "surface-container-lowest": "#060e20",
+                        "surface-container-low": "#131b2e",
+                        "surface-container": "#171f33",
+                        "surface-container-high": "#222a3d",
+                        "surface-container-highest": "#2d3449",
+                        "on-background": "#dae2fd",
+                        "on-surface": "#dae2fd",
+                        "on-surface-variant": "#c2c6d6",
+                        "inverse-on-surface": "#283044",
+                        "inverse-surface": "#dae2fd",
+                        primary: "#adc6ff",
+                        "primary-fixed": "#d8e2ff",
+                        "primary-fixed-dim": "#adc6ff",
+                        "primary-container": "#4d8eff",
+                        "on-primary": "#002e6a",
+                        "on-primary-container": "#00285d",
+                        "on-primary-fixed": "#001a42",
+                        "on-primary-fixed-variant": "#004395",
+                        "inverse-primary": "#005ac2",
+                        "surface-tint": "#adc6ff",
+                        secondary: "#4edea3",
+                        "secondary-fixed": "#6ffbbe",
+                        "secondary-fixed-dim": "#4edea3",
+                        "secondary-container": "#00a572",
+                        "on-secondary": "#003824",
+                        "on-secondary-container": "#00311f",
+                        "on-secondary-fixed": "#002113",
+                        "on-secondary-fixed-variant": "#005236",
+                        tertiary: "#ffb786",
+                        "tertiary-fixed": "#ffdcc6",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "tertiary-container": "#df7412",
+                        "on-tertiary": "#502400",
+                        "on-tertiary-container": "#461f00",
+                        "on-tertiary-fixed": "#311400",
+                        "on-tertiary-fixed-variant": "#723600",
+                        error: "#ffb4ab",
+                        "error-container": "#93000a",
+                        "on-error": "#690005",
+                        "on-error-container": "#ffdad6",
+                        outline: "#8c909f",
+                        "outline-variant": "#424754",
+                    },
+                    fontFamily: {
+                        headline: ["Manrope", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                        label: ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script><style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style><title>Add New Tenant</title></head><body class="bg-background text-on-surface font-body min-h-screen">
+<!-- Fixed Sidebar -->
+<aside class="fixed left-0 top-0 h-screen w-64 bg-slate-900/80 dark:bg-surface-container backdrop-blur-3xl shadow-2xl shadow-blue-900/20 flex flex-col p-6 z-50">
+    <div class="mb-10">
+        <h1 class="font-headline text-lg font-bold text-primary tracking-tighter uppercase">Shri Shyam Kaleshwar</h1>
+        <p class="text-[10px] font-headline tracking-widest text-slate-500 mt-1 uppercase">Residency Management</p>
+    </div>
+    <nav class="flex-1 space-y-2">
+        <a href="/owner-pages/dashboard.html" class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-headline tracking-tight font-semibold">
+            <span class="material-symbols-outlined mr-3">dashboard</span><span>Dashboard</span>
+        </a>
+        <a href="/owner-pages/apartments.html" class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-headline tracking-tight font-semibold">
+            <span class="material-symbols-outlined mr-3">domain</span><span>Apartments</span>
+        </a>
+        <a href="/owner-pages/payments.html" class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-headline tracking-tight font-semibold">
+            <span class="material-symbols-outlined mr-3">payments</span><span>Payments</span>
+        </a>
+        <a href="/owner-pages/maintenance.html" class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-headline tracking-tight font-semibold">
+            <span class="material-symbols-outlined mr-3">build</span><span>Maintenance</span>
+        </a>
+        <a href="/owner-pages/configuration.html" class="flex items-center px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors group font-headline tracking-tight font-semibold">
+            <span class="material-symbols-outlined mr-3">settings</span><span>Settings</span>
+        </a>
+    </nav>
+    <div class="mt-auto pt-6 border-t border-white/5 flex flex-col gap-3">
+        <a href="/owner-pages/add-new-lease.html" class="bg-primary text-on-primary py-3 rounded-xl font-bold font-headline tracking-tight flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(173,198,255,0.3)] transition-all">
+            <span class="material-symbols-outlined">add_card</span><span>Create New Lease</span>
+        </a>
+        <a href="/owner-pages/add-new-flat.html" class="bg-surface-container-high text-on-surface hover:bg-surface-container-highest py-3 rounded-xl font-bold font-headline tracking-tight flex items-center justify-center gap-2 border border-outline-variant/10 transition-all">
+            <span class="material-symbols-outlined">add_home</span><span>Add New Property</span>
+        </a>
+    </div>
+</aside>
+<!-- Top Header -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 backdrop-blur-2xl bg-surface/80 border-b border-outline-variant/10 flex justify-between items-center px-10 z-40">
+    <div class="flex items-center flex-1 max-w-md">
+        <div class="relative w-full group">
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">search</span>
+            <input type="text" placeholder="Search..." class="w-full bg-surface-container-lowest border-none rounded-full py-2 pl-12 pr-4 text-sm focus:ring-1 focus:ring-primary placeholder:text-outline/50">
+        </div>
+    </div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 pt-16 min-h-screen relative">
+    <div class="p-10 max-w-4xl mx-auto">
+        <!-- Page Header -->
+        <div class="mb-10">
+            <span class="font-label uppercase text-[11px] tracking-[0.2em] text-primary/70 mb-2 block">MANAGEMENT / TENANTS</span>
+            <h2 class="font-headline text-5xl font-extrabold text-on-surface">Add New Tenant</h2>
+        </div>
+        <!-- Form Card -->
+        <div class="bg-surface-container-low rounded-3xl border border-outline-variant/10 p-8 lg:p-10">
+            <form class="space-y-8" id="addTenantForm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                    <!-- Form fields -->
+                    <div class="flex flex-col gap-2">
+                        <label class="font-label text-[11px] uppercase tracking-[0.2em] text-on-surface-variant pl-1" for="name">Full Name</label>
+                        <input class="bg-surface-container-lowest border-outline-variant/10 rounded-xl px-4 py-3 text-on-surface focus:ring-1 focus:ring-primary transition-all" id="name" name="name" placeholder="John Doe" required type="text">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-label text-[11px] uppercase tracking-[0.2em] text-on-surface-variant pl-1" for="email">Email Address</label>
+                        <input class="bg-surface-container-lowest border-outline-variant/10 rounded-xl px-4 py-3 text-on-surface focus:ring-1 focus:ring-primary transition-all" id="email" name="email" placeholder="john.doe@example.com" required type="email">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-label text-[11px] uppercase tracking-[0.2em] text-on-surface-variant pl-1" for="phoneNumber">Phone Number</label>
+                        <input class="bg-surface-container-lowest border-outline-variant/10 rounded-xl px-4 py-3 text-on-surface focus:ring-1 focus:ring-primary transition-all" id="phoneNumber" name="phoneNumber" placeholder="+91 00000 00000" required type="tel">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-label text-[11px] uppercase tracking-[0.2em] text-on-surface-variant pl-1" for="fatherName">Father's / Guardian's Name</label>
+                        <input class="bg-surface-container-lowest border-outline-variant/10 rounded-xl px-4 py-3 text-on-surface focus:ring-1 focus:ring-primary transition-all" id="fatherName" name="fatherName" placeholder="Robert Doe" required type="text">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-label text-[11px] uppercase tracking-[0.2em] text-on-surface-variant pl-1" for="uniqueIdentifier">Government ID / Aadhar Number</label>
+                        <input class="bg-surface-container-lowest border-outline-variant/10 rounded-xl px-4 py-3 text-on-surface focus:ring-1 focus:ring-primary transition-all" id="uniqueIdentifier" name="uniqueIdentifier" placeholder="0000-0000-0000" required type="text">
+                    </div>
+                    <div class="flex items-center h-full pt-6">
+                        <label class="relative inline-flex items-center cursor-pointer group">
+                            <input class="sr-only peer" id="isBackgroundChecked" name="isBackgroundChecked" type="checkbox">
+                            <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+                            <span class="ml-3 font-label text-[11px] uppercase tracking-[0.2em] text-on-surface-variant">Background Check Completed</span>
+                        </label>
+                    </div>
+                    <div class="flex flex-col gap-2 md:col-span-2">
+                        <label class="font-label text-[11px] uppercase tracking-[0.2em] text-on-surface-variant pl-1" for="address">Permanent / Previous Address</label>
+                        <textarea class="bg-surface-container-lowest border-outline-variant/10 rounded-xl px-4 py-3 text-on-surface focus:ring-1 focus:ring-primary transition-all resize-none" id="address" name="address" placeholder="Enter complete residential address..." required rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="border-t border-outline-variant/10 pt-8 flex justify-end">
+                    <button class="bg-primary text-on-primary px-10 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed" id="submitButton" type="submit">
+                        <span class="material-symbols-outlined text-[20px]">save</span>
+                        Save & Register Tenant
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+<script>
+    const form = document.getElementById('addTenantForm');
+    const submitButton = document.getElementById('submitButton');
+    const requiredFields = Array.from(form.querySelectorAll('[required]'));
+
+    function validateForm() {
+        const allValid = requiredFields.every(field => {
+            if (field.type === 'checkbox') {
+                return true; // Checkbox is optional for button enabling
+            }
+            return field.value.trim() !== '';
+        });
+        submitButton.disabled = !allValid;
+    }
+
+    requiredFields.forEach(field => {
+        field.addEventListener('input', validateForm);
+    });
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (submitButton.disabled) return;
+
+        const originalBtnText = submitButton.innerHTML;
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> Processing...';
+
+        const formData = new FormData(form);
+        const updateTenantDto = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            phoneNumber: formData.get('phoneNumber'),
+            fatherName: formData.get('fatherName'),
+            uniqueIdentifier: formData.get('uniqueIdentifier'),
+            address: formData.get('address'),
+            isBackgroundChecked: formData.get('isBackgroundChecked') === 'on'
+        };
+
+        try {
+            const response = await fetch('/api/tenants', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updateTenantDto)
+            });
+
+            if (response.ok) {
+                alert('Tenant Registered Successfully!');
+                window.location.href = '/owner-pages/apartments.html';
+            } else {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to register tenant');
+            }
+        } catch (error) {
+            alert(`Error: ${error.message}`);
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalBtnText;
+        }
+    });
+
+    // Initial validation check
+    validateForm();
+</script>
+</body></html>

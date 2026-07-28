@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Shri Shyam Kaleshwar Residency | Property Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#d8e2ff",
+                        "surface-bright": "#31394d",
+                        "on-secondary": "#003824",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-error-container": "#ffdad6",
+                        "background": "#0b1326",
+                        "on-primary-fixed": "#001a42",
+                        "error": "#ffb4ab",
+                        "outline": "#8c909f",
+                        "surface-container-low": "#131b2e",
+                        "surface": "#0b1326",
+                        "secondary-fixed-dim": "#4edea3",
+                        "secondary": "#4edea3",
+                        "surface-container-lowest": "#060e20",
+                        "inverse-primary": "#005ac2",
+                        "secondary-container": "#00a572",
+                        "error-container": "#93000a",
+                        "surface-tint": "#adc6ff",
+                        "outline-variant": "#424754",
+                        "tertiary-fixed": "#ffdcc6",
+                        "on-primary": "#002e6a",
+                        "on-tertiary-fixed": "#311400",
+                        "tertiary": "#ffb786",
+                        "on-secondary-container": "#00311f",
+                        "on-secondary-fixed-variant": "#005236",
+                        "inverse-on-surface": "#283044",
+                        "primary": "#adc6ff",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "surface-container-high": "#222a3d",
+                        "on-surface": "#dae2fd",
+                        "on-tertiary": "#502400",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-primary-container": "#00285d",
+                        "surface-dim": "#0b1326",
+                        "inverse-surface": "#dae2fd",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-error": "#690005",
+                        "tertiary-container": "#df7412",
+                        "on-tertiary-container": "#461f00",
+                        "surface-container-highest": "#2d3449",
+                        "surface-container": "#171f33",
+                        "on-secondary-fixed": "#002113",
+                        "on-surface-variant": "#c2c6d6",
+                        "secondary-fixed": "#6ffbbe",
+                        "surface-variant": "#2d3449",
+                        "primary-container": "#4d8eff",
+                        "on-background": "#dae2fd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0b1326;
+            color: #dae2fd;
+            font-family: 'Inter', sans-serif;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .editorial-header {
+            font-family: 'Manrope', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(23, 31, 51, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+<!-- TopNavBar -->
+<header class="w-full sticky top-0 z-50 bg-[#131b2e]/80 backdrop-blur-md shadow-xl shadow-blue-900/20">
+    <div class="flex justify-between items-center px-6 py-3">
+        <div class="flex items-center gap-8">
+            <span class="text-xl font-bold tracking-tighter text-[#dae2fd] font-manrope">Shri Shyam Kaleshwar Residency</span>
+            <div class="hidden md:flex items-center bg-[#222a3d] rounded-full px-4 py-1.5 gap-2 group">
+                <span class="material-symbols-outlined text-[#dae2fd]/50 text-sm">search</span>
+                <input class="bg-transparent border-none focus:ring-0 text-sm text-[#dae2fd] w-64 placeholder-[#dae2fd]/30" placeholder="Quick search..." type="text"/>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="material-symbols-outlined text-[#dae2fd]/70 hover:text-[#dae2fd] transition-colors p-2 rounded-full hover:bg-[#222a3d]">notifications</button>
+            <a href="/owner-pages/configuration.html" class="flex items-center gap-3 pl-4 border-l border-white/10">
+                <div class="text-right hidden sm:block">
+                    <p class="text-xs font-bold text-[#dae2fd]">Admin User</p>
+                    <p class="text-[10px] text-[#dae2fd]/50 uppercase tracking-widest">Portfolio Manager</p>
+                </div>
+                <span class="material-symbols-outlined text-3xl text-[#3b82f6]">account_circle</span>
+            </a>
+        </div>
+    </div>
+</header>
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#0b1326] border-r border-white/5 z-40 hidden md:flex flex-col">
+    <div class="pt-8 px-6">
+        <div class="flex items-center gap-3 mb-10">
+            <div class="w-8 h-8 bg-[#3b82f6] rounded-lg flex items-center justify-center">
+                <span class="material-symbols-outlined text-white text-xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">domain</span>
+            </div>
+            <div>
+                <h1 class="text-[#dae2fd] font-black font-manrope text-sm tracking-tight">Property Admin</h1>
+                <p class="text-[10px] font-bold uppercase tracking-widest text-[#dae2fd]/40">Managing Assets</p>
+            </div>
+        </div>
+        <nav class="flex flex-col gap-2">
+            <a class="bg-gradient-to-r from-[#3b82f6]/20 to-transparent text-[#3b82f6] border-l-4 border-[#3b82f6] px-4 py-3 flex items-center gap-3 group" href="/owner-pages/dashboard.html">
+                <span class="material-symbols-outlined transition-transform group-hover:translate-x-1 duration-300">dashboard</span>
+                <span class="font-manrope uppercase tracking-widest text-[10px] font-bold">Dashboard</span>
+            </a>
+            <a class="text-[#dae2fd]/50 px-4 py-3 flex items-center gap-3 hover:bg-[#131b2e] hover:text-[#dae2fd] transition-all group" href="/owner-pages/apartments.html">
+                <span class="material-symbols-outlined transition-transform group-hover:translate-x-1 duration-300">group</span>
+                <span class="font-manrope uppercase tracking-widest text-[10px] font-bold">Apartments</span>
+            </a>
+            <a class="text-[#dae2fd]/50 px-4 py-3 flex items-center gap-3 hover:bg-[#131b2e] hover:text-[#dae2fd] transition-all group" href="/owner-pages/payments.html">
+                <span class="material-symbols-outlined transition-transform group-hover:translate-x-1 duration-300">payments</span>
+                <span class="font-manrope uppercase tracking-widest text-[10px] font-bold">Payments</span>
+            </a>
+            <a class="text-[#dae2fd]/50 px-4 py-3 flex items-center gap-3 hover:bg-[#131b2e] hover:text-[#dae2fd] transition-all group" href="/owner-pages/maintenance.html">
+                <span class="material-symbols-outlined transition-transform group-hover:translate-x-1 duration-300">build</span>
+                <span class="font-manrope uppercase tracking-widest text-[10px] font-bold">Maintenance</span>
+            </a>
+            <a class="text-[#dae2fd]/50 px-4 py-3 flex items-center gap-3 hover:bg-[#131b2e] hover:text-[#dae2fd] transition-all group" href="/owner-pages/configuration.html">
+                <span class="material-symbols-outlined transition-transform group-hover:translate-x-1 duration-300">settings</span>
+                <span class="font-manrope uppercase tracking-widest text-[10px] font-bold">Settings</span>
+            </a>
+        </nav>
+    </div>
+    <div class="mt-auto p-6 border-t border-white/5 flex flex-col gap-3">
+        <a href="/owner-pages/add-new-lease.html" class="w-full bg-primary text-on-primary py-3 rounded-xl font-bold font-manrope tracking-tight flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(173,198,255,0.3)] transition-all">
+            <span class="material-symbols-outlined text-[20px]">add_card</span>
+            Create New Lease
+        </a>
+        <a href="/owner-pages/add-new-flat.html" class="w-full bg-surface-container-high text-on-surface hover:bg-surface-container-highest py-3 rounded-xl font-bold font-manrope tracking-tight flex items-center justify-center gap-2 border border-outline-variant/10 transition-all">
+            <span class="material-symbols-outlined text-[20px]">add_home</span>
+            Add New Property
+        </a>
+    </div>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-64 p-8">
+    <!-- Header Section -->
+    <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <span class="text-on-surface-variant uppercase tracking-[0.2em] text-[10px] font-bold block mb-1">Portfolio Overview</span>
+            <h2 class="text-4xl font-extrabold text-on-surface editorial-header tracking-tight">Executive Dashboard</h2>
+        </div>
+        <div class="flex items-center gap-4 bg-surface-container-low p-2 rounded-xl">
+            <div class="px-4 py-2 text-center border-r border-white/5">
+                <p class="text-[10px] uppercase text-on-surface-variant font-bold tracking-widest mb-1">Date</p>
+                <p class="text-xs font-semibold">Oct 24, 2024</p>
+            </div>
+            <div class="px-4 py-2 text-center">
+                <p class="text-[10px] uppercase text-on-surface-variant font-bold tracking-widest mb-1">Status</p>
+                <p class="text-xs font-semibold text-secondary flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span> System Live
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- Metric Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <!-- Metric Card 1 -->
+        <div class="bg-surface-container-low p-6 rounded-xl relative overflow-hidden group">
+            <div class="relative z-10">
+                <span class="material-symbols-outlined text-primary mb-4 block">location_city</span>
+                <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Total Units</p>
+                <h3 class="text-3xl font-extrabold text-on-surface editorial-header" id="total-units">142</h3>
+            </div>
+            <div class="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                <span class="material-symbols-outlined text-[100px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">location_city</span>
+            </div>
+        </div>
+        <!-- Metric Card 2 -->
+        <a href="/owner-pages/apartments.html" class="bg-surface-container-low p-6 rounded-xl relative overflow-hidden group block">
+            <div class="relative z-10">
+                <span class="material-symbols-outlined text-secondary mb-4 block">person_check</span>
+                <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Occupied</p>
+                <div class="flex items-baseline gap-2">
+                    <h3 class="text-3xl font-extrabold text-on-surface editorial-header" id="occupied-units">128</h3>
+                    <span class="text-[10px] font-bold text-secondary-container bg-on-secondary/30 px-1.5 rounded uppercase tracking-tighter" id="occupied-percentage">90%</span>
+                </div>
+            </div>
+        </a>
+        <!-- Metric Card 3 -->
+        <a href="/owner-pages/vacant-flats.html" class="bg-surface-container-low p-6 rounded-xl relative overflow-hidden group block">
+            <div class="relative z-10">
+                <span class="material-symbols-outlined text-tertiary mb-4 block">key_off</span>
+                <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Vacant</p>
+                <h3 class="text-3xl font-extrabold text-on-surface editorial-header" id="vacant-units">14</h3>
+            </div>
+        </a>
+        <!-- Metric Card 4 -->
+        <a href="/owner-pages/maintenance.html" class="bg-surface-container-low p-6 rounded-xl relative overflow-hidden group block">
+            <div class="relative z-10">
+                <span class="material-symbols-outlined text-primary-container mb-4 block">engineering</span>
+                <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Maintenance</p>
+                <div class="flex items-baseline gap-2">
+                    <h3 class="text-3xl font-extrabold text-on-surface editorial-header" id="pending-maintenance-count">-</h3>
+                    <span class="text-[10px] text-on-surface-variant">Pending</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!-- Main Grid Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Table Section -->
+        <div class="lg:col-span-2 flex flex-col gap-6">
+            <div class="bg-surface-container-low rounded-xl overflow-hidden">
+                <div class="p-6 flex justify-between items-center border-b border-white/5">
+                    <div>
+                        <h4 class="text-lg font-bold editorial-header text-on-surface">Recent Payments</h4>
+                        <p class="text-[10px] text-on-surface-variant uppercase tracking-widest font-semibold">Last 10 Transactions</p>
+                    </div>
+                    <a href="/owner-pages/payments.html" class="text-primary text-[10px] font-bold uppercase tracking-widest hover:underline">View All Records</a>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                        <tr class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold border-b border-white/5 bg-surface-container-lowest/50">
+                            <th class="px-6 py-4">Tenant</th>
+                            <th class="px-6 py-4">Property / Unit</th>
+                            <th class="px-6 py-4 text-right">Amount</th>
+                            <th class="px-6 py-4">Date</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-sm" id="recent-payments-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Side Bento Column -->
+        <div class="flex flex-col gap-6">
+            <!-- Quick Actions -->
+            <div class="bg-surface-container-low p-6 rounded-xl">
+                <h4 class="text-sm font-bold text-on-surface uppercase tracking-widest mb-6">Quick Actions</h4>
+                <div class="flex flex-col gap-3">
+                    <a href="/owner-pages/add-new-tenant-form.html" class="flex items-center gap-4 p-4 rounded-lg bg-surface-container-high hover:bg-surface-container-highest transition-colors group">
+                        <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg group-hover:scale-110 transition-transform">person_add</span>
+                        <div class="text-left">
+                            <p class="text-xs font-bold text-on-surface">Add New Tenant</p>
+                            <p class="text-[10px] text-on-surface-variant">Onboard resident to unit</p>
+                        </div>
+                    </a>
+                    <a href="/owner-pages/add-new-payment.html" class="flex items-center gap-4 p-4 rounded-lg bg-surface-container-high hover:bg-surface-container-highest transition-colors group">
+                        <span class="material-symbols-outlined text-secondary bg-secondary/10 p-2 rounded-lg group-hover:scale-110 transition-transform">receipt_long</span>
+                        <div class="text-left">
+                            <p class="text-xs font-bold text-on-surface">Log Payment</p>
+                            <p class="text-[10px] text-on-surface-variant">Manual rent entry</p>
+                        </div>
+                    </a>
+                    <a href="/owner-pages/maintenance.html" class="flex items-center gap-4 p-4 rounded-lg bg-surface-container-high hover:bg-surface-container-highest transition-colors group">
+                        <span class="material-symbols-outlined text-tertiary bg-tertiary/10 p-2 rounded-lg group-hover:scale-110 transition-transform">assignment_add</span>
+                        <div class="text-left">
+                            <p class="text-xs font-bold text-on-surface">Maintenance Request</p>
+                            <p class="text-[10px] text-on-surface-variant">Open new work order</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-8 mt-auto bg-[#0b1326] border-t border-white/5 px-12 md:ml-64 flex flex-col md:flex-row justify-between items-center gap-4">
+    <p class="font-inter text-xs text-[#dae2fd]/40">Developed and designed by Aryan Singh</p>
+</footer>
+<script>
+    async function fetchStatistics() {
+        try {
+            const response = await fetch('/api/apartments/statistics');
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById('total-units').textContent = data.total || 0;
+                document.getElementById('occupied-units').textContent = data.occupied || 0;
+                document.getElementById('vacant-units').textContent = data.vacant || 0;
+
+                if (data.total > 0) {
+                    const percentage = Math.round((data.occupied / data.total) * 100);
+                    document.getElementById('occupied-percentage').textContent = `${percentage}%`;
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching statistics:', error);
+        }
+    }
+    // Fetch Pending Maintenance Count
+    async function fetchMaintenanceCount() {
+        try {
+            // Using the exact endpoint you built yesterday!
+            const response = await fetch('/api/maintenanceRequests/countPendingRequests');
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById('pending-maintenance-count').textContent = data.count || 0;
+            }
+        } catch (error) {
+            console.error('Error fetching maintenance count:', error);
+        }
+    }
+
+    // Fetch and populate Recent Payments Table
+    async function fetchRecentPayments() {
+        try {
+            const response = await fetch('/api/payments');
+            if (response.ok) {
+                const payments = await response.json();
+                const tbody = document.getElementById('recent-payments-body');
+                tbody.innerHTML = ''; // Clear loading state
+
+                // Grab the 5 most recent payments
+                const recentPayments = payments.slice(-5).reverse();
+
+                recentPayments.forEach(payment => {
+                    // Format the date
+                    const dateObj = new Date(payment.paymentDate);
+                    const formattedDate = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+                    // Format currency
+                    const formattedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(payment.paymentAmount);
+
+                    const row = `
+                        <tr class="hover:bg-surface-container-high/50 transition-colors border-b border-white/5">
+                            <td class="px-6 py-4 font-semibold text-on-surface">${payment.paymentType}</td>
+                            <td class="px-6 py-4 text-on-surface-variant">Flat ${payment.flatNumber}</td>
+                            <td class="px-6 py-4 text-right font-mono text-secondary">${formattedAmount}</td>
+                            <td class="px-6 py-4 text-on-surface-variant text-xs">${formattedDate}</td>
+                        </tr>
+                    `;
+                    tbody.insertAdjacentHTML('beforeend', row);
+                });
+            }
+        } catch (error) {
+            console.error('Error fetching payments:', error);
+        }
+    }
+
+
+    fetchMaintenanceCount();
+    fetchRecentPayments();
+
+    // Initial fetch
+    fetchStatistics();
+    // Refresh every 5 minutes
+    setInterval(fetchStatistics, 300000);
+</script>
+</body></html>

@@ -15,8 +15,10 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
 
     public Optional<Apartment> findByFlatNumber(String flatNumber);
 
-    //Can you confirm if this is a valid method? Apartment holds the Set of Leases
-    public Optional<Apartment> findApartmentByLeaseId(Long leaseId);
+    @Query("SELECT DISTINCT a FROM Apartment a JOIN a.leases l WHERE l.isActive = true")
+    List<Apartment> findAllOccupiedApartments();
 
+	@Query("SELECT a FROM Apartment a WHERE a NOT IN (SELECT l.apartment FROM Lease l WHERE l.isActive = true)")
+	List<Apartment> findAllVacantApartments();
 }
 

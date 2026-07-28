@@ -4,6 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping(path = "/api/apartments")
 @CrossOrigin
@@ -20,6 +23,20 @@ public class ApartmentController {
         return ResponseEntity.ok(apartmentService.findApartmentById(id));
     }
 
+    @GetMapping("/statistics")
+    public ResponseEntity<Map<String, Long>> getApartmentStatistics() {
+        return ResponseEntity.ok(apartmentService.getApartmentStatistics());
+    }
+
+    @GetMapping("/getAllOccupied")
+    public ResponseEntity<List<ApartmentDto>> getAllOccupiedApartments() {
+        return ResponseEntity.ok(apartmentService.findAllOccupiedApartments());
+    }
+
+	@GetMapping("/vacant")
+	public ResponseEntity<List<ApartmentDto>> getAllVacantApartments() {
+		return ResponseEntity.ok(apartmentService.findAllVacantApartments());
+	}
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateApartment(@PathVariable("id") Long id, @RequestBody UpdateApartmentDto updateApartmentDto){

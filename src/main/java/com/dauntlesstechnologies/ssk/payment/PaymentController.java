@@ -21,6 +21,11 @@ public class PaymentController {
         return ResponseEntity.ok(paymentService.findPayment(id));
     }
 
+	@GetMapping("/lease/{lease-id}")
+	public ResponseEntity<List<PaymentDto>> getPaymentByLeaseId(@PathVariable("lease-id") Long leaseId){
+		return ResponseEntity.ok(paymentService.findAllPaymentsByLeaseId(leaseId));
+	}
+
     @GetMapping
     public ResponseEntity<List<PaymentDto>> getAllPayments(){
         return ResponseEntity.ok(paymentService.findAllPayments());
